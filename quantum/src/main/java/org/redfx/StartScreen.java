@@ -8,16 +8,9 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.*;
 
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
-
-public class StartScreen {
-    final ImageIcon icon = new ImageIcon("src\\main\\java\\org\\redfx\\background.png");
+public class StartScreen extends JLabel{
+    final ImageIcon icon = new ImageIcon("src\\main\\resources\\background.png");
     JButton playBtn = new JButton("Play", null);
     JButton rulesBtn = new JButton("Rules", null);
     JButton quitBtn = new JButton("Quit", null);
@@ -28,11 +21,9 @@ public class StartScreen {
     
     public StartScreen(StateManager stateManager, JFrame frame){
         // Background
+        setIcon(icon);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        
-        
-        JLabel startPanel = new JLabel(icon);
-        startPanel.setLayout(new BoxLayout(startPanel, BoxLayout.Y_AXIS));
         JPanel buttonPanel = new JPanel(); // Change to JPanel for better button alignment
 
         
@@ -47,13 +38,13 @@ public class StartScreen {
         buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPanel.setOpaque(false);
 
-        startPanel.add(Box.createVerticalGlue());
-        startPanel.add(Box.createVerticalGlue());
-        startPanel.add(Box.createVerticalGlue());
-        startPanel.add(Box.createVerticalGlue());
-        startPanel.add(Box.createVerticalGlue());  // Add some space at the top
-        startPanel.add(buttonPanel);
-        startPanel.add(Box.createVerticalGlue());
+        add(Box.createVerticalGlue());
+        add(Box.createVerticalGlue());
+        add(Box.createVerticalGlue());
+        add(Box.createVerticalGlue());
+        add(Box.createVerticalGlue());  // Add some space at the top
+        add(buttonPanel);
+        add(Box.createVerticalGlue());
 
         buttonPanel.add(playBtn);
         buttonPanel.add(rulesBtn);
@@ -101,17 +92,9 @@ public class StartScreen {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose(); // Close the JFrame
+                rulesFrame.dispose();
             }
         });
-
-
-
-        frame.add(startPanel);
-        frame.setResizable(false);
-        frame.pack();
-        frame.setSize(540, 800);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     public static void main(String[] args) {

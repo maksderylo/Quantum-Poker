@@ -1,8 +1,10 @@
 package org.redfx;
 
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -27,23 +29,25 @@ import javax.swing.JLabel;
 
  */
 
-public class LoadingScreen {
+public class LoadingScreen extends JLabel{
 
-    final ImageIcon icon = new ImageIcon("src\\main\\java\\org\\redfx\\background.png");
-
+    final ImageIcon icon = new ImageIcon("src\\main\\resources\\background.png");
+    JButton backBtn = new JButton("Play", null);
 
     public LoadingScreen(StateManager stateManager, JFrame frame) {
 
-        JLabel startPanel = new JLabel(icon);
-        startPanel.setLayout(new BoxLayout(startPanel, BoxLayout.Y_AXIS));
-        
+        setIcon(icon);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        add(backBtn);
 
-        frame.add(startPanel);
-        frame.setResizable(false);
-        frame.pack();
-        frame.setSize(540, 800);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                System.out.println("To Load from start");
+                stateManager.switchToStartScreen();
+            }
+        });
+
     }
 
 }
