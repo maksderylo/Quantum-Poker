@@ -95,7 +95,11 @@ public class StartScreen extends JLabel{
                 rulesFrame.dispose();
             }
         });
+
+
+        
     }
+
 
     public static void main(String[] args) {
     }

@@ -1,6 +1,7 @@
 package org.redfx;
 
 import java.awt.CardLayout;
+import java.util.Timer;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -8,14 +9,16 @@ import javax.swing.JPanel;
 public class StateManager {
     
     private JPanel container; // A panel to hold different screens
-    private StartScreen startScreenLabel;
-    private LoadingScreen loadingScreenLabel;
     private CardLayout cardLayout;
-    private JFrame frame;
-    
+    private JPanel currentPanel;
+    private JPanel nextPanel;
+    private float alpha = 0.0f;
+    private Timer timer;
+    private boolean isFading = false;
+
+
 
     public StateManager(JFrame frame) {
-        this.frame = frame;
         frame.setSize(540, 800);
         cardLayout = new CardLayout();
         container = new JPanel(cardLayout);
@@ -31,6 +34,8 @@ public class StateManager {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+
+    
 
 
 
