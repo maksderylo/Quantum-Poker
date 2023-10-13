@@ -23,9 +23,8 @@ public class Player {
     }
 
     //the @param amount will change based on if its a bet or raise when the person decides
-    public int action(int amount){
+    public void action(int amount){
         this.balance -= amount;
-        return amount;
     }
     
 
