@@ -1,4 +1,4 @@
-package org.redfx;
+package org.redfx.Screens;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -6,14 +6,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import org.redfx.StateManager;
+import org.redfx.Objects.CoolButton;
+
 import javax.swing.*;
 
 
 public class StartScreen extends JLabel{
     final ImageIcon icon = new ImageIcon("src\\main\\resources\\background.png");
-    JButton playBtn = new JButton("Play", null);
-    JButton rulesBtn = new JButton("Rules", null);
-    JButton quitBtn = new JButton("Quit", null);
+    CoolButton playBtn = new CoolButton("Play");
+    CoolButton rulesBtn = new CoolButton("Rules");
+    CoolButton quitBtn = new CoolButton("Quit");
 
     
     
@@ -21,31 +24,33 @@ public class StartScreen extends JLabel{
     
     public StartScreen(StateManager stateManager, JFrame frame){
         // Background
-        setIcon(icon);
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        
 
         JPanel buttonPanel = new JPanel(); // Change to JPanel for better button alignment
-
+        setIcon(icon);
+        setLayout(new GridBagLayout());
         
-        //Buttons look
-        playBtn.setFont(new Font("LiSong Pro",Font.PLAIN,20));
-        playBtn.setBackground(new Color(0,17,51));//import java.awt.Color;
-        playBtn.setForeground(Color.WHITE);
-        playBtn.setFocusPainted(false);
-        playBtn.setBorderPainted(true);
         
         // Center the buttons horizontally
         buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPanel.setOpaque(false);
 
-        add(Box.createVerticalGlue());
-        add(Box.createVerticalGlue());
-        add(Box.createVerticalGlue());
-        add(Box.createVerticalGlue());
-        add(Box.createVerticalGlue());  // Add some space at the top
-        add(buttonPanel);
-        add(Box.createVerticalGlue());
+        GridBagConstraints constraints = new GridBagConstraints();
+    
+        // Weight and fill settings (no need to change these)
+        constraints.weightx = 1;
+        constraints.weighty = 1;
+        //constraints.fill = GridBagConstraints.HORIZONTAL;
+    
+        // Position the backBtn in the desired location
+        constraints.gridx = 1; // 2nd column
+        constraints.gridy = 1;// 2nd row
+        constraints.gridwidth = 1;
+        constraints.gridheight = 1;
+        add(Box.createRigidArea(new Dimension(10, 10)), constraints);
 
+        constraints.gridy = 2;
+        add(buttonPanel, constraints);
         buttonPanel.add(playBtn);
         buttonPanel.add(rulesBtn);
         buttonPanel.add(quitBtn);

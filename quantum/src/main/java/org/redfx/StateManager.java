@@ -1,21 +1,18 @@
 package org.redfx;
 
-import java.awt.CardLayout;
-import java.util.Timer;
 
+import java.awt.CardLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import org.redfx.Screens.*;
 
 public class StateManager {
     
     private JPanel container; // A panel to hold different screens
     private CardLayout cardLayout;
-    private JPanel currentPanel;
-    private JPanel nextPanel;
-    private float alpha = 0.0f;
-    private Timer timer;
-    private boolean isFading = false;
-
+    
+    LoadingScreen loadingScreen = new LoadingScreen(this);
+    PlayersNamesScreen playersNamesScreen;
 
 
     public StateManager(JFrame frame) {
@@ -23,10 +20,10 @@ public class StateManager {
         cardLayout = new CardLayout();
         container = new JPanel(cardLayout);
         frame.getContentPane().add(container);
+        StartScreen startScreen = new StartScreen(this, frame);
 
-
-        container.add(new StartScreen(this, frame), "StartScreen");
-        container.add(new LoadingScreen(this, frame), "LoadingScreen");
+        container.add(startScreen, "StartScreen");
+        container.add(loadingScreen, "LoadingScreen");
 
         frame.setResizable(false);
         frame.pack();
@@ -47,6 +44,13 @@ public class StateManager {
     public void switchToLoadScreen() {
         System.out.println("To Load");
         cardLayout.show(container, "LoadingScreen");
+    }
+
+    public void switchToPlayersNamesScreen(int playersAmount, int moneyPerPlayer) {
+        System.out.println("To PlayersScreen");
+        playersNamesScreen = new PlayersNamesScreen(this, playersAmount, moneyPerPlayer);
+        container.add(playersNamesScreen, "PlayersNamesScreen");
+        cardLayout.show(container, "PlayersNamesScreen");
     }
     
 }

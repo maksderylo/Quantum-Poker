@@ -1,7 +1,7 @@
 package org.redfx.waithere;
 import java.util.ArrayList;
 import java.util.Arrays;
-public class Cards {
+public class Cards{
 
 
     ArrayList<String> deck;
