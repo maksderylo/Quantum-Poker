@@ -8,7 +8,7 @@ import javax.swing.JButton;
 public class CoolButton extends JButton{
     public CoolButton(String text){
         setText(text);
-        setFont(new Font("LiSong Pro",Font.PLAIN,20));
+        setFont(new Font("Lucida Console",Font.PLAIN,20));
         setBackground(new Color(0,17,51));//import java.awt.Color;
         setForeground(Color.WHITE);
         setFocusPainted(false);

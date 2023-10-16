@@ -1,21 +1,21 @@
-package org.redfx.waithere;
+package org.redfx.Objects;
 
 
 import java.util.ArrayList;
 public class Player {
-    String name;
-    int balance;
-    ArrayList<String> hand; 
-    int type;
-    boolean folded = false;  
+    public String name;
+    public int balance;
+    public ArrayList<String> hand; 
+    public int type;
+    public boolean folded = false;  
     //type keeps track of if the player is the dealer(1)/small blind(2)/big blind(3)/none(0).
-    public Player(String n, int b){
-        name = n;
-        balance = b;
+    public Player(String name, int bal){
+        this.name = name;
+        this.balance = bal;
     }
 
-    public void updateHand(String s){
-        hand.add(s);
+    public void updateHand(String card){
+        hand.add(card);
     }
 
     public ArrayList<String> getHand(){

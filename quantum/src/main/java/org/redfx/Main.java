@@ -6,14 +6,13 @@ import javax.swing.*;
 
 public class Main {
 
-    public void StartGame(int playersAmount, String[] PlayersNames, int moneyPerPlayer, StateManager stateManager) {
-        //TODO Create the variables - players, rounds etc..
-        
-        //TODO store the given data in the appropriate places
 
-        
 
-    }
+
+
+
+
+
 
     public static void main(String[] args) {
         //initialise the frame with settings and let the StartScreen do its work

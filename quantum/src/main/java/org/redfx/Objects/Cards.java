@@ -1,10 +1,8 @@
-package org.redfx.waithere;
+package org.redfx.Objects;
 import java.util.ArrayList;
 import java.util.Arrays;
-public class Cards{
+public class Cards extends ArrayList<String>{
 
-
-    ArrayList<String> deck;
     //C = clubs, D = diamonds, S = spades, H = Hearts.
     //A = ace, K = king, Q = queen, J = jack.
     ArrayList<String> defaultDeck = new ArrayList<>(Arrays.asList(
@@ -16,19 +14,15 @@ public class Cards{
     //creating a new List that we will copy the default deck to and then shuffle it and remove
     // cards from when drawn.
     public Cards(){
-        this.deck = defaultDeck;
-    }
-     ArrayList<String> currentShuffledDeck;  
-    
-    public void shuffle(){
+        
+        this.addAll(defaultDeck);
         long seed = System.nanoTime();
-        //currentShuffledDeck = deck;
-        java.util.Collections.shuffle(this.deck, new java.util.Random(seed));
+        java.util.Collections.shuffle(this, new java.util.Random(seed));
     }
 
     public String deal(){ //return the top card and remove it from the deck
-        String current = currentShuffledDeck.get(0);
-        currentShuffledDeck.remove(0);
+        String current = this.get(0);
+        this.remove(0);
         return current;
     }
 }
