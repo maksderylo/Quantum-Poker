@@ -13,6 +13,7 @@ public class StateManager {
     
     LoadingScreen loadingScreen = new LoadingScreen(this);
     PlayersNamesScreen playersNamesScreen;
+    RoundStartScreen roundStartScreen;
 
 
     public StateManager(JFrame frame) {
@@ -51,6 +52,12 @@ public class StateManager {
         playersNamesScreen = new PlayersNamesScreen(this, playersAmount, moneyPerPlayer);
         container.add(playersNamesScreen, "PlayersNamesScreen");
         cardLayout.show(container, "PlayersNamesScreen");
+    }
+
+    public void switchToRoundStartScreen(Game game){
+        roundStartScreen = new RoundStartScreen(game);
+        container.add(roundStartScreen, "RoundStartScreen");
+        cardLayout.show(container, "RoundStartScreen");
     }
     
 }

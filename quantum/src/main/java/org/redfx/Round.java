@@ -1,4 +1,7 @@
-package org.redfx.waithere;
+package org.redfx;
+
+import org.redfx.Objects.*;
+
 public class Round {
 
     //TODO are we using infinite bets or a set one? we should change currentBets starting value accordingly
@@ -10,12 +13,12 @@ public class Round {
     int startingIndex;
     int currentIndex = 0;
 
-    public Round(int index, Player[] p){
-        Players = p;
+    public Round(int index, Player[] players){
+        Players = players;
         Cards deckOfCards = new Cards();
-        deckOfCards.shuffle();
+        
 
-        for (Player player : p){ //deal two cards to each person and update their hand with them.
+        for (Player player : Players){ //deal two cards to each person and update their hand with them.
             player.updateHand(deckOfCards.deal());
             player.updateHand(deckOfCards.deal());
         }

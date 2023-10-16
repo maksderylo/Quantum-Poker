@@ -8,7 +8,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.*;
 import javax.swing.text.*;
 
-import org.redfx.Main;
+import org.redfx.Game;
 import org.redfx.StateManager;
 import org.redfx.Objects.*;
 
@@ -19,7 +19,6 @@ public class PlayersNamesScreen extends JPanel{
     Title title = new Title("Set up players names");
     GridBagConstraints constraints = new GridBagConstraints();
     Boolean isEmptyName;
-    private Main main = new Main();
 
 
 
@@ -27,7 +26,7 @@ public class PlayersNamesScreen extends JPanel{
         setLayout(new GridBagLayout());
         setBackground(Color.BLACK);
         setBorder(new EmptyBorder(0,50,0,50));
-        String[] StoreNames = new String[playersAmount];
+        String[] storeNames = new String[playersAmount];
         JLabel[] labels = new JLabel[playersAmount];
         JTextArea[] nameTextAreas = new JTextArea[playersAmount];
         
@@ -55,7 +54,7 @@ public class PlayersNamesScreen extends JPanel{
             //Create a text area for that player
             nameTextAreas[i] = new JTextArea(1, 5);
             nameTextAreas[i].setText("Player " + (i+1));
-            StoreNames[i] = "Player " + (i+1);
+            storeNames[i] = "Player " + (i+1);
 
 
             // Create a DocumentFilter to limit the text length
@@ -80,17 +79,17 @@ public class PlayersNamesScreen extends JPanel{
                 }
             });
 
-            //Storing the labels values on change inside the StoreNames array
+            //Storing the labels values on change inside the storeNames array
             final int currentPlayerIndex = i;
             nameTextAreas[i].getDocument().addDocumentListener(new DocumentListener() {
                 @Override
                 public void insertUpdate(DocumentEvent e) {
-                    StoreNames[currentPlayerIndex] = nameTextAreas[currentPlayerIndex].getText();
+                    storeNames[currentPlayerIndex] = nameTextAreas[currentPlayerIndex].getText();
                 }
 
                 @Override
                 public void removeUpdate(DocumentEvent e) {
-                    StoreNames[currentPlayerIndex] = nameTextAreas[currentPlayerIndex].getText();
+                    storeNames[currentPlayerIndex] = nameTextAreas[currentPlayerIndex].getText();
                 }
 
                 @Override
@@ -135,7 +134,7 @@ public class PlayersNamesScreen extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 isEmptyName = false;
                 for(int i = 0; i < playersAmount; i++) {
-                    if(StoreNames[i].equals("")){
+                    if(storeNames[i].equals("")){
                         isEmptyName = true;
                         break;
                     }
@@ -143,7 +142,7 @@ public class PlayersNamesScreen extends JPanel{
                 if(isEmptyName){
                     JOptionPane.showMessageDialog(PlayersNamesScreen.this, "All names have to be filled!", "WARNING", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    main.StartGame(playersAmount, StoreNames, moneyPerPlayer, stateManager);
+                    new Game(playersAmount, moneyPerPlayer, storeNames, stateManager);
                 }
             }
         });
