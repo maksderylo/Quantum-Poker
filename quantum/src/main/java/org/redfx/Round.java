@@ -6,27 +6,30 @@ public class Round {
 
     //TODO are we using infinite bets or a set one? we should change currentBets starting value accordingly
     int currentBet;
-    int pool;
     int checkIndex;
-    public Player[] Players;
-    public int amountOfPlayers;
     Player[] nextPlayers;
     int startingIndex;
+    int currentIndex = 0;
+
+    int pool;
+    public Player[] Players;
+    public int amountOfPlayers;
     int smallBlindIndex;
     int bigBlindIndex;
     int smallBlindAmount;
     int bigBlindAmount;
-    int currentIndex = 0;
     Deck deck;
     public int roundNumber;
-    CountDownLatch latch; //this lets as wait until the user clicks a button to proceed with loops etc
+    public CountDownLatch latch; //this lets as wait until the user clicks a button to proceed with loops etc
+    StateManager stateManager;
+    public int nowBettingPlayerIndex;
     
 
 
-    public Round(/*int index, Player[] players,*/Game game, StateManager stateManager){
+    public Round(/*int index, Player[] players,*/Game game, StateManager manager){
         //so what I changed here is to rather ask for just the game class and use the game.Players to be able to 
         //overwrite players and other info there, when the round is going to finish rather than having to create and call a method inside game that does that
-
+        this.stateManager = manager;
 
 
         //assigning all the start variables for this round
@@ -51,6 +54,7 @@ public class Round {
             player.currentBet = 0;
             }
         }
+        int largestbet = bigBlindAmount; //variable used to check if all the players have placed the same bet
 
         //doing the bets for small and big blinds
         Players[smallBlindIndex].currentBet = smallBlindAmount;
@@ -58,11 +62,52 @@ public class Round {
         pool += smallBlindAmount + bigBlindAmount;
 
         
-        //TODO: this loop has to start either at the small blind player just to see their cards without the first choice to bet
+        nowBettingPlayerIndex = findNextAbleToBetPlayer(bigBlindIndex);
         
+        
+        while(true) { // this is an infinite loop because we don't know how many times people will raise and the circle will continiue
+
+            latch = new CountDownLatch(1);
+            stateManager.switchToLoadScreen();
+
+
+            //checking if every player has put an equal bet or folded - if so break out of the infinite loop
+            boolean sameBets = true;
+            for (Player player : Players){
+                if(!player.folded || player.currentBet !=largestbet){
+                    sameBets = false;
+                    break;
+                } 
+            }
+            if(sameBets){
+                break;
+            }
+
+            nowBettingPlayerIndex = findNextAbleToBetPlayer(bigBlindIndex);
+
+        }
+
+
+        }
 
         
-    }
+
+        int findNextAbleToBetPlayer(int nowBettingPlayerIndex){
+            int nextBettingPlayer = nowBettingPlayerIndex + 1;
+            while(true){
+                if(nowBettingPlayerIndex == amountOfPlayers){
+                    nowBettingPlayerIndex = 0;
+                }
+
+                if(!Players[nowBettingPlayerIndex].folded){
+                    break;
+                }
+                nowBettingPlayerIndex++;
+            }
+
+            return nextBettingPlayer;
+        }
+    
 
         /* 
         
