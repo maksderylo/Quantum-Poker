@@ -54,8 +54,8 @@ public class StateManager {
         cardLayout.show(container, "PlayersNamesScreen");
     }
 
-    public void switchToRoundStartScreen(Game game){
-        roundStartScreen = new RoundStartScreen(game);
+    public void switchToRoundStartScreen(Round round){
+        roundStartScreen = new RoundStartScreen(round);
         container.add(roundStartScreen, "RoundStartScreen");
         cardLayout.show(container, "RoundStartScreen");
     }

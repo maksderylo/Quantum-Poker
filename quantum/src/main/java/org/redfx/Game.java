@@ -6,17 +6,19 @@ public class Game {
 
     public Player[] Players;
     int startingBalance;
-    public int numberOfRounds;
+    public int roundNumber = 0;
     public int amountFolded = 0;
     public int amountOfPlayers;
+    public int smallBlindIndex; //this variable is useful for round to imidiately see where the small blind is
     StateManager stateManager;
 
+
     public Game(int playerAmount, int startingBalance, String[] playerNames, StateManager stateManager){ //initialises the game upon being called
-        this.stateManager = stateManager;
         
         //TODO: have to Implement from infoscreen.
         amountOfPlayers = playerAmount; 
         this.startingBalance = startingBalance;
+        this.stateManager = stateManager;
         
         //Array of players in order to call each one.
         Players = new Player[amountOfPlayers];
@@ -27,15 +29,19 @@ public class Game {
             Players[i] = new Player(playerNames[i], startingBalance);
         }
 
-        numberOfRounds = 1; 
-        stateManager.switchToRoundStartScreen(this);
+        //initial small and big blind
+        Players[0].role = 1;
+        Players[1].role = 2;
+        smallBlindIndex = 0;
 
-       
-    }
+        for(int i = 2 ; i < amountOfPlayers; i++){
+            Players[i].role = 0;
+        }
 
-    private void PokerGame() {
 
         
+        NewRound(); //calling a method that starts the first round
+
 
          /*  
         do{
@@ -52,5 +58,11 @@ public class Game {
         while(amountFolded < amountOfPlayers - 1);
         **/
     }
+
+    public void NewRound() { //this will be called from inside the round when it ends after checking if there are enough players with money
+        roundNumber++;
+        new Round(this, stateManager);
+    }
+
 
 }

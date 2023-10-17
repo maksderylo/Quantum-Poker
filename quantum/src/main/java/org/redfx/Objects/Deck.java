@@ -1,7 +1,7 @@
 package org.redfx.Objects;
 import java.util.ArrayList;
 import java.util.Arrays;
-public class Cards extends ArrayList<String>{
+public class Deck extends ArrayList<String>{
 
     //C = clubs, D = diamonds, S = spades, H = Hearts.
     //A = ace, K = king, Q = queen, J = jack.
@@ -13,7 +13,7 @@ public class Cards extends ArrayList<String>{
         
     //creating a new List that we will copy the default deck to and then shuffle it and remove
     // cards from when drawn.
-    public Cards(){
+    public Deck(){
         
         this.addAll(defaultDeck);
         long seed = System.nanoTime();

@@ -6,12 +6,13 @@ public class Player {
     public String name;
     public int balance;
     public ArrayList<String> hand; 
-    public int type;
+    public int role;
     public boolean folded = false;  
-    //type keeps track of if the player is the dealer(1)/small blind(2)/big blind(3)/none(0).
-    public Player(String name, int bal){
+    //role keeps track of if the player is the small blind(1)/big blind(2)/none(0).
+    
+    public Player(String name, int balance){
         this.name = name;
-        this.balance = bal;
+        this.balance = balance;
     }
 
     public void updateHand(String card){
@@ -22,19 +23,7 @@ public class Player {
         return hand;
     }
 
-    //the @param amount will change based on if its a bet or raise when the person decides
-    public void action(int amount){
-        this.balance -= amount;
-    }
-    
 
-    public int getType(){
-        return this.type;
-    }
-
-    public void setType(int t){
-        this.type = t;
-    }
 
   
     

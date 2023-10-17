@@ -12,8 +12,8 @@ org\redfx\Objects\Player.class
 org\redfx\Screens\RoundStartScreen$1.class
 org\redfx\Objects\CoolButton.class
 org\redfx\Screens\LoadingScreen$1.class
+org\redfx\Objects\Deck.class
 org\redfx\Screens\LoadingScreen.class
-org\redfx\Objects\Cards.class
 org\redfx\Screens\LoadingScreen$4.class
 org\redfx\Game.class
 org\redfx\Screens\StartScreen$1.class

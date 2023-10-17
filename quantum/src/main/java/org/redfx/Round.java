@@ -8,20 +8,40 @@ public class Round {
     int currentBet;
     int pool;
     int checkIndex;
-    Player[] Players;
+    public Player[] Players;
+    public int amountOfPlayers;
     Player[] nextPlayers;
     int startingIndex;
     int currentIndex = 0;
+    Deck deck;
+    public int roundNumber;
 
-    public Round(int index, Player[] players){
-        Players = players;
-        Cards deckOfCards = new Cards();
-        
+    public Round(/*int index, Player[] players,*/Game game, StateManager stateManager){
+        //so what I changed here is to rather ask for just the game class and use the game.Players to be able to 
+        //overwrite players and other info there, when the round is going to finish rather than having to create and call a method inside game that does that
 
+
+
+        //assigning all the start variables for this round
+        Players = game.Players;
+        deck = new Deck(); //this rounds deck
+        roundNumber = game.roundNumber;
+        amountOfPlayers = game.amountOfPlayers;
+
+        //calling to display the start screen
+        stateManager.switchToRoundStartScreen(this);
+    }
+
+    public void FirstBets(){ //called from roundStartScreen
         for (Player player : Players){ //deal two cards to each person and update their hand with them.
-            player.updateHand(deckOfCards.deal());
-            player.updateHand(deckOfCards.deal());
+            player.updateHand(deck.deal());
+            player.updateHand(deck.deal());
         }
+        
+    }
+
+        /* 
+        
 
         int b = 0;
         int j = 0;
@@ -105,6 +125,6 @@ public class Round {
         this.checkIndex = currentIndex;
 
         currentIndex = (currentIndex + 1) % Players.length;
-    }
+    }*/
 }
 

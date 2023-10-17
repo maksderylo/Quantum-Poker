@@ -112,8 +112,8 @@ public class LoadingScreen extends JPanel {
         moneyAmountAmount.setForeground(Color.WHITE);
         moneyAmountSlider.setBackground(Color.BLACK);
         moneyAmountSlider.setMajorTickSpacing(99900);
-        moneyAmountSlider.setPaintTrack(true);
-        moneyAmountSlider.setPaintTicks(true);
+        moneyAmountSlider.setMinorTickSpacing(100);
+        moneyAmountSlider.setSnapToTicks(true);
         moneyAmountSlider.setPaintLabels(true);
         moneyAmountSlider.setForeground(Color.WHITE);   
         moneyAmountSlider.addChangeListener(new ChangeListener() {

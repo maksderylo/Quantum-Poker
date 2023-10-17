@@ -21,7 +21,7 @@ public class RoundStartScreen extends JPanel{
 
 
 
-    public RoundStartScreen(Game game){
+    public RoundStartScreen(Round round){
         setLayout(new GridBagLayout());
         setBackground(Color.BLACK);
         setBorder(new EmptyBorder(0,50,0,50));
@@ -37,24 +37,53 @@ public class RoundStartScreen extends JPanel{
 
         //adding the title
         constraints.gridy = 0;
-        constraints.gridwidth = 4;
-        constraints.gridx = 1;
-        title.setText("Round " + game.numberOfRounds);
+        constraints.gridwidth = 10;
+        constraints.gridx = 0;
+        title.setText("Round " + round.roundNumber);
         add(title, constraints);
         constraints.gridwidth = 1;
 
-
-        JLabel helpLabel = new JLabel(""); 
-        helpLabel.setForeground(Color.WHITE);
         
-        for(int i = 0; i < game.amountOfPlayers; i++){
-            constraints.gridy = i+1;
-            helpLabel.setText(game.Players[i].name + ":");
+        
+        JLabel helpLabel = new JLabel(""); 
+
+        helpLabel = new JLabel("Name");
+        helpLabel.setForeground(Color.WHITE);
+        constraints.gridy = 1;
+        constraints.gridx = 0;
+        add(helpLabel, constraints);
+        helpLabel = new JLabel("Balance"); 
+        helpLabel.setForeground(Color.WHITE);
+        constraints.gridx = 1;
+        add(helpLabel,constraints);
+        helpLabel = new JLabel("Role"); 
+        helpLabel.setForeground(Color.WHITE);
+        constraints.gridx = 2;
+        add(helpLabel,constraints);
+
+        
+        for(int i = 0; i < round.amountOfPlayers; i++){
+            helpLabel = new JLabel(round.Players[i].name + ":");
+            helpLabel.setForeground(Color.WHITE);
+            constraints.gridy = i+2;
             constraints.gridx = 0;
             add(helpLabel, constraints);
-            helpLabel.setText(game.Players[i].balance + "");
+            helpLabel = new JLabel(round.Players[i].balance + ""); 
+            helpLabel.setForeground(Color.WHITE);
             constraints.gridx = 1;
             add(helpLabel,constraints);
+            if(round.Players[i].role == 1){
+                helpLabel = new JLabel("Small Blind"); 
+                helpLabel.setForeground(Color.WHITE);
+                constraints.gridx = 2;
+                add(helpLabel,constraints);
+            }
+            else if(round.Players[i].role == 2){
+                helpLabel = new JLabel("Big Blind"); 
+                helpLabel.setForeground(Color.WHITE);
+                constraints.gridx = 2;
+                add(helpLabel,constraints);
+            }
 
         }
 
@@ -70,7 +99,7 @@ public class RoundStartScreen extends JPanel{
         playBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                round.FirstBets();
             }
         });
         
