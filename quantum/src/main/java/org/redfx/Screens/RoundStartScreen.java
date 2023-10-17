@@ -83,6 +83,16 @@ public class RoundStartScreen extends JPanel{
                 helpLabel.setForeground(Color.WHITE);
                 constraints.gridx = 2;
                 add(helpLabel,constraints);
+            } else if(round.Players[i].folded == true){
+                helpLabel = new JLabel("Out of the game"); 
+                helpLabel.setForeground(Color.WHITE);
+                constraints.gridx = 2;
+                add(helpLabel,constraints);
+            } else{
+                helpLabel = new JLabel("Playing"); 
+                helpLabel.setForeground(Color.WHITE);
+                constraints.gridx = 2;
+                add(helpLabel,constraints);
             }
 
         }

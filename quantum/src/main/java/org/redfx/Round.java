@@ -1,5 +1,5 @@
 package org.redfx;
-
+import java.util.concurrent.CountDownLatch; 
 import org.redfx.Objects.*;
 
 public class Round {
@@ -12,9 +12,16 @@ public class Round {
     public int amountOfPlayers;
     Player[] nextPlayers;
     int startingIndex;
+    int smallBlindIndex;
+    int bigBlindIndex;
+    int smallBlindAmount;
+    int bigBlindAmount;
     int currentIndex = 0;
     Deck deck;
     public int roundNumber;
+    CountDownLatch latch; //this lets as wait until the user clicks a button to proceed with loops etc
+    
+
 
     public Round(/*int index, Player[] players,*/Game game, StateManager stateManager){
         //so what I changed here is to rather ask for just the game class and use the game.Players to be able to 
@@ -27,16 +34,33 @@ public class Round {
         deck = new Deck(); //this rounds deck
         roundNumber = game.roundNumber;
         amountOfPlayers = game.amountOfPlayers;
+        smallBlindIndex = game.smallBlindIndex;
+        bigBlindIndex = game.bigBlindIndex;
 
+        pool = 0;
         //calling to display the start screen
         stateManager.switchToRoundStartScreen(this);
     }
 
     public void FirstBets(){ //called from roundStartScreen
         for (Player player : Players){ //deal two cards to each person and update their hand with them.
+            if(!player.folded){ // only if player hasn't folded - we can make it that at the end of the round if the player has enough money the player gets unfolded
+            //and when creating the players they are initially unfolded meaning folded = false;
             player.updateHand(deck.deal());
             player.updateHand(deck.deal());
+            player.currentBet = 0;
+            }
         }
+
+        //doing the bets for small and big blinds
+        Players[smallBlindIndex].currentBet = smallBlindAmount;
+        Players[bigBlindIndex].currentBet = bigBlindAmount;
+        pool += smallBlindAmount + bigBlindAmount;
+
+        
+        //TODO: this loop has to start either at the small blind player just to see their cards without the first choice to bet
+        
+
         
     }
 

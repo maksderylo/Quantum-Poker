@@ -10,12 +10,16 @@ public class Game {
     public int amountFolded = 0;
     public int amountOfPlayers;
     public int smallBlindIndex; //this variable is useful for round to imidiately see where the small blind is
+    public int bigBlindIndex; //this variable is useful for round to imidiately see where the big blind is
     StateManager stateManager;
+    public int smallBlindAmount; //TODO we didn't give the user the choice to pick these amounts by themselves so we need to make a way of calculating them.
+    public int bigBlindAmount;
+
 
 
     public Game(int playerAmount, int startingBalance, String[] playerNames, StateManager stateManager){ //initialises the game upon being called
-        
-        //TODO: have to Implement from infoscreen.
+        //TODO we have to assign the small and big blinds amounts here;
+
         amountOfPlayers = playerAmount; 
         this.startingBalance = startingBalance;
         this.stateManager = stateManager;
@@ -33,6 +37,7 @@ public class Game {
         Players[0].role = 1;
         Players[1].role = 2;
         smallBlindIndex = 0;
+        bigBlindIndex = 1;
 
         for(int i = 2 ; i < amountOfPlayers; i++){
             Players[i].role = 0;
