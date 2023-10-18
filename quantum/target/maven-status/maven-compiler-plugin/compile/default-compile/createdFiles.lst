@@ -1,5 +1,6 @@
 org\redfx\Screens\StartScreen.class
 org\redfx\Objects\Card.class
+org\redfx\Screens\BettingScreen.class
 org\redfx\Screens\StartScreen$2$1.class
 org\redfx\Screens\PlayersNamesScreen$2.class
 org\redfx\Screens\LoadingScreen$3.class
@@ -17,6 +18,7 @@ org\redfx\Screens\LoadingScreen.class
 org\redfx\Screens\LoadingScreen$4.class
 org\redfx\Game.class
 org\redfx\Screens\StartScreen$1.class
+org\redfx\Screens\ChangeToPlayerScreen.class
 org\redfx\StateManager.class
 org\redfx\Screens\RoundStartScreen.class
 org\redfx\Screens\StartScreen$2.class

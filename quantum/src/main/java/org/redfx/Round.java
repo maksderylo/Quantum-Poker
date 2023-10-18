@@ -23,6 +23,7 @@ public class Round {
     public CountDownLatch latch; //this lets as wait until the user clicks a button to proceed with loops etc
     StateManager stateManager;
     public int nowBettingPlayerIndex;
+    public int largestbet;
     
 
 
@@ -39,6 +40,8 @@ public class Round {
         amountOfPlayers = game.amountOfPlayers;
         smallBlindIndex = game.smallBlindIndex;
         bigBlindIndex = game.bigBlindIndex;
+        bigBlindAmount = game.bigBlindAmount;
+        smallBlindAmount = game.smallBlindAmount;
 
         pool = 0;
         //calling to display the start screen
@@ -52,13 +55,12 @@ public class Round {
             player.updateHand(deck.deal());
             player.updateHand(deck.deal());
             player.currentBet = 0;
+            
             }
         }
-        int largestbet = bigBlindAmount; //variable used to check if all the players have placed the same bet
+        largestbet = bigBlindAmount; //variable used to check if all the players have placed the same bet
 
         //doing the bets for small and big blinds
-        Players[smallBlindIndex].currentBet = smallBlindAmount;
-        Players[bigBlindIndex].currentBet = bigBlindAmount;
         pool += smallBlindAmount + bigBlindAmount;
 
         
@@ -68,7 +70,9 @@ public class Round {
         while(true) { // this is an infinite loop because we don't know how many times people will raise and the circle will continiue
 
             latch = new CountDownLatch(1);
-            stateManager.switchToLoadScreen();
+            stateManager.switchToBettingScreen(this);
+            latch.await();
+
 
 
             //checking if every player has put an equal bet or folded - if so break out of the infinite loop
