@@ -14,6 +14,7 @@ public class StateManager {
     LoadingScreen loadingScreen = new LoadingScreen(this);
     PlayersNamesScreen playersNamesScreen;
     RoundStartScreen roundStartScreen;
+    BettingScreen bettingScreen;
 
 
     public StateManager(JFrame frame) {
@@ -58,6 +59,11 @@ public class StateManager {
         roundStartScreen = new RoundStartScreen(round);
         container.add(roundStartScreen, "RoundStartScreen");
         cardLayout.show(container, "RoundStartScreen");
+    }
+    public void switchToBettingScreen(Round round){
+        bettingScreen= new BettingScreen(round);
+        container.add(roundStartScreen, "BettingScreen");
+        cardLayout.show(container, "BettingScreen");
     }
     
 }

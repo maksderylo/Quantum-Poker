@@ -38,6 +38,8 @@ public class Game {
         Players[1].role = 2;
         smallBlindIndex = 0;
         bigBlindIndex = 1;
+        smallBlindAmount = (int)(startingBalance * 0.01);
+        bigBlindAmount = (int)(startingBalance * 0.02);
 
         for(int i = 2 ; i < amountOfPlayers; i++){
             Players[i].role = 0;

@@ -33,7 +33,7 @@ public class RoundStartScreen extends JPanel{
         constraints.gridwidth = 1;
         constraints.gridheight = 1;
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        
+    
 
         //adding the title
         constraints.gridy = 0;
