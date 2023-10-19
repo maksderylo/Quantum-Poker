@@ -5,6 +5,7 @@ org\redfx\Screens\StartScreen$2$1.class
 org\redfx\Screens\PlayersNamesScreen$2.class
 org\redfx\Screens\LoadingScreen$3.class
 org\redfx\Screens\PlayersNamesScreen$1.class
+org\redfx\Screens\ChangeToPlayerScreen$1.class
 org\redfx\Screens\StartScreen$3.class
 org\redfx\Screens\PlayersNamesScreen.class
 org\redfx\Round.class
@@ -14,10 +15,12 @@ org\redfx\Screens\RoundStartScreen$1.class
 org\redfx\Objects\CoolButton.class
 org\redfx\Screens\LoadingScreen$1.class
 org\redfx\Objects\Deck.class
+org\redfx\Screens\BettingScreen$1.class
 org\redfx\Screens\LoadingScreen.class
 org\redfx\Screens\LoadingScreen$4.class
 org\redfx\Game.class
 org\redfx\Screens\StartScreen$1.class
+org\redfx\Round$1.class
 org\redfx\Screens\ChangeToPlayerScreen.class
 org\redfx\StateManager.class
 org\redfx\Screens\RoundStartScreen.class

@@ -109,6 +109,7 @@ public class RoundStartScreen extends JPanel{
         playBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("To the first s");
                 round.FirstBets();
             }
         });

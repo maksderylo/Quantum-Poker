@@ -3,11 +3,15 @@ package org.redfx.Screens;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import org.redfx.*;
 import org.redfx.Objects.*;
 
 public class BettingScreen extends JPanel{
-    
+    public Thread thread;
+
     Title title = new Title("");
     GridBagConstraints constraints = new GridBagConstraints();
     CoolButton callBtn= new CoolButton("Call");
@@ -50,7 +54,7 @@ public class BettingScreen extends JPanel{
 
         //Raise slider
         if(bettingPlayer.balance > (round.largestbet - bettingPlayer.currentBet)){
-            constraints.gridy=8;
+            constraints.gridy=5;
             constraints.gridx = 0;
             add(raiseLabel);
             constraints.gridx = 1;
@@ -79,8 +83,23 @@ public class BettingScreen extends JPanel{
 
         //TODO Action events for the buttons
 
+        callBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                bettingPlayer.balance -= (round.largestbet-bettingPlayer.currentBet);
+                bettingPlayer.currentBet = round.largestbet;
+                round.Players[round.nowBettingPlayerIndex] = bettingPlayer;
+                synchronized(round.worker) {
+                    round.worker.notify(); // notify the worker when the button is pressed
+                }       
+            }
+        });
 
 
+
+        // synchronized(round.worker) {
+        //     round.worker.notify(); // notify the worker when the button is pressed
+        // }
 
     }
 }

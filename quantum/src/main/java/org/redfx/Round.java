@@ -1,6 +1,8 @@
 package org.redfx;
 import java.util.concurrent.CountDownLatch; 
 import org.redfx.Objects.*;
+import javax.swing.SwingWorker;
+
 
 public class Round {
 
@@ -15,16 +17,17 @@ public class Round {
     public Player[] Players;
     public int amountOfPlayers;
     int smallBlindIndex;
-    int bigBlindIndex;
+    public int bigBlindIndex;
     int smallBlindAmount;
     int bigBlindAmount;
     Deck deck;
     public int roundNumber;
-    public CountDownLatch latch; //this lets as wait until the user clicks a button to proceed with loops etc
-    StateManager stateManager;
+    public StateManager stateManager;
     public int nowBettingPlayerIndex;
     public int largestbet;
-    
+
+
+    public SwingWorker<Void, Void> worker;
 
 
     public Round(/*int index, Player[] players,*/Game game, StateManager manager){
@@ -66,38 +69,69 @@ public class Round {
         
         nowBettingPlayerIndex = findNextAbleToBetPlayer(bigBlindIndex);
         
+        for(int i = 0;i<2;i++){
+
         
-        while(true) { // this is an infinite loop because we don't know how many times people will raise and the circle will continiue
-
-            latch = new CountDownLatch(1);
-            stateManager.switchToBettingScreen(this);
-            latch.await();
+        worker = new SwingWorker<Void, Void>() {
+            private volatile boolean notEveryoneEqual = true;
 
 
+            @Override
+            protected Void doInBackground() throws Exception {
+                while(notEveryoneEqual){
+                stateManager.switchToChangeToPlayerScreen(Round.this);
+                synchronized(this) {
+                    wait(); // wait here until notified
+                }
 
-            //checking if every player has put an equal bet or folded - if so break out of the infinite loop
-            boolean sameBets = true;
-            for (Player player : Players){
-                if(!player.folded || player.currentBet !=largestbet){
-                    sameBets = false;
-                    break;
-                } 
+                notEveryoneEqual = false;
+                for (Player player : Players){
+                    if(!player.folded || player.currentBet !=largestbet){
+                        notEveryoneEqual = true;
+                        System.out.println("yea");
+
+                    } 
+                }
+                System.out.println("yea");
+                nowBettingPlayerIndex = findNextAbleToBetPlayer(nowBettingPlayerIndex);
+
             }
-            if(sameBets){
-                break;
+                
+                return null;
             }
 
-            nowBettingPlayerIndex = findNextAbleToBetPlayer(bigBlindIndex);
+            
+        };
+        worker.execute();
+        
+    }
+        
+            
+
+
+            // //checking if every player has put an equal bet or folded - if so break out of the infinite loop
+            // boolean sameBets = true;
+            // for (Player player : Players){
+            //     if(!player.folded || player.currentBet !=largestbet){
+            //         sameBets = false;
+            //         break;
+            //     } 
+            // }
+            // if(sameBets){
+            //     break;
+            // }
+
+            // nowBettingPlayerIndex = findNextAbleToBetPlayer(bigBlindIndex);
+
 
         }
 
 
-        }
 
         
 
         int findNextAbleToBetPlayer(int nowBettingPlayerIndex){
-            int nextBettingPlayer = nowBettingPlayerIndex + 1;
+            nowBettingPlayerIndex++;
             while(true){
                 if(nowBettingPlayerIndex == amountOfPlayers){
                     nowBettingPlayerIndex = 0;
@@ -109,7 +143,7 @@ public class Round {
                 nowBettingPlayerIndex++;
             }
 
-            return nextBettingPlayer;
+            return nowBettingPlayerIndex;
         }
     
 

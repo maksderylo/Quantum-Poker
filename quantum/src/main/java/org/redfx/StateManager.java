@@ -2,8 +2,12 @@ package org.redfx;
 
 
 import java.awt.CardLayout;
+import java.util.concurrent.CountDownLatch;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingWorker;
+
 import org.redfx.Screens.*;
 
 public class StateManager {
@@ -15,6 +19,7 @@ public class StateManager {
     PlayersNamesScreen playersNamesScreen;
     RoundStartScreen roundStartScreen;
     BettingScreen bettingScreen;
+    ChangeToPlayerScreen changeToPlayerScreen;
 
 
     public StateManager(JFrame frame) {
@@ -62,8 +67,15 @@ public class StateManager {
     }
     public void switchToBettingScreen(Round round){
         bettingScreen= new BettingScreen(round);
-        container.add(roundStartScreen, "BettingScreen");
+        container.add(bettingScreen, "BettingScreen");
         cardLayout.show(container, "BettingScreen");
+    }
+    public void switchToChangeToPlayerScreen(Round round){
+        System.out.println("inside betting");
+
+        changeToPlayerScreen= new ChangeToPlayerScreen(round);
+        container.add(changeToPlayerScreen, "ChangingScreen");
+        cardLayout.show(container, "ChangingScreen");
     }
     
 }
