@@ -9,6 +9,7 @@ public class Player {
     public int role;
     public boolean folded = false;
     public int currentBet;
+    public boolean madeDecision;
     //role keeps track of if the player is the small blind(1)/big blind(2)/none(0).
     
     public Player(String name, int balance){

@@ -1,4 +1,5 @@
 package org.redfx;
+import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch; 
 import org.redfx.Objects.*;
 import javax.swing.SwingWorker;
@@ -13,7 +14,7 @@ public class Round {
     int startingIndex;
     int currentIndex = 0;
 
-    int pool;
+    public int pool;
     public Player[] Players;
     public int amountOfPlayers;
     int smallBlindIndex;
@@ -25,7 +26,7 @@ public class Round {
     public StateManager stateManager;
     public int nowBettingPlayerIndex;
     public int largestbet;
-
+    public ArrayList<String>tableCards;//cards on the table
 
     public SwingWorker<Void, Void> worker;
 
@@ -45,6 +46,7 @@ public class Round {
         bigBlindIndex = game.bigBlindIndex;
         bigBlindAmount = game.bigBlindAmount;
         smallBlindAmount = game.smallBlindAmount;
+        tableCards = new ArrayList<>();
 
         pool = 0;
         //calling to display the start screen
@@ -63,38 +65,49 @@ public class Round {
         }
         largestbet = bigBlindAmount; //variable used to check if all the players have placed the same bet
 
+        //automatic bets for big and small blind indexes
+        Players[bigBlindIndex].currentBet = bigBlindAmount;
+        Players[bigBlindIndex].balance -=bigBlindAmount;
+        Players[smallBlindIndex].currentBet = smallBlindAmount;
+        Players[smallBlindIndex].balance-=smallBlindAmount;
         //doing the bets for small and big blinds
         pool += smallBlindAmount + bigBlindAmount;
 
         
         nowBettingPlayerIndex = findNextAbleToBetPlayer(bigBlindIndex);
         
-        for(int i = 0;i<2;i++){
+      
 
         
         worker = new SwingWorker<Void, Void>() {
-            private volatile boolean notEveryoneEqual = true;
+            private volatile boolean sameBets = false;
 
 
             @Override
             protected Void doInBackground() throws Exception {
-                while(notEveryoneEqual){
+                while(!sameBets){
                 stateManager.switchToChangeToPlayerScreen(Round.this);
                 synchronized(this) {
                     wait(); // wait here until notified
                 }
 
-                notEveryoneEqual = false;
+                sameBets = true;
                 for (Player player : Players){
-                    if(!player.folded || player.currentBet !=largestbet){
-                        notEveryoneEqual = true;
-                        System.out.println("yea");
-
+                    if(!player.folded && player.currentBet != largestbet){
+                        sameBets = false;
                     } 
+                    System.out.println(player.name + " " + player.currentBet + " " + largestbet);
+
                 }
-                System.out.println("yea");
+                System.out.println(Players[nowBettingPlayerIndex].currentBet);
                 nowBettingPlayerIndex = findNextAbleToBetPlayer(nowBettingPlayerIndex);
 
+            }
+            if(checkForEnoughPlayers()){
+                System.out.println("second round");
+                secondBettingRound();
+            } else{ //determine the winner 
+                System.out.println("Someone has won!");
             }
                 
                 return null;
@@ -104,29 +117,108 @@ public class Round {
         };
         worker.execute();
         
-    }
+    
         
             
 
 
-            // //checking if every player has put an equal bet or folded - if so break out of the infinite loop
-            // boolean sameBets = true;
-            // for (Player player : Players){
-            //     if(!player.folded || player.currentBet !=largestbet){
-            //         sameBets = false;
-            //         break;
-            //     } 
-            // }
-            // if(sameBets){
-            //     break;
-            // }
 
-            // nowBettingPlayerIndex = findNextAbleToBetPlayer(bigBlindIndex);
 
 
         }
 
+        private void secondBettingRound(){
+            
+            //new table and dealing cards there!
+            for(int i=0;i<3;i++){
+                tableCards.add(deck.deal());
+            }
 
+            largestbet = 0;
+
+            for (Player player : Players){
+                if(!player.folded){
+                    player.madeDecision = false;
+                    player.currentBet = 0;
+                }
+            }
+
+
+
+
+            nowBettingPlayerIndex = smallBlindIndex;
+            if(Players[nowBettingPlayerIndex].folded){
+                nowBettingPlayerIndex = findNextAbleToBetPlayer(nowBettingPlayerIndex);
+            }
+            worker = new SwingWorker<Void, Void>() {
+                private volatile boolean ableToProceed = false;
+
+
+                @Override
+                protected Void doInBackground() throws Exception {
+                    while(!ableToProceed){
+                    stateManager.switchToChangeToPlayerScreen(Round.this);
+                    synchronized(this) {
+                        wait(); // wait here until notified
+                    }
+
+                    ableToProceed = true;
+                    for (Player player : Players){
+                        if(!player.folded && (player.currentBet != largestbet || !player.madeDecision)){
+                            ableToProceed = false;
+                        } 
+                        System.out.println(player.name + " " + player.currentBet + " " + largestbet);
+
+                    }
+                    System.out.println(Players[nowBettingPlayerIndex].currentBet);
+                    nowBettingPlayerIndex = findNextAbleToBetPlayer(nowBettingPlayerIndex);
+
+                }
+
+                System.out.println("THIRD ROUND!!!");
+
+                if(checkForEnoughPlayers()){
+                    //secondBettingRound();
+                } else{ //determine the winner 
+                }
+                    
+                    return null;
+                }
+
+                
+            };
+            worker.execute();
+
+
+
+
+
+
+            
+            
+        
+        }
+
+        private boolean checkForEnoughPlayers(){
+            int notFoldedPlayers=0;
+            for (Player player : Players){
+                if(!player.folded){
+                    notFoldedPlayers++;
+                } 
+            }
+
+            if(notFoldedPlayers>1){
+                return true;
+            }
+
+            return false;
+        }
+
+
+        private void endRound(int winnerIndex){
+
+
+        }
 
         
 
