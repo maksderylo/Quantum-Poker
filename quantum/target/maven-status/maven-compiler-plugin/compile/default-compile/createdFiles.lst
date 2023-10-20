@@ -5,9 +5,9 @@ org\redfx\Objects\Card.class
 org\redfx\Screens\BettingScreen$2.class
 org\redfx\Objects\CenterPanel.class
 org\redfx\Screens\BettingScreen.class
+org\redfx\Round$4.class
 org\redfx\Screens\StartScreen$2$1.class
 org\redfx\Screens\PlayersNamesScreen$2.class
-Suits.class
 org\redfx\Screens\LoadingScreen$3.class
 org\redfx\Screens\PlayersNamesScreen$1.class
 org\redfx\Round$2.class
@@ -21,6 +21,7 @@ org\redfx\Objects\Player.class
 org\redfx\Screens\RoundStartScreen$1.class
 org\redfx\Objects\CoolButton.class
 org\redfx\Screens\BettingScreen$3.class
+org\redfx\Round$3.class
 org\redfx\Screens\LoadingScreen$1.class
 org\redfx\Objects\Deck.class
 org\redfx\Screens\BettingScreen$1.class

@@ -60,8 +60,8 @@ public class StateManager {
         cardLayout.show(container, "PlayersNamesScreen");
     }
 
-    public void switchToRoundStartScreen(Round round){
-        roundStartScreen = new RoundStartScreen(round);
+    public void switchToRoundStartScreen(Round round,String phase){
+        roundStartScreen = new RoundStartScreen(round, phase);
         container.add(roundStartScreen, "RoundStartScreen");
         cardLayout.show(container, "RoundStartScreen");
     }
