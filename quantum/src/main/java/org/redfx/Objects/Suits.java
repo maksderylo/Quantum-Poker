@@ -1,3 +1,5 @@
+package org.redfx.Objects;
+ 
 import javax.swing.ImageIcon;
 
 public class Suits {

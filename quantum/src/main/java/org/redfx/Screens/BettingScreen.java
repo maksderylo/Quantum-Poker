@@ -26,6 +26,14 @@ public class BettingScreen extends JPanel{
     Slider raiseSlider;
     int raiseAmount;
     CenterPanel buttonPanel = new CenterPanel(); // Change to JPanel for better button alignment
+    Text titleBalance = new Text("Your balance");
+    Text titleCurrentBet = new Text("Current bet");
+    Text titlePot = new Text("Main pool");
+    Text titleBalancePlayer = new Text("");
+    Text titleCurrentBetPlayer = new Text("");
+    Text titlePotTable = new Text("");
+    Text titleMaxbet = new Text("Highest bet");
+    Text titleMaxbetHere = new Text("");
 
     Text playerCardsText = new Text("These are your cards:");
     CenterPanel playerCardsPanel = new CenterPanel();
@@ -58,13 +66,36 @@ public class BettingScreen extends JPanel{
         constraints.gridwidth = 1;
         
         
-        //Show the cards
-        //TODO do the cards
-        
-        
+        //info
 
+        constraints.gridwidth=1;
+        constraints.gridy=1;
+        constraints.gridx=0;
+        add(titleBalance,constraints);
+        constraints.gridx=1;
+        add(titleCurrentBet,constraints);
+        constraints.gridx=2;
+        add(titlePot,constraints);
+        constraints.gridx=3;
+        add(titleMaxbet,constraints);
+
+        constraints.gridy=2;
+        constraints.gridx=0;
+        titleBalancePlayer.setText(""+bettingPlayer.balance);
+        add(titleBalancePlayer,constraints);
+        constraints.gridx=1;
+        titleCurrentBetPlayer.setText(""+bettingPlayer.currentBet);
+        add(titleCurrentBetPlayer,constraints);
+        constraints.gridx=2;
+        titlePotTable.setText(""+round.pool);
+        add(titlePotTable,constraints);
+        constraints.gridx=3;
+        titleMaxbetHere.setText(""+round.largestbet);
+        add(titleMaxbetHere,constraints);
+
+
+        //cards
         constraints.gridwidth=10;
-
         constraints.gridy=3;
         constraints.gridx=0;
 
@@ -141,13 +172,14 @@ public class BettingScreen extends JPanel{
         
 
         //Raise slider
-        if(bettingPlayer.balance > (round.largestbet - bettingPlayer.currentBet)){
+        if(bettingPlayer.balance > (round.largestbet - bettingPlayer.currentBet-1)){
             CenterPanel raisePanelLabel = new CenterPanel();
             CenterPanel raisePanelSlider = new CenterPanel();
 
-            raiseSlider = new Slider(1, bettingPlayer.balance - round.largestbet + bettingPlayer.currentBet - 2,1);
-            raiseSlider.setMajorTickSpacing(bettingPlayer.balance - round.largestbet + bettingPlayer.currentBet - 3);
-            raiseSlider.setMinorTickSpacing((bettingPlayer.balance - round.largestbet + bettingPlayer.currentBet - 3)/10);
+            raiseSlider = new Slider(1, bettingPlayer.balance - round.largestbet + bettingPlayer.currentBet - 1,1);
+            raiseSlider.setMajorTickSpacing(bettingPlayer.balance - round.largestbet + bettingPlayer.currentBet - 2);
+            raiseSlider.setMinorTickSpacing((bettingPlayer.balance - round.largestbet + bettingPlayer.currentBet - 2)/10);
+            raiseSlider.setSnapToTicks(false);
             raiseAmount = 1; // starting slider position
             raiseLabel = new Text("How much would you like to raise? (" + raiseAmount + ")");
 
