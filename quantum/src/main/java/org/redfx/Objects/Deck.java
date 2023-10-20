@@ -10,10 +10,10 @@ public class Deck extends ArrayList<String>{
     //A = ace, K = king, Q = queen, J = jack.
     
     ArrayList<String> defaultDeck = new ArrayList<>(Arrays.asList(
-                                     "Ace Clubs","Two Clubs","Three Clubs","Four Clubs","Five Clubs","Six Clubs","Seven Clubs","Eight Clubs","Nine Clubs","Ten Clubs","Jack Clubs","Queen Clubs","King Clubs",
-                                     "Ace Diamonds","Two Diamonds","Three Diamonds","Four Diamonds","Five Diamonds","Six Diamonds","Seven Diamonds","Eight Diamonds","Nine Diamonds","Ten Diamonds","Jack Diamonds","Queen Diamonds","King Diamonds",
-                                     "Ace Spades","Two Spades","Three Spades","Four Spades","Five Spades","Six Spades","Seven Spades","Eight Spades","Nine Spades","Ten Spades","Jack Spades","Queen Spades","King Spades",
-                                     "Ace Hearts","Two Hearts","Three Hearts","Four Hearts","Five Hearts","Six Hearts","Seven Hearts","Eigth Hearts","Nine Hearts","Ten Hearts","Jack Hearts","Queen Hearts","King Hearts"));
+                                     "Ace Clubs","2 Clubs","3 Clubs","4 Clubs","5 Clubs","6 Clubs","7 Clubs","8 Clubs","9 Clubs","10 Clubs","Jack Clubs","Queen Clubs","King Clubs",
+                                     "Ace Diamonds","2 Diamonds","3 Diamonds","4 Diamonds","5 Diamonds","6 Diamonds","7 Diamonds","8 Diamonds","9 Diamonds","10 Diamonds","Jack Diamonds","Queen Diamonds","King Diamonds",
+                                     "Ace Spades","2 Spades","3 Spades","4 Spades","5 Spades","6 Spades","7 Spades","8 Spades","9 Spades","10 Spades","Jack Spades","Queen Spades","King Spades",
+                                     "Ace Hearts","2 Hearts","3 Hearts","4 Hearts","5 Hearts","6 Hearts","7 Hearts","Eigth Hearts","9 Hearts","10 Hearts","Jack Hearts","Queen Hearts","King Hearts"));
         
     //creating a new List that we will copy the default deck to and then shuffle it and remove
     // cards from when drawn.
