@@ -26,7 +26,7 @@ public class Round {
     public StateManager stateManager;
     public int nowBettingPlayerIndex;
     public int largestbet;
-    public ArrayList<String>tableCards;//cards on the table
+    public ArrayList<String> tableCards;//cards on the table
     Round round = this;
     public SwingWorker<Void, Void> worker;
 
