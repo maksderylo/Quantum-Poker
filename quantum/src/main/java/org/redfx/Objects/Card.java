@@ -19,7 +19,7 @@ public class Card extends JPanel {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(100, 150); // Set your desired width and height
+        return new Dimension(70, 105); // Set your desired width and height
     }
 
     @Override
@@ -28,8 +28,8 @@ public class Card extends JPanel {
 
         Graphics2D g2d = (Graphics2D) g;
 
-        int cardWidth = 100; // Set your desired width
-        int cardHeight = 150; // Set your desired height
+        int cardWidth = 70; // Set your desired width
+        int cardHeight = 105; // Set your desired height
         int x = (getWidth() - cardWidth) / 2;
         int y = (getHeight() - cardHeight) / 2;
 

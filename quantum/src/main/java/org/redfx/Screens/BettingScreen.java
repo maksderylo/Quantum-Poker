@@ -21,7 +21,7 @@ public class BettingScreen extends JPanel{
     CoolButton callBtn= new CoolButton("Call");
     CoolButton foldBtn= new CoolButton("Fold");
     CoolButton raiseBtn = new CoolButton("Raise");
-    CoolButton allInBtn = new CoolButton("ALL IN MF!");
+    CoolButton allInBtn = new CoolButton("ALL IN");
     Text raiseLabel ;
     Slider raiseSlider;
     int raiseAmount;
@@ -48,7 +48,7 @@ public class BettingScreen extends JPanel{
         setBorder(new EmptyBorder(0,50,0,50));
 
         bettingPlayer = round.Players[round.nowBettingPlayerIndex];
-
+        bettingPlayer.madeDecision = true;
         // Weight and fill settings (no need to change these)
         constraints.weightx = 1;
         constraints.weighty = 1;
@@ -164,9 +164,6 @@ public class BettingScreen extends JPanel{
         constraints.gridy=6;
         add(playerCardsPanel,constraints);
 
-        if(round.largestbet == 0){
-            buttonPanel.add(checkBtn);
-        }
 
 
         
@@ -213,20 +210,22 @@ public class BettingScreen extends JPanel{
         if(bettingPlayer.balance <= round.largestbet){ //if they dont have enough money they can only go all in
             buttonPanel.add(allInBtn);
         }   else {
-            buttonPanel.add(callBtn);
+            if(round.largestbet == bettingPlayer.currentBet){
+                buttonPanel.add(checkBtn);
+            }else {
+                buttonPanel.add(callBtn);
+            }
             buttonPanel.add(raiseBtn);
+            buttonPanel.add(allInBtn);
+            
         }
 
-
-        //TODO Action events for FOLD BUTTON
-
-        //TODO CREATE ALL IN BUTTON
 
 
         checkBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                bettingPlayer.madeDecision = true;
+                
                 round.Players[round.nowBettingPlayerIndex] = bettingPlayer;
                 synchronized(round.worker) {
                     round.worker.notify(); // notify the worker when the button is pressed
@@ -237,8 +236,8 @@ public class BettingScreen extends JPanel{
         callBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                bettingPlayer.balance -= (round.largestbet-bettingPlayer.currentBet);
-                round.pool +=(round.largestbet-bettingPlayer.currentBet);
+                bettingPlayer.balance -= (round.largestbet-bettingPlayer.currentBet);                
+                round.pool+=(round.largestbet-bettingPlayer.currentBet);
                 bettingPlayer.currentBet = round.largestbet;
                 round.Players[round.nowBettingPlayerIndex] = bettingPlayer;
                 synchronized(round.worker) {
@@ -251,8 +250,8 @@ public class BettingScreen extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 bettingPlayer.balance-=raiseAmount+round.largestbet-bettingPlayer.currentBet;
-                round.pool += raiseAmount+round.largestbet-bettingPlayer.currentBet;
                 bettingPlayer.currentBet = round.largestbet + raiseAmount;
+                round.pool+=round.largestbet + raiseAmount;
                 round.largestbet = bettingPlayer.currentBet;
                 round.Players[round.nowBettingPlayerIndex] = bettingPlayer;
 
@@ -266,6 +265,23 @@ public class BettingScreen extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e){
                 bettingPlayer.folded=true;
+                round.Players[round.nowBettingPlayerIndex]=bettingPlayer;
+                synchronized(round.worker) {
+                    round.worker.notify(); // notify the worker when the button is pressed
+                } 
+            }
+        });
+        allInBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                bettingPlayer.allIn=true; 
+                if(round.largestbet - bettingPlayer.currentBet < bettingPlayer.balance){
+                    round.largestbet = bettingPlayer.balance + bettingPlayer.currentBet;
+                }
+                bettingPlayer.currentBet += bettingPlayer.balance;
+                round.pool+=bettingPlayer.balance;
+                bettingPlayer.balance=0;
+
                 round.Players[round.nowBettingPlayerIndex]=bettingPlayer;
                 synchronized(round.worker) {
                     round.worker.notify(); // notify the worker when the button is pressed
