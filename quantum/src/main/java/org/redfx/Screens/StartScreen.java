@@ -13,7 +13,7 @@ import javax.swing.*;
 
 
 public class StartScreen extends JLabel{
-    final ImageIcon icon = new ImageIcon("src\\main\\resources\\background.png");
+    final ImageIcon icon = new ImageIcon(getClass().getResource("/org/redfx/resources/background.png"));
     CoolButton playBtn = new CoolButton("Play");
     CoolButton rulesBtn = new CoolButton("Rules");
     CoolButton quitBtn = new CoolButton("Quit");

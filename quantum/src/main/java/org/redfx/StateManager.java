@@ -44,17 +44,14 @@ public class StateManager {
 
 
     public void switchToStartScreen() {
-        System.out.println("To Start");
         cardLayout.show(container, "StartScreen");
     }
 
     public void switchToLoadScreen() {
-        System.out.println("To Load");
         cardLayout.show(container, "LoadingScreen");
     }
 
     public void switchToPlayersNamesScreen(int playersAmount, int moneyPerPlayer) {
-        System.out.println("To PlayersScreen");
         playersNamesScreen = new PlayersNamesScreen(this, playersAmount, moneyPerPlayer);
         container.add(playersNamesScreen, "PlayersNamesScreen");
         cardLayout.show(container, "PlayersNamesScreen");
@@ -71,7 +68,6 @@ public class StateManager {
         cardLayout.show(container, "BettingScreen");
     }
     public void switchToChangeToPlayerScreen(Round round){
-        System.out.println("inside betting");
 
         changeToPlayerScreen= new ChangeToPlayerScreen(round);
         container.add(changeToPlayerScreen, "ChangingScreen");

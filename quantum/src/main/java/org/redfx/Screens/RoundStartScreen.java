@@ -7,10 +7,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.*;
 import javax.swing.text.*;
 
-import org.redfx.Game;
-import org.redfx.StateManager;
 import org.redfx.Objects.*;
-import javax.swing.JLabel;
 import org.redfx.*;
 
 public class RoundStartScreen extends JPanel{
@@ -20,6 +17,7 @@ public class RoundStartScreen extends JPanel{
     GridBagConstraints constraints = new GridBagConstraints();
     CoolButton playBtn = new CoolButton("Next");
     CenterPanel poolPanel = new CenterPanel();
+    CenterPanel tableCardsPanel = new CenterPanel();
 
 
 
@@ -51,14 +49,46 @@ public class RoundStartScreen extends JPanel{
         add(poolPanel,constraints);
         poolPanel.add(poolTitle);
 
+
+        //showing the cards
+        String card, suit, rank;
+        int spaceIndex;
+
+        if(round.tableCards.size()>0){
+        constraints.gridy =2;
+        add(tableCardsPanel, constraints);
+
         
+        //showing the table cards
+        for(int i =0;i<round.tableCards.size();i++){
+            card = round.tableCards.get(i);
+            suit = "";
+            rank = "";
+            //finding the space
+            spaceIndex = 0;
+            while(true){
+                if(card.charAt(spaceIndex) == ' '){
+                    break;
+                }
+                spaceIndex++;
+            }
+
+            rank = card.substring(0, spaceIndex);
+            suit = card.substring(spaceIndex + 1, card.length());
+
+            tableCardsPanel.add(new Card(rank, suit));
+
+
+
+        }
+    }
         
         constraints.gridwidth=1;
         JLabel helpLabel = new JLabel(""); 
 
         helpLabel = new JLabel("Name");
         helpLabel.setForeground(Color.WHITE);
-        constraints.gridy = 2;
+        constraints.gridy = 3;
         constraints.gridx = 0;
         add(helpLabel, constraints);
         helpLabel = new JLabel("Balance"); 
@@ -74,7 +104,7 @@ public class RoundStartScreen extends JPanel{
         for(int i = 0; i < round.amountOfPlayers; i++){
             helpLabel = new JLabel(round.Players[i].name + ":");
             helpLabel.setForeground(Color.WHITE);
-            constraints.gridy = i+3;
+            constraints.gridy = i+4;
             constraints.gridx = 0;
             add(helpLabel, constraints);
             helpLabel = new JLabel(round.Players[i].balance + "$"); 
@@ -88,7 +118,13 @@ public class RoundStartScreen extends JPanel{
                 constraints.gridx = 2;
                 add(helpLabel,constraints);
             
-            } else if(round.Players[i].folded == true){
+            } else if(round.Players[i].allIn == true){
+                helpLabel = new JLabel("All In!!"); 
+                helpLabel.setForeground(Color.WHITE);
+                constraints.gridx = 2;
+                add(helpLabel,constraints);
+            
+            }else if(round.Players[i].folded == true){
                 helpLabel = new JLabel("folded"); 
                 helpLabel.setForeground(Color.WHITE);
                 constraints.gridx = 2;
@@ -114,7 +150,7 @@ public class RoundStartScreen extends JPanel{
         }
 
         JPanel buttonPanel = new JPanel(); // Change to JPanel for better button alignment
-        constraints.gridy = 10;
+        constraints.gridy = 15;
         constraints.gridx = 0;
         constraints.gridwidth=10;
         add(buttonPanel, constraints);
