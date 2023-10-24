@@ -16,7 +16,9 @@ public class Player {
     public boolean outOfTheGame = false;
     public boolean allIn = false;
     public int currentRoundBets = 0;
+    public int currentRoundMoneyWon=0;
     public ArrayList<String> currentHand = new ArrayList<>();
+
     //role keeps track of if the player is the small blind(1)/big blind(2)/none(0).
     
     public Player(String name, int balance){
@@ -29,9 +31,6 @@ public class Player {
         hand.add(card);
     }
 
-    public ArrayList<String> getHand(){
-        return hand;
-    }
 
     // note that we convert all the letter into numbers so 2=2 but Jack = 11 and Ace = 14
     public int rankToNumber(String s){
@@ -48,17 +47,15 @@ public class Player {
         if(suit == 'A') {
             return 14;
         }
-        return (int)suit;
+        return Integer.parseInt(s);
     }
 
     
     public int highestCard(ArrayList<String> bestHand) {
         int highestCard = 0;
-        int temp;
         for (String card : bestHand){
-            temp = rankToNumber(card);
-            if (temp > highestCard) {
-                highestCard = temp;
+            if (rankToNumber(card) > highestCard) {
+                highestCard = rankToNumber(card);
             }
         }
         return highestCard;
@@ -86,18 +83,18 @@ Any two numerically matching cards
 10. High card (2-14) DONE
 */
     public int bestHand(ArrayList<String> river){
-
+    
         System.out.println(river);
-        System.out.println(hand);
+        System.out.println(this.hand);
 
         int currentBestHand = 0;
         //yes i know this looks bad but its just one time and i wanted it on single lines
         String CardOneRank = this.hand.get(0).substring(0, this.hand.get(0).indexOf(" "));
         int numberCardOne = rankToNumber(CardOneRank);
         String CardOneSuit = this.hand.get(0).substring(this.hand.get(0).indexOf(" "));
-        String CardTwoRank = this.hand.get(1).substring(0, this.hand.get(0).indexOf(" "));
+        String CardTwoRank = this.hand.get(1).substring(0, this.hand.get(1).indexOf(" "));
         int numberCardTwo = rankToNumber(CardTwoRank);
-        String CardTwoSuit = this.hand.get(1).substring(this.hand.get(0).indexOf(" "));
+        String CardTwoSuit = this.hand.get(1).substring(this.hand.get(1).indexOf(" "));
 
         boolean[] sameSuit = new boolean[5];
 
@@ -105,6 +102,7 @@ Any two numerically matching cards
         ArrayList<String> ranks = new ArrayList<>();
         ArrayList<Integer> numberedRanks = new ArrayList<>();
         ArrayList<String> temporaryHand = new ArrayList<>();
+        currentHand = new ArrayList<String>(); 
 
 
 
@@ -119,27 +117,29 @@ Any two numerically matching cards
 
         //starting by checking for the best case and side cases with this
         if (CardOneSuit.equals(CardTwoSuit)) {
-            this.currentHand.add(this.hand.get(0));
+            //this.currentHand.add(this.hand.get(0));
             temporaryHand.add(river.get(0));
-            this.currentHand.add(this.hand.get(1));
+            //this.currentHand.add(this.hand.get(1));
             temporaryHand.add(river.get(1));           
             //checking for flushes, if more than two of the river have the same suit a flush is possible
-            if (Collections.frequency(suits, CardTwoSuit) > 2) {
+            if (Collections.frequency(suits, CardTwoSuit) > 2) {//only have to check against CardTwoSuit since it equals cardOneSuit
                 currentBestHand = 19; // for the regular flush
                 //finding which cards could make the flush
                 for (int i = 0; i < suits.size(); i++) {
                     if (suits.get(i).equals(CardOneSuit)) {
                         sameSuit[i] = true;
-                        this.currentHand.add(river.get(i));
-                        
+                        temporaryHand.add(river.get(i));
                     }
                 }
+                currentHand.removeAll(currentHand);
+                currentHand.addAll(temporaryHand);
+                System.out.println(currentHand);
                 //checking if a Straight Flush is possible by checking if the distance between them is max 4
                 int distance = Math.abs(numberCardOne-numberCardTwo) - 1;
                 int tillFive = 3; //since the cards in the players hand already contribute to it
-                int smaller;
-                int bigger;
-                int biggest; //for royal flush (if straight flush and biggest is an ace then its a royal flush)
+                int smaller = 0;
+                int bigger = 0;
+                int biggest = 0; //for royal flush (if straight flush and biggest is an ace then its a royal flush)
                 ArrayList<Integer> indexes = new ArrayList<>();
                 boolean possible = true;
                 if (distance < 4) {
@@ -153,7 +153,6 @@ Any two numerically matching cards
                         bigger = numberCardOne;
                         biggest = numberCardOne;
                     }
-
 
                         for (int i = smaller + 1; i < bigger; i++) { //checking if the cards in between them are in the river
 
@@ -226,6 +225,7 @@ Any two numerically matching cards
                             }
                             if (tillFive == 0) { 
                                 currentBestHand = 22;
+                                this.currentHand.removeAll(currentHand);
                                 this.currentHand.addAll(temporaryHand);
                                 if (biggest == 14){
                                     currentBestHand = 23;
@@ -236,10 +236,11 @@ Any two numerically matching cards
 
             }
         }
-        temporaryHand.clear();
 
+        temporaryHand.removeAll(currentHand);
+        
+               
         //Checking for pairs ect.
-        //TODO: make sure to check if the value is not already more than 15/16 before assigning it
         int temporaryBest = 0;
         int sameRank = 1; //its always the same rank as the card were testing against (numberCardOne).
         int same = 1;
@@ -248,22 +249,24 @@ Any two numerically matching cards
         boolean threeOfAKind = false;
         boolean equal = false;
         
-        
         for (int n = 0; n < numberedRanks.size(); n++) {
             if (numberCardOne == numberedRanks.get(n)) {
                 sameRank++;
                 temporaryHand.add(river.get(n));
             }
         }
-            
         if (numberCardOne == numberCardTwo) {
-            temporaryHand.add(hand.get(1));
             sameRank += 1;
             equal = true;
+            temporaryHand.add(hand.get(1));
+        }
+        if (sameRank > 1) {
+            temporaryHand.add(hand.get(0));
         }
         if (sameRank == 4 && currentBestHand < 21) {
             currentBestHand = 21; //immediately setting currentBestHand to avoid a specific case.
-            temporaryHand.add(hand.get(0));
+            this.currentHand.removeAll(currentHand);
+            this.currentHand.addAll(temporaryHand);
         }
         if (sameRank == 3) {
             if (equal) { //checking for another pair
@@ -271,20 +274,27 @@ Any two numerically matching cards
                     for (int u = v + 1; u < numberedRanks.size(); u++) {
                         if (numberedRanks.get(v) == numberedRanks.get(u)) {
                             same++;
+                            temporaryHand.add(river.get(v));
+                            temporaryHand.add(river.get(u));
 
                         }
                     }
                     if (same == 2) {
                         temporaryBest = 20;
-                        break; //there is nothing better to find
+                        this.currentHand.removeAll(currentHand);
+                        this.currentHand.addAll(temporaryHand);
+                        break; //there is nothing better to find TODO: maybe try to find a higher value pair???
+                        
                     }
                     
                     same = 1;
 
                 }
-            } else{
+            } else {
             temporaryBest = 17;
             threeOfAKind = true;
+            this.currentHand.removeAll(currentHand);
+            this.currentHand.addAll(temporaryHand);
             }
         }
         if (sameRank == 2) {
@@ -293,11 +303,15 @@ Any two numerically matching cards
                     for (int u = v + 1; u < numberedRanks.size(); u++) {
                         if (numberedRanks.get(v) == numberedRanks.get(u)) {
                             same++;
+                            temporaryHand.add(river.get(v));
+                            temporaryHand.add(river.get(u));
 
                         }
                     }
                     if (same == 3) {
                         temporaryBest = 20;
+                        this.currentHand.removeAll(currentHand);
+                        this.currentHand.addAll(temporaryHand);
                         break; //there is nothing better to find
                     }
                     else if (same == 2) { //there could be a three of a kind, but storing the pair just to make sure.
@@ -308,11 +322,15 @@ Any two numerically matching cards
                 }
                 if (pairInRiver) {
                     temporaryBest = 16;
+                    this.currentHand.removeAll(currentHand);
+                    this.currentHand.addAll(temporaryHand);
                 }
             
 
             } else {
             temporaryBest = 15;
+            this.currentHand.removeAll(currentHand);
+            this.currentHand.addAll(temporaryHand);
             pair = true;
             }
         }
@@ -321,41 +339,56 @@ Any two numerically matching cards
             for (int n = 0; n < numberedRanks.size(); n++) {
                 if (numberCardTwo == numberedRanks.get(n)) {
                     sameRank++;
+                    temporaryHand.add(river.get(n));
+                    
                 }
+            }
+            if (sameRank > 1) {
+                temporaryHand.add(this.hand.get(1));
             }
             if (sameRank == 4 && currentBestHand < 21) {
                  //immediately setting currentBestHand to avoid a specific case.
                     currentBestHand = 21;
+                    this.currentHand.removeAll(currentHand);
+                    this.currentHand.addAll(temporaryHand);
                 }
             if (sameRank == 3) {
                 if (pair) {
                     temporaryBest = 20;
+                } else {
+                    temporaryBest = 17;
                 }
             } 
             if (sameRank == 2) {
                 if (threeOfAKind) {
                     temporaryBest = 20;
                 }
-                if (pair) {
+                if (pair) {//TODO: PAIR IS ONLY RAN WHEN THEYRE EQUAL
                     temporaryBest = 16;
+                } else { 
+                    temporaryBest = 15;
                 }
+
 
             }
         }
         //actually assinging it
         if (temporaryBest > currentBestHand) {
             currentBestHand = temporaryBest;
+            this.currentHand.removeAll(currentHand);
+            this.currentHand.addAll(temporaryHand);
         }
-
+        temporaryHand.removeAll(currentHand);
+        temporaryHand.add(hand.get(0));// TODO: JUST TO COME BACK TO THIS
+        temporaryHand.add(hand.get(1));
         //Making a separate part for the straight since the earlier 'methods' require the cards to be of the same suits
-        
         int distance = Math.abs(numberCardOne-numberCardTwo) - 1;
         int tillFive = 3; //since the cards in the players hand already contribute to it
         int smaller;
         int bigger;
         ArrayList<Integer> indexes = new ArrayList<>();
         boolean possible = true;
-        if (distance < 4 && distance != -1) { //second proposition because it cant work if the cards are the same
+        if (distance < 4 && distance != -1) { //second proposition because it cant work if the cards have the same rank
 
             if (numberCardOne < numberCardTwo){ // two cases since they cant be equal if they are same suit
                 smaller = numberCardOne;
@@ -370,6 +403,8 @@ Any two numerically matching cards
 
                     if (numberedRanks.contains(i)) {
                         tillFive--;
+                        temporaryHand.add(river.get(i));
+
                     }
                     else{
                         possible = false;// if it doesnt contain it we can break and move on to things other than a flush
@@ -384,6 +419,7 @@ Any two numerically matching cards
                             if (numberedRanks.get(i) == temp) {
                             temp--;
                             tillFive--;
+                            temporaryHand.add(river.get(i));
                             i = -1; //checking agian with new temp so need to set i equal to 0 after the loop
                             }
 
@@ -401,42 +437,38 @@ Any two numerically matching cards
                             if (numberedRanks.get(i) == temp) {
                                 temp++;
                                 tillFive--;
+                                temporaryHand.add(river.get(i));
                                 i = -1;
                             }
 
                         }
                     }
                 }
-                if (tillFive == 0) {
-                    if (currentBestHand < 18) {
+                if (tillFive == 0 && currentBestHand < 18) {
                         currentBestHand = 18;
-                    }
+                        this.currentHand.removeAll(currentHand);
+                        this.currentHand.addAll(temporaryHand);
                 }
         }
+        
         if (currentBestHand < 15) { //if no special hand can be made we take the highest value card.
-            for (int num : numberedRanks) {
-                if (num > currentBestHand) {
-                    currentBestHand = num;
+        
+            for (int i = 0; i < numberedRanks.size(); i++) {
+                if (numberedRanks.get(i) > currentBestHand) {
+                    currentBestHand = numberedRanks.get(i);
+                    this.currentHand.add(river.get(i));
                 }
             }
             if (numberCardOne > currentBestHand) {
                 currentBestHand = numberCardOne;
+                this.currentHand.set(0,hand.get(0));
             }
             if (numberCardTwo > currentBestHand) {
                 currentBestHand = numberCardTwo;
+                this.currentHand.set(0,hand.get(1));
             }
         }
-
-
-
-
-
-
+        temporaryHand.removeAll(currentHand);
         return currentBestHand;
     }
-
-
-
-  
-    
 }

@@ -149,10 +149,9 @@ public class Round {
             largestbet = 0;
 
             for (Player player : Players){
-                if(!player.folded){
-                    player.madeDecision = false;
+                player.currentRoundBets+=player.currentBet;
+                player.madeDecision = false;
                     player.currentBet = 0;
-                }
             }
 
             nowBettingPlayerIndex = smallBlindIndex;
@@ -214,10 +213,10 @@ public class Round {
             largestbet = 0;
 
             for (Player player : Players){
-                if(!player.folded){
-                    player.madeDecision = false;
-                    player.currentBet = 0;
-                }
+                player.currentRoundBets+=player.currentBet;
+                player.madeDecision = false;
+                player.currentBet = 0;
+                
             }
 
             nowBettingPlayerIndex = smallBlindIndex;
@@ -280,10 +279,10 @@ public class Round {
             largestbet = 0;
 
             for (Player player : Players){
-                if(!player.folded){
-                    player.madeDecision = false;
-                    player.currentBet = 0;
-                }
+                player.currentRoundBets+=player.currentBet;
+                player.madeDecision = false;
+                player.currentBet = 0;
+
             }
 
             nowBettingPlayerIndex = smallBlindIndex;
@@ -336,7 +335,6 @@ public class Round {
             worker.execute();
 
             updatePools();
-            //TODO create the last pool with the remaining players
 
 
         }
@@ -344,6 +342,7 @@ public class Round {
 
 
         private void prematureWinner(){
+            System.out.println("premature winner");
             //find premature winner
             int winnerIndex =0;
 
@@ -360,28 +359,33 @@ public class Round {
             potAmount=0;
             for(int i =0;i <pools.size(); i++){
                 Players[winnerIndex].balance+=pools.get(i).potsize;
+                Players[winnerIndex].currentRoundMoneyWon += helpPool.potsize;
+
             }
 
-            endRound(winnerIndex);
+            //TODO call roundendscreen
 
 
         }
 
         private void distributePots() {
+            System.out.println("distributing pots");
 
             //create the last pool
             thisPotPlayers = new ArrayList<Integer>();
             for(int i = 0; i < amountOfPlayers; i++){
+                Players[i].currentRoundBets+=Players[i].currentBet;
                 if(!Players[i].folded){
                     thisPotPlayers.add(i);//this player is eligible for this pot
                 }
             }
+            if(thisPotPlayers.isEmpty()==false){
             helpPool = new customPair();
             helpPool.playersEligible = thisPotPlayers;
             helpPool.potsize = potAmount;
             pools.add(helpPool);
             potAmount=0;
-
+}
 
 
             //
@@ -407,33 +411,31 @@ public class Round {
                     System.out.println(Players[playersEligible.get(j)].name + " has a score of: " +Players[playersEligible.get(j)].bestHand(tableCards));
          
                     if(Players[playersEligible.get(j)].bestHand(tableCards) > currentHighestScore) {
-                        System.out.println("?");
                         currentHighestScore = Players[playersEligible.get(j)].bestHand(tableCards);
                         highestScoreIndex = playersEligible.get(j);
                     }
                     if(Players[playersEligible.get(j)].bestHand(tableCards) == currentHighestScore) {
                         
                     }
+                    System.out.println("?");
 
                 }
-                System.out.println("winner: "+highestScoreIndex + " with a score of: " + currentHighestScore);
                 Players[highestScoreIndex].balance += helpPool.potsize;
-
-
-                //determine the winner of this pool
-
-
+                Players[highestScoreIndex].currentRoundMoneyWon += helpPool.potsize;
 
             }
-            endRound(highestScoreIndex);
 
+
+
+            System.out.println("call next round");
+            stateManager.switchToRoundEndScreen(this);
         }
 
     
-        private void endRound(int winnerIndex){ // winner index is the one that has won the main pot
+        public void endRound(){ // winner index is the one that has won the main pot
+            System.out.println("ending round");
 
             int enoughPlayers = 0;
-
             for(Player player : Players){
                 player.role=0;
                 if(player.balance < bigBlindAmount){ //eliminate players
@@ -452,14 +454,18 @@ public class Round {
             }
 
 
-            //TODO find new small and big blinds
 
             game.smallBlindIndex=game.bigBlindIndex;
             game.bigBlindIndex=findNextAbleToBetPlayer(smallBlindIndex);
             
 
             if(enoughPlayers>1){
-                game.smallBlindIndex=game.bigBlindIndex;
+                //TODO reset the variables, check if the game should go on etc.
+                //currentRoundBets
+                //moneyWon
+
+
+                game.smallBlindIndex=game.bigBlindIndex;//thats not true
                 game.bigBlindIndex=findNextAbleToBetPlayer(game.smallBlindIndex);
                 Players[game.smallBlindIndex].role = 1;
                 Players[game.bigBlindIndex].role = 2;
@@ -470,7 +476,8 @@ public class Round {
                 //TODO CREATE END GAME SCREEN
             }
 
-            //TODO reset the variables, check if the game should go on etc.
+
+            
 
         }
 
@@ -521,6 +528,7 @@ public class Round {
 
 
             while(allInPlayers) {
+                lowestAllInAmount=999999999;
                 allInPlayers = false;
                 for(int i=0;i< amountOfPlayers;i++) {
                     Player player = Players[i];
@@ -541,7 +549,6 @@ public class Round {
                             thisPotPlayers.add(i);//this player is eligible for this pot
                             Players[i].currentBet-=lowestAllInAmount;
                             potAmount+=lowestAllInAmount;
-                            pool+=lowestAllInAmount;
                             if(Players[i].currentBet==0 && Players[i].allIn){
                                 
                                 Players[i].folded=true;
