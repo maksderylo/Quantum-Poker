@@ -15,8 +15,7 @@ public class Player {
     public boolean madeDecision;
     public boolean outOfTheGame = false;
     public boolean allIn = false;
-    public int currentRoundBets = 0;
-    public int currentRoundMoneyWon=0;
+    public int roundStartBalance;
     public ArrayList<String> currentHand = new ArrayList<>();
 
     //role keeps track of if the player is the small blind(1)/big blind(2)/none(0).
@@ -27,6 +26,7 @@ public class Player {
         hand = new ArrayList<String>();
     }
 
+    
     public void updateHand(String card){
         hand.add(card);
     }
@@ -47,6 +47,7 @@ public class Player {
         if(suit == 'A') {
             return 14;
         }
+
         return Integer.parseInt(s);
     }
 
@@ -54,8 +55,8 @@ public class Player {
     public int highestCard(ArrayList<String> bestHand) {
         int highestCard = 0;
         for (String card : bestHand){
-            if (rankToNumber(card) > highestCard) {
-                highestCard = rankToNumber(card);
+            if (rankToNumber(card.substring(0, card.indexOf(" "))) > highestCard) {
+                highestCard = rankToNumber(card.substring(0, card.indexOf(" ")));
             }
         }
         return highestCard;
@@ -84,8 +85,8 @@ Any two numerically matching cards
 */
     public int bestHand(ArrayList<String> river){
     
-        //System.out.println(river);
-        //System.out.println(this.hand);
+        System.out.println(river);
+        System.out.println(this.hand);
 
         int currentBestHand = 0;
         //yes i know this looks bad but its just one time and i wanted it on single lines
@@ -237,7 +238,7 @@ Any two numerically matching cards
             }
         }
 
-        temporaryHand.removeAll(currentHand);
+        temporaryHand.removeAll(temporaryHand);
         
                
         //Checking for pairs ect.
@@ -360,10 +361,11 @@ Any two numerically matching cards
                 }
             } 
             if (sameRank == 2) {
+                //System.out.println("pair from second card");
                 if (threeOfAKind) {
                     temporaryBest = 20;
                 }
-                if (pair) {//TODO: PAIR IS ONLY RAN WHEN THEYRE EQUAL
+                else if (pair) {//TODO: PAIR IS ONLY RAN WHEN THEYRE EQUAL
                     temporaryBest = 16;
                 } else { 
                     temporaryBest = 15;
@@ -373,12 +375,13 @@ Any two numerically matching cards
             }
         }
         //actually assinging it
+        //System.out.println("right before assinging check");
         if (temporaryBest > currentBestHand) {
             currentBestHand = temporaryBest;
             this.currentHand.removeAll(currentHand);
             this.currentHand.addAll(temporaryHand);
         }
-        temporaryHand.removeAll(currentHand);
+        temporaryHand.removeAll(temporaryHand);
         temporaryHand.add(hand.get(0));// TODO: JUST TO COME BACK TO THIS
         temporaryHand.add(hand.get(1));
         //Making a separate part for the straight since the earlier 'methods' require the cards to be of the same suits
@@ -468,7 +471,8 @@ Any two numerically matching cards
                 this.currentHand.set(0,hand.get(1));
             }
         }
-        temporaryHand.removeAll(currentHand);
+        temporaryHand.removeAll(temporaryHand);
+        System.out.println(currentHand);
         return currentBestHand;
     }
 }

@@ -250,8 +250,9 @@ public class BettingScreen extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 bettingPlayer.balance-=raiseAmount+round.largestbet-bettingPlayer.currentBet;
+                round.pool+=round.largestbet + raiseAmount - bettingPlayer.currentBet;
+
                 bettingPlayer.currentBet = round.largestbet + raiseAmount;
-                round.pool+=round.largestbet + raiseAmount;
                 round.largestbet = bettingPlayer.currentBet;
                 round.Players[round.nowBettingPlayerIndex] = bettingPlayer;
 

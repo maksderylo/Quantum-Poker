@@ -57,7 +57,11 @@ public class Round {
         smallBlindAmount = game.smallBlindAmount;
         tableCards = new ArrayList<>();
         potAmount=0;
-        pool =smallBlindAmount+bigBlindAmount;
+        pool = smallBlindAmount+bigBlindAmount;
+
+        for(Player player : Players){
+            player.roundStartBalance=player.balance;
+        }
         
         
         //automatic bets for big and small blind indexes
@@ -149,7 +153,6 @@ public class Round {
             largestbet = 0;
 
             for (Player player : Players){
-                player.currentRoundBets+=player.currentBet;
                 player.madeDecision = false;
                     player.currentBet = 0;
             }
@@ -213,7 +216,6 @@ public class Round {
             largestbet = 0;
 
             for (Player player : Players){
-                player.currentRoundBets+=player.currentBet;
                 player.madeDecision = false;
                 player.currentBet = 0;
                 
@@ -279,7 +281,6 @@ public class Round {
             largestbet = 0;
 
             for (Player player : Players){
-                player.currentRoundBets+=player.currentBet;
                 player.madeDecision = false;
                 player.currentBet = 0;
 
@@ -359,11 +360,10 @@ public class Round {
             potAmount=0;
             for(int i =0;i <pools.size(); i++){
                 Players[winnerIndex].balance+=pools.get(i).potsize;
-                Players[winnerIndex].currentRoundMoneyWon += helpPool.potsize;
 
             }
 
-            //TODO call roundendscreen
+            stateManager.switchToRoundEndScreen(this);
 
 
         }
@@ -374,7 +374,6 @@ public class Round {
             //create the last pool
             thisPotPlayers = new ArrayList<Integer>();
             for(int i = 0; i < amountOfPlayers; i++){
-                Players[i].currentRoundBets+=Players[i].currentBet;
                 if(!Players[i].folded){
                     thisPotPlayers.add(i);//this player is eligible for this pot
                 }
@@ -395,9 +394,11 @@ public class Round {
             //rate the cards of all players   player.bestHand(tableCards);
 
             int currentHighestScore;
+            int currentScore;
             Integer highestScoreIndex = -1;
             ArrayList<Integer> playersEligible = new ArrayList<Integer>();
-
+            ArrayList<Integer> winners = new ArrayList<Integer>();
+            Player currentPlayer;
             for(int i = 0; i < pools.size(); i++) { //distributing for all created pools
                 System.out.println("Inside pool  " + pools.get(i).potsize + " ");
 
@@ -407,21 +408,33 @@ public class Round {
                 playersEligible = helpPool.playersEligible;
                 System.out.println("players eligible size  " + playersEligible.size());
 
-                for(int j = 0; j < playersEligible.size();j++) {           
-                    System.out.println(Players[playersEligible.get(j)].name + " has a score of: " +Players[playersEligible.get(j)].bestHand(tableCards));
+                for(int j = 0; j < playersEligible.size();j++) {      
+                    currentPlayer = Players[playersEligible.get(j)];
+                    System.out.println(currentPlayer.name + ":");
+                      
+                    currentScore=currentPlayer.bestHand(tableCards);
+                    System.out.println(currentPlayer.name + " has a score of: " + currentScore);
          
-                    if(Players[playersEligible.get(j)].bestHand(tableCards) > currentHighestScore) {
-                        currentHighestScore = Players[playersEligible.get(j)].bestHand(tableCards);
+                    if(currentScore > currentHighestScore) {
+                        currentHighestScore = currentScore;
+                        winners = new ArrayList<Integer>();
+                        winners.add(playersEligible.get(j));
                         highestScoreIndex = playersEligible.get(j);
-                    }
-                    if(Players[playersEligible.get(j)].bestHand(tableCards) == currentHighestScore) {
-                        
+                    } else if(currentScore == currentHighestScore) {
+                        if (currentPlayer.highestCard(currentPlayer.currentHand) > Players[highestScoreIndex].highestCard(Players[highestScoreIndex].currentHand)) {
+                            winners = new ArrayList<Integer>();
+                            System.out.println("equal scores");
+                            winners.add(playersEligible.get(j));
+                        } else if(Players[highestScoreIndex].highestCard(Players[highestScoreIndex].currentHand) == currentPlayer.highestCard(currentPlayer.currentHand) ) {
+                            winners.add(playersEligible.get(j));
+                        } 
                     }
                     System.out.println("?");
 
                 }
-                Players[highestScoreIndex].balance += helpPool.potsize;
-                Players[highestScoreIndex].currentRoundMoneyWon += helpPool.potsize;
+                for(int j=0;j<winners.size();j++) {
+                    Players[winners.get(j)].balance+=helpPool.potsize/winners.size();
+                }
 
             }
 
@@ -454,30 +467,56 @@ public class Round {
             }
 
 
-
-            game.smallBlindIndex=game.bigBlindIndex;
-            game.bigBlindIndex=findNextAbleToBetPlayer(smallBlindIndex);
+            
             
 
             if(enoughPlayers>1){
-                //TODO reset the variables, check if the game should go on etc.
-                //currentRoundBets
-                //moneyWon
 
+                //locating new small and big blind indexes
+                int index=smallBlindIndex;
+                while(true){
+                    index++;
+                    if(index == game.amountOfPlayers){
+                        index = 0;
+                    }
+                    if(!Players[index].folded){
+                        break;
+                    }
+                }
+                game.smallBlindIndex = index;
+                while(true){
+                    index++;
+                    if(index == game.amountOfPlayers){
+                        index = 0;
+                    }
+                    if(!Players[index].folded){
+                        break;
+                    }
+                }
+                game.bigBlindIndex = index;
 
-                game.smallBlindIndex=game.bigBlindIndex;//thats not true
-                game.bigBlindIndex=findNextAbleToBetPlayer(game.smallBlindIndex);
+                //reseting the roles
+                for(Player player : Players){
+                    player.role=0;
+                }
+
+                //setting the new roles
                 Players[game.smallBlindIndex].role = 1;
                 Players[game.bigBlindIndex].role = 2;
                 game.Players = Players;
                 game.NewRound();
             }
             else{
-                //TODO CREATE END GAME SCREEN
+                Player winner = new Player(null, 0);
+                for(Player player: Players){
+                    if(!player.outOfTheGame){
+                        winner=player;
+                        break;
+                    }
+                }
+                stateManager.switchToGameEndScreen(winner, stateManager);
             }
 
-
-            
 
         }
 

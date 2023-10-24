@@ -6,10 +6,12 @@ org\redfx\Round$4.class
 org\redfx\Screens\PlayersNamesScreen$2.class
 org\redfx\Screens\BettingScreen$6.class
 org\redfx\Screens\PlayersNamesScreen$1.class
+org\redfx\Screens\GameEndScreen$1.class
 org\redfx\Screens\ChangeToPlayerScreen$1.class
 org\redfx\Objects\Player.class
 org\redfx\Screens\RoundStartScreen$1.class
 org\redfx\Objects\CoolButton.class
+org\redfx\Screens\GameEndScreen.class
 org\redfx\Screens\LoadingScreen.class
 org\redfx\Screens\BettingScreen$5.class
 org\redfx\Game.class
