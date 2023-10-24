@@ -9,13 +9,14 @@ import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
 import org.redfx.Screens.*;
-
+import org.redfx.Objects.*;
 public class StateManager {
     
     private JPanel container; // A panel to hold different screens
     private CardLayout cardLayout;
     
     LoadingScreen loadingScreen = new LoadingScreen(this);
+    GameEndScreen gameEndScreen;
     PlayersNamesScreen playersNamesScreen;
     RoundStartScreen roundStartScreen;
     RoundEndScreen roundEndScreen;
@@ -78,6 +79,11 @@ public class StateManager {
         roundEndScreen= new RoundEndScreen(round);
         container.add(roundEndScreen, "RoundEndScreen");
         cardLayout.show(container, "RoundEndScreen");
+    }
+    public void switchToGameEndScreen(Player winner, StateManager stateManager){
+        gameEndScreen= new GameEndScreen(winner, stateManager);
+        container.add(gameEndScreen, "GameEndScreen");
+        cardLayout.show(container, "GameEndScreen");
     }
     
 }

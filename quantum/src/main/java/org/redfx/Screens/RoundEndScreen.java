@@ -60,7 +60,7 @@ public class RoundEndScreen extends JPanel{
             constraints.gridy = i+4;
             constraints.gridx = 0;
             add(helpLabel, constraints);
-            int helpInt = round.Players[i].currentRoundMoneyWon - round.Players[i].currentRoundBets;
+            int helpInt = round.Players[i].balance-round.Players[i].roundStartBalance;
             helpLabel = new JLabel(helpInt + "$"); 
             helpLabel.setForeground(Color.WHITE);
             constraints.gridx = 1;
