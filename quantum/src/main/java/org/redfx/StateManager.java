@@ -18,6 +18,7 @@ public class StateManager {
     LoadingScreen loadingScreen = new LoadingScreen(this);
     PlayersNamesScreen playersNamesScreen;
     RoundStartScreen roundStartScreen;
+    RoundEndScreen roundEndScreen;
     BettingScreen bettingScreen;
     ChangeToPlayerScreen changeToPlayerScreen;
 
@@ -72,6 +73,11 @@ public class StateManager {
         changeToPlayerScreen= new ChangeToPlayerScreen(round);
         container.add(changeToPlayerScreen, "ChangingScreen");
         cardLayout.show(container, "ChangingScreen");
+    }
+    public void switchToRoundEndScreen(Round round){
+        roundEndScreen= new RoundEndScreen(round);
+        container.add(roundEndScreen, "RoundEndScreen");
+        cardLayout.show(container, "RoundEndScreen");
     }
     
 }

@@ -39,6 +39,8 @@ org\redfx\Objects\Deck.class
 org\redfx\Screens\BettingScreen$1.class
 org\redfx\Screens\LoadingScreen$4.class
 org\redfx\Screens\StartScreen$1.class
+org\redfx\Screens\RoundEndScreen$1.class
 org\redfx\Screens\BettingScreen$4.class
+org\redfx\Screens\RoundEndScreen.class
 org\redfx\Screens\PlayersNamesScreen$3.class
 org\redfx\Main.class

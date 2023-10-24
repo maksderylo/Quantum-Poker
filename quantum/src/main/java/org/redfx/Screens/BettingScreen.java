@@ -169,7 +169,7 @@ public class BettingScreen extends JPanel{
         
 
         //Raise slider
-        if(bettingPlayer.balance > (round.largestbet - bettingPlayer.currentBet-1)){
+        if(bettingPlayer.balance > (round.largestbet - bettingPlayer.currentBet)){
             CenterPanel raisePanelLabel = new CenterPanel();
             CenterPanel raisePanelSlider = new CenterPanel();
 
