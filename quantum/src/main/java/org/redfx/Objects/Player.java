@@ -84,8 +84,8 @@ Any two numerically matching cards
 */
     public int bestHand(ArrayList<String> river){
     
-        System.out.println(river);
-        System.out.println(this.hand);
+        //System.out.println(river);
+        //System.out.println(this.hand);
 
         int currentBestHand = 0;
         //yes i know this looks bad but its just one time and i wanted it on single lines
@@ -133,7 +133,7 @@ Any two numerically matching cards
                 }
                 currentHand.removeAll(currentHand);
                 currentHand.addAll(temporaryHand);
-                System.out.println(currentHand);
+                //System.out.println(currentHand);
                 //checking if a Straight Flush is possible by checking if the distance between them is max 4
                 int distance = Math.abs(numberCardOne-numberCardTwo) - 1;
                 int tillFive = 3; //since the cards in the players hand already contribute to it
