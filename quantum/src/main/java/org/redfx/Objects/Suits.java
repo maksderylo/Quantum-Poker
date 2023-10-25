@@ -2,12 +2,18 @@ package org.redfx.Objects;
  
 import javax.swing.ImageIcon;
 
+/**A class to compactly store the images for each suit. */
 public class Suits {
     public static final ImageIcon HEARTS = new ImageIcon("src\\main\\resources\\heart.png");
     public static final ImageIcon DIAMONDS = new ImageIcon("src\\main\\resources\\diamond.png");
     public static final ImageIcon CLUBS = new ImageIcon("src\\main\\resources\\clubs.png");
     public static final ImageIcon SPADES = new ImageIcon("src\\main\\resources\\spades.png");
 
+    /**A method to return the correct image according to the input.
+     * 
+     * @param suit is the suit for which the correct image is meant to return
+     * @return an ImageIcon based on the suit input.
+     */
     public static ImageIcon getSuitSymbol(String suit) {
         switch (suit) {
             case "Hearts":

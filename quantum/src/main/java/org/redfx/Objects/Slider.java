@@ -1,11 +1,17 @@
 package org.redfx.Objects;
 
 import java.awt.Color;
-
 import javax.swing.JSlider;
 
-public class Slider extends JSlider{
-    public Slider(int min, int max, int value){
+/**A slider class to re-use throughout the GUI/program. */
+public class Slider extends JSlider {
+    /**Constructing the slider.
+     * 
+     * @param min is the minimum value
+     * @param max is the maximum value
+     * @param value is a value that the slider is initially set to 
+     */
+    public Slider(int min, int max, int value) {
         setMinimum(min);
         setMaximum(max);
         setValue(value);
@@ -16,6 +22,5 @@ public class Slider extends JSlider{
         
         setPaintTrack(true);
         setPaintTicks(true);
-    }
-    
+    } 
 }

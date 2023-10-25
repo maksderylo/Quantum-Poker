@@ -1,13 +1,17 @@
 package org.redfx.Objects;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
+import javax.swing.*;
 
+/**The class for a single card, with its rank, suit, size ect. */
 public class Card extends JPanel {
     private String rank;
     private String suit;
 
+    /**Constructor of the actual card and visually painting it.
+     * @param rank is the rank(number) of the card.
+     * @param suit is the suit of the card.*/
     public Card(String rank, String suit) {
         this.rank = rank;
         this.suit = suit;
@@ -33,7 +37,8 @@ public class Card extends JPanel {
         int x = (getWidth() - cardWidth) / 2;
         int y = (getHeight() - cardHeight) / 2;
 
-        RoundRectangle2D roundedRect = new RoundRectangle2D.Double(x, y, cardWidth, cardHeight, 10, 20);
+        RoundRectangle2D roundedRect = 
+            new RoundRectangle2D.Double(x, y, cardWidth, cardHeight, 10, 20);
 
     
         g2d.setColor(Color.WHITE);
@@ -41,14 +46,15 @@ public class Card extends JPanel {
 
         g2d.setColor(Color.BLACK);
         g2d.draw(roundedRect);
-    /*
+
+        /* 
         g.setColor(Color.BLACK);
         g.drawRect(x, y, cardWidth - 1, cardHeight -1);
     
         // Draw border
         g.setColor(Color.BLUE);
         g.drawRect(x - 1, y - 1, cardWidth + 1, cardHeight + 1);
-    */
+        */
         g.setColor(Color.BLACK);
         g.setFont(new Font("Lucida Console", Font.BOLD, 7));
         String cardText = rank + " of " + suit;
