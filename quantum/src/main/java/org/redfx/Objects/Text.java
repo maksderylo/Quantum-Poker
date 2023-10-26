@@ -5,8 +5,9 @@ import java.awt.Font;
 
 import javax.swing.JLabel;
 
-public class Text extends JLabel{
-    public Text(String text){
+public class Text extends JLabel {
+
+    public Text(String text) {
         setText(text);
         setForeground(Color.WHITE);
     }

@@ -6,20 +6,26 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.*;
 import javax.swing.text.*;
-
-import org.redfx.Objects.*;
 import org.redfx.*;
+import org.redfx.Objects.*;
 
-public class GameEndScreen extends JPanel{
+/**A class for the screen when a player has won.*/
+public class GameEndScreen extends JPanel {
     Title title = new Title("");
     Title playerTitle = new Title("");
     GridBagConstraints constraints = new GridBagConstraints();
     CoolButton playBtn = new CoolButton("Menu");
 
-    public GameEndScreen(Player winner, StateManager stateManager){
+    /**Constructing the screen for when the game has ended. 
+     * It displays the winners name and states that the game has ended.
+     * 
+     * @param winner the winning player of which the name will be displayed
+     * @param stateManager TODO: WTF IS THIS HELP
+     * */
+    public GameEndScreen(Player winner, StateManager stateManager) {
         setLayout(new GridBagLayout());
         setBackground(Color.BLACK);
-        setBorder(new EmptyBorder(0,50,0,50));
+        setBorder(new EmptyBorder(0, 50, 0, 50));
 
         constraints.weightx = 1;
         constraints.weighty = 1;
@@ -54,7 +60,7 @@ public class GameEndScreen extends JPanel{
 
         playBtn.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 stateManager.switchToStartScreen();
             }
         });

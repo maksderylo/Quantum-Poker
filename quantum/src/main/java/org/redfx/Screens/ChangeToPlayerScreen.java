@@ -1,28 +1,32 @@
 package org.redfx.Screens;
 
-import org.redfx.*;
-import org.redfx.Objects.CoolButton;
-import org.redfx.Objects.Title;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.concurrent.CountDownLatch;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.*;
 import javax.swing.text.*;
+import org.redfx.*;
+import org.redfx.Objects.CoolButton;
+import org.redfx.Objects.Title;
 
-public class ChangeToPlayerScreen extends JPanel{
+/**A class for the screen inbetween players. This way they cant see each others cards
+ * but still play on one screen.
+ */
+public class ChangeToPlayerScreen extends JPanel {
     CoolButton nextBtn = new CoolButton("Next");
     Title title = new Title("");
     GridBagConstraints constraints = new GridBagConstraints();
 
-
-    public ChangeToPlayerScreen(Round round){
+    /**Constructing the screen with the current round.
+     * 
+     * @param round used to get the players information such as name.
+     */
+    public ChangeToPlayerScreen(Round round) {
         setLayout(new GridBagLayout());
         setBackground(Color.BLACK);
-        setBorder(new EmptyBorder(0,50,0,50));
+        setBorder(new EmptyBorder(0, 50, 0, 50));
 
         System.out.println("hey");
         constraints.weightx = 1;
@@ -32,7 +36,7 @@ public class ChangeToPlayerScreen extends JPanel{
         constraints.fill = GridBagConstraints.HORIZONTAL;
         
 
-        title.setText(round.Players[round.nowBettingPlayerIndex].name + "'s turn to bet!" );
+        title.setText(round.Players[round.nowBettingPlayerIndex].name + "'s turn to bet!");
 
         //title.setText(" turn to bet!" );
         //adding the title
