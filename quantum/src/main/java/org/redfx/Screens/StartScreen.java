@@ -5,15 +5,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
-import org.redfx.StateManager;
-import org.redfx.Objects.CoolButton;
-
 import javax.swing.*;
+import org.redfx.Objects.CoolButton;
+import org.redfx.StateManager;
 
 
-public class StartScreen extends JLabel{
-    final ImageIcon icon = new ImageIcon(getClass().getResource("/org/redfx/resources/background.png"));
+public class StartScreen extends JLabel {
+    final ImageIcon icon = new ImageIcon(getClass().getResource(
+        "/org/redfx/resources/background.png"));
     CoolButton playBtn = new CoolButton("Play");
     CoolButton rulesBtn = new CoolButton("Rules");
     CoolButton quitBtn = new CoolButton("Quit");
@@ -22,9 +21,9 @@ public class StartScreen extends JLabel{
     
     private JFrame rulesFrame = null;
     
-    public StartScreen(StateManager stateManager, JFrame frame){
+    public StartScreen(StateManager stateManager, JFrame frame) {
         // Background
-        
+        System.out.println("this is the startscreen");
 
         JPanel buttonPanel = new JPanel(); // Change to JPanel for better button alignment
         setIcon(icon);
@@ -44,7 +43,7 @@ public class StartScreen extends JLabel{
     
         // Position the backBtn in the desired location
         constraints.gridx = 1; // 2nd column
-        constraints.gridy = 1;// 2nd row
+        constraints.gridy = 1; // 2nd row
         constraints.gridwidth = 1;
         constraints.gridheight = 1;
         add(Box.createRigidArea(new Dimension(10, 10)), constraints);
@@ -58,7 +57,7 @@ public class StartScreen extends JLabel{
         //Button actions names are self explanatory
         playBtn.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 System.out.println("To Load from start");
                 stateManager.switchToLoadScreen();
             }
@@ -67,7 +66,7 @@ public class StartScreen extends JLabel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println(rulesFrame);
-                if(rulesFrame == null) {
+                if (rulesFrame == null) {
                     rulesFrame = new JFrame("Rules", null);
                     JTextArea rulesTextArea = new JTextArea("Put your rules here.");
                     rulesTextArea.setEditable(false);

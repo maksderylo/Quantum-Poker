@@ -27,18 +27,19 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
+import org.redfx.Objects.CenterPanel;
+import org.redfx.Objects.CoolButton;
+import org.redfx.Objects.Slider;
+import org.redfx.Objects.Text;
+import org.redfx.Objects.Title;
 import org.redfx.StateManager;
-import org.redfx.Objects.*;
 
-
-
+/**A class for the screen in which the players are able to */
 public class LoadingScreen extends JPanel {
 
     final ImageIcon icon = new ImageIcon("src\\main\\resources\\background.png");
@@ -58,9 +59,10 @@ public class LoadingScreen extends JPanel {
 
 
     public LoadingScreen(StateManager stateManager) {
+        
         setLayout(new GridBagLayout());
         setBackground(Color.BLACK);
-        setBorder(new EmptyBorder(0,50,0,50));
+        setBorder(new EmptyBorder(0, 50, 0, 50));
         GridBagConstraints constraints = new GridBagConstraints();
 
         // Weight and fill settings (no need to change these)
@@ -93,7 +95,7 @@ public class LoadingScreen extends JPanel {
 
         playersSlider.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
-                playersAmount = ((JSlider)e.getSource()).getValue();
+                playersAmount = ((JSlider) e.getSource()).getValue();
             }
         });
 
@@ -113,7 +115,7 @@ public class LoadingScreen extends JPanel {
         moneyAmountSlider.setPaintTicks(false);
         moneyAmountSlider.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
-                moneyPerPlayer = ((JSlider)e.getSource()).getValue();
+                moneyPerPlayer = ((JSlider) e.getSource()).getValue();
                 moneyAmountAmount.setText("(" + moneyPerPlayer + ")");
                 
             }

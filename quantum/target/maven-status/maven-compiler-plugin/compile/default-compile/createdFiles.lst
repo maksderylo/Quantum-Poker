@@ -12,6 +12,7 @@ org\redfx\Objects\Player.class
 org\redfx\Screens\RoundStartScreen$1.class
 org\redfx\Objects\CoolButton.class
 org\redfx\Screens\GameEndScreen.class
+org\redfx\Objects\PlayerTest.class
 org\redfx\Screens\LoadingScreen.class
 org\redfx\Screens\BettingScreen$5.class
 org\redfx\Game.class

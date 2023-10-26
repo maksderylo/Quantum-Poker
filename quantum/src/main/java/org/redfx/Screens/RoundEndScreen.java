@@ -4,22 +4,26 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.*;
-import javax.swing.text.*;
+import org.redfx.Objects.CoolButton;
+import org.redfx.Objects.Title;
+import org.redfx.Round;
 
-import org.redfx.Objects.*;
-import org.redfx.*;
-
-public class RoundEndScreen extends JPanel{
+/**A class for the screen at the end of a round. */
+public class RoundEndScreen extends JPanel {
     Title title = new Title("");
     Title poolTitle = new Title("");
     GridBagConstraints constraints = new GridBagConstraints();
     CoolButton playBtn = new CoolButton("Proceed");
 
-    public RoundEndScreen(Round round){
+    /**A constructor that creates the screen based on the round. Displaying that the round
+     * has ended and how much each player won/lost.
+     * 
+     * @param round is the round of which the constructor gets the information to display.
+     */
+    public RoundEndScreen(Round round) {
         setLayout(new GridBagLayout());
         setBackground(Color.BLACK);
-        setBorder(new EmptyBorder(0,50,0,50));
+        setBorder(new EmptyBorder(0, 50, 0, 50));
 
         constraints.weightx = 1;
         constraints.weighty = 1;
@@ -36,7 +40,7 @@ public class RoundEndScreen extends JPanel{
         constraints.gridwidth = 1;
 
 
-        constraints.gridwidth=1;
+        constraints.gridwidth = 1;
         JLabel helpLabel = new JLabel(""); 
 
         helpLabel = new JLabel("Name");
@@ -47,36 +51,36 @@ public class RoundEndScreen extends JPanel{
         helpLabel = new JLabel("Money won/lost"); 
         helpLabel.setForeground(Color.WHITE);
         constraints.gridx = 1;
-        add(helpLabel,constraints);
+        add(helpLabel, constraints);
         helpLabel = new JLabel("Balance"); 
         helpLabel.setForeground(Color.WHITE);
         constraints.gridx = 2;
-        add(helpLabel,constraints);
+        add(helpLabel, constraints);
 
 
-        for(int i = 0; i < round.amountOfPlayers; i++){
+        for (int i = 0; i < round.amountOfPlayers; i++) {
             helpLabel = new JLabel(round.Players[i].name + ":");
             helpLabel.setForeground(Color.WHITE);
-            constraints.gridy = i+4;
+            constraints.gridy = i + 4;
             constraints.gridx = 0;
             add(helpLabel, constraints);
-            int helpInt = round.Players[i].balance-round.Players[i].roundStartBalance;
+            int helpInt = round.Players[i].balance - round.Players[i].roundStartBalance;
             helpLabel = new JLabel(helpInt + "$"); 
             helpLabel.setForeground(Color.WHITE);
             constraints.gridx = 1;
-            add(helpLabel,constraints);
+            add(helpLabel, constraints);
 
             
             helpLabel = new JLabel(round.Players[i].balance + "$"); 
             helpLabel.setForeground(Color.WHITE);
             constraints.gridx = 2;
-            add(helpLabel,constraints);
+            add(helpLabel, constraints);
         }
 
         JPanel buttonPanel = new JPanel(); // Change to JPanel for better button alignment
         constraints.gridy = 15;
         constraints.gridx = 0;
-        constraints.gridwidth=10;
+        constraints.gridwidth = 10;
         add(buttonPanel, constraints);
         buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPanel.setOpaque(false);
