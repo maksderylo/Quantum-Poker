@@ -1,15 +1,19 @@
 package org.redfx;
 
-
 import java.awt.CardLayout;
-import java.util.concurrent.CountDownLatch;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingWorker;
+import org.redfx.Objects.Player;
+import org.redfx.Screens.BettingScreen;
+import org.redfx.Screens.ChangeToPlayerScreen;
+import org.redfx.Screens.GameEndScreen;
+import org.redfx.Screens.LoadingScreen;
+import org.redfx.Screens.PlayersNamesScreen;
+import org.redfx.Screens.RoundEndScreen;
+import org.redfx.Screens.RoundStartScreen;
+import org.redfx.Screens.StartScreen;
 
-import org.redfx.Screens.*;
-import org.redfx.Objects.*;
+
 public class StateManager {
     
     private JPanel container; // A panel to hold different screens
@@ -53,35 +57,66 @@ public class StateManager {
         cardLayout.show(container, "LoadingScreen");
     }
 
+    /**Creates a new PlayersNamesScreen with the given input.
+     * 
+     * @param playersAmount is the amount of players
+     * @param moneyPerPlayer is the money each player starts with
+     */
     public void switchToPlayersNamesScreen(int playersAmount, int moneyPerPlayer) {
         playersNamesScreen = new PlayersNamesScreen(this, playersAmount, moneyPerPlayer);
         container.add(playersNamesScreen, "PlayersNamesScreen");
         cardLayout.show(container, "PlayersNamesScreen");
     }
 
-    public void switchToRoundStartScreen(Round round,String phase){
+    /**Creates a new RoundStartScreen with the given parameters.
+     * 
+     * @param round is the current round
+     * @param phase is the current phase
+     */
+    public void switchToRoundStartScreen(Round round, String phase) {
         roundStartScreen = new RoundStartScreen(round, phase);
         container.add(roundStartScreen, "RoundStartScreen");
         cardLayout.show(container, "RoundStartScreen");
     }
-    public void switchToBettingScreen(Round round){
-        bettingScreen= new BettingScreen(round);
+
+    /**Creates a new BettingScreen with the given round.
+     * 
+     * @param round is the current round
+     */
+    public void switchToBettingScreen(Round round) {
+        bettingScreen = new BettingScreen(round);
         container.add(bettingScreen, "BettingScreen");
         cardLayout.show(container, "BettingScreen");
     }
-    public void switchToChangeToPlayerScreen(Round round){
 
-        changeToPlayerScreen= new ChangeToPlayerScreen(round);
+    /**Creates a ChangeToPlayerScreen with the given round.
+     * 
+     * @param round is the current round
+     */
+    public void switchToChangeToPlayerScreen(Round round) {
+
+        changeToPlayerScreen = new ChangeToPlayerScreen(round);
         container.add(changeToPlayerScreen, "ChangingScreen");
         cardLayout.show(container, "ChangingScreen");
     }
-    public void switchToRoundEndScreen(Round round){
-        roundEndScreen= new RoundEndScreen(round);
+
+    /**Creates a RoundEndScreen with the given round.
+     * 
+     * @param round is the current round
+     */
+    public void switchToRoundEndScreen(Round round) {
+        roundEndScreen = new RoundEndScreen(round);
         container.add(roundEndScreen, "RoundEndScreen");
         cardLayout.show(container, "RoundEndScreen");
     }
-    public void switchToGameEndScreen(Player winner, StateManager stateManager){
-        gameEndScreen= new GameEndScreen(winner, stateManager);
+
+    /**Creates a GameEndScreen with the given parameters.
+     * 
+     * @param winner is the player that has won the game
+     * @param stateManager
+     */
+    public void switchToGameEndScreen(Player winner, StateManager stateManager) {
+        gameEndScreen = new GameEndScreen(winner, stateManager);
         container.add(gameEndScreen, "GameEndScreen");
         cardLayout.show(container, "GameEndScreen");
     }

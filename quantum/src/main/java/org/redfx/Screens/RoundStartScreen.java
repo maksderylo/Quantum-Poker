@@ -4,13 +4,14 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.*;
-import javax.swing.text.*;
+import org.redfx.Objects.Card;
+import org.redfx.Objects.CenterPanel;
+import org.redfx.Objects.CoolButton;
+import org.redfx.Objects.Title;
+import org.redfx.Round;
 
-import org.redfx.Objects.*;
-import org.redfx.*;
-
-public class RoundStartScreen extends JPanel{
+/**A class for the screen before a phase of the round (preflop, flop, ect.)*/
+public class RoundStartScreen extends JPanel {
 
     Title title = new Title("");
     Title poolTitle = new Title("");
@@ -20,11 +21,16 @@ public class RoundStartScreen extends JPanel{
     CenterPanel tableCardsPanel = new CenterPanel();
 
 
-
-    public RoundStartScreen(Round round, String phase){
+    /**Constructing the screen by displaying each players name with their balance
+     * and their role. It also displays what phase the players are in.
+     * 
+     * @param round is the round of which it gets the information of the players
+     * @param phase is the phase that the game is in
+     */
+    public RoundStartScreen(Round round, String phase) {
         setLayout(new GridBagLayout());
         setBackground(Color.BLACK);
-        setBorder(new EmptyBorder(0,50,0,50));
+        setBorder(new EmptyBorder(0, 50, 0, 50));
 
 
         // Weight and fill settings (no need to change these)
@@ -44,46 +50,48 @@ public class RoundStartScreen extends JPanel{
         constraints.gridwidth = 1;
 
         poolTitle.setText("Pool - " + round.pool + "$");
-        constraints.gridy=1;
+        constraints.gridy = 1;
         constraints.gridwidth = 10;
-        add(poolPanel,constraints);
+        add(poolPanel, constraints);
         poolPanel.add(poolTitle);
 
 
         //showing the cards
-        String card, suit, rank;
+        String card;
+        String suit;
+        String rank;
         int spaceIndex;
 
-        if(round.tableCards.size()>0){
-        constraints.gridy =2;
-        add(tableCardsPanel, constraints);
+        if (round.tableCards.size() > 0) {
+            constraints.gridy = 2;
+            add(tableCardsPanel, constraints);
 
         
-        //showing the table cards
-        for(int i =0;i<round.tableCards.size();i++){
-            card = round.tableCards.get(i);
-            suit = "";
-            rank = "";
-            //finding the space
-            spaceIndex = 0;
-            while(true){
-                if(card.charAt(spaceIndex) == ' '){
-                    break;
+            //showing the table cards
+            for (int i = 0; i < round.tableCards.size(); i++) {
+                card = round.tableCards.get(i);
+                suit = "";
+                rank = "";
+                //finding the space
+                spaceIndex = 0;
+                while (true) {
+                    if (card.charAt(spaceIndex) == ' ') {
+                        break;
+                    }
+                    spaceIndex++;
                 }
-                spaceIndex++;
+
+                rank = card.substring(0, spaceIndex);
+                suit = card.substring(spaceIndex + 1, card.length());
+
+                tableCardsPanel.add(new Card(rank, suit));
+
+
+
             }
-
-            rank = card.substring(0, spaceIndex);
-            suit = card.substring(spaceIndex + 1, card.length());
-
-            tableCardsPanel.add(new Card(rank, suit));
-
-
-
         }
-    }
         
-        constraints.gridwidth=1;
+        constraints.gridwidth = 1;
         JLabel helpLabel = new JLabel(""); 
 
         helpLabel = new JLabel("Name");
@@ -94,57 +102,57 @@ public class RoundStartScreen extends JPanel{
         helpLabel = new JLabel("Balance"); 
         helpLabel.setForeground(Color.WHITE);
         constraints.gridx = 1;
-        add(helpLabel,constraints);
+        add(helpLabel, constraints);
         helpLabel = new JLabel("Role"); 
         helpLabel.setForeground(Color.WHITE);
         constraints.gridx = 2;
-        add(helpLabel,constraints);
+        add(helpLabel, constraints);
 
         
-        for(int i = 0; i < round.amountOfPlayers; i++){
-            helpLabel = new JLabel(round.Players[i].name + ":");
+        for (int i = 0; i < round.amountOfPlayers; i++) {
+            helpLabel = new JLabel(round.players[i].name + ":");
             helpLabel.setForeground(Color.WHITE);
-            constraints.gridy = i+4;
+            constraints.gridy = i + 4;
             constraints.gridx = 0;
             add(helpLabel, constraints);
-            helpLabel = new JLabel(round.Players[i].balance + "$"); 
+            helpLabel = new JLabel(round.players[i].balance + "$"); 
             helpLabel.setForeground(Color.WHITE);
             constraints.gridx = 1;
-            add(helpLabel,constraints);
+            add(helpLabel, constraints);
 
-            if(round.Players[i].outOfTheGame == true){
+            if (round.players[i].outOfTheGame) {
                 helpLabel = new JLabel("Out of the game"); 
                 helpLabel.setForeground(Color.WHITE);
                 constraints.gridx = 2;
-                add(helpLabel,constraints);
+                add(helpLabel, constraints);
             
-            } else if(round.Players[i].allIn == true){
+            } else if (round.players[i].allIn) {
                 helpLabel = new JLabel("All In!!"); 
                 helpLabel.setForeground(Color.WHITE);
                 constraints.gridx = 2;
-                add(helpLabel,constraints);
+                add(helpLabel, constraints);
             
-            }else if(round.Players[i].folded == true){
+            } else if (round.players[i].folded) {
                 helpLabel = new JLabel("folded"); 
                 helpLabel.setForeground(Color.WHITE);
                 constraints.gridx = 2;
-                add(helpLabel,constraints);
+                add(helpLabel, constraints);
             
-            } else if(round.Players[i].role == 2){
+            } else if (round.players[i].role == 2) {
                 helpLabel = new JLabel("Big Blind"); 
                 helpLabel.setForeground(Color.WHITE);
                 constraints.gridx = 2;
-                add(helpLabel,constraints);
-            } else if(round.Players[i].role == 1){
+                add(helpLabel, constraints);
+            } else if (round.players[i].role == 1) {
                 helpLabel = new JLabel("Small Blind"); 
                 helpLabel.setForeground(Color.WHITE);
                 constraints.gridx = 2;
-                add(helpLabel,constraints);
-            } else{
+                add(helpLabel, constraints);
+            } else {
                 helpLabel = new JLabel("Playing"); 
                 helpLabel.setForeground(Color.WHITE);
                 constraints.gridx = 2;
-                add(helpLabel,constraints);
+                add(helpLabel, constraints);
             }
 
         }
@@ -152,7 +160,7 @@ public class RoundStartScreen extends JPanel{
         JPanel buttonPanel = new JPanel(); // Change to JPanel for better button alignment
         constraints.gridy = 15;
         constraints.gridx = 0;
-        constraints.gridwidth=10;
+        constraints.gridwidth = 10;
         add(buttonPanel, constraints);
         buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPanel.setOpaque(false);
@@ -161,14 +169,14 @@ public class RoundStartScreen extends JPanel{
         playBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(phase.equals("Preflop")){
-                round.FirstBets();
-                }   else if(phase.equals("The flop")){
+                if (phase.equals("Preflop")) {
+                    round.firstBets();
+                }   else if (phase.equals("The flop")) {
                     round.secondBettingRound();
-                }   else if(phase.equals("The turn")){
+                }   else if (phase.equals("The turn")) {
                     round.thirdBettingRound();
-                }   else if(phase.equals("The river")){
-                    round.forthBettingRound();
+                }   else if (phase.equals("The river")) {
+                    round.fourthBettingRound();
                 }   
 
             }

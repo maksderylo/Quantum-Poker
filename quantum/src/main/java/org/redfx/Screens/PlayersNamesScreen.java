@@ -1,18 +1,21 @@
 package org.redfx.Screens;
 
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.*;
-import javax.swing.text.*;
-
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
 import org.redfx.Game;
+import org.redfx.Objects.CoolButton;
+import org.redfx.Objects.Title;
 import org.redfx.StateManager;
-import org.redfx.Objects.*;
 
-public class PlayersNamesScreen extends JPanel{
+/**A class for the screen at which the players are able to enter their names. */
+public class PlayersNamesScreen extends JPanel {
     //Creating variables most of them are self explanatory
     CoolButton backBtn = new CoolButton("Back");
     CoolButton playBtn = new CoolButton("Next");
@@ -21,11 +24,19 @@ public class PlayersNamesScreen extends JPanel{
     Boolean isEmptyName;
 
 
-
-    public PlayersNamesScreen(StateManager stateManager, int playersAmount, int  moneyPerPlayer){
+    /**A constructor for the screen, letting the players enter their names, and even displaying
+     * an error message if a name is empty. It also stores the names and their index for future use.
+     * 
+     * @param stateManager
+     * @param playersAmount the amount of players participating, 
+     *      so it knows for how many names it should ask
+     * @param moneyPerPlayer the starting balance of the players.
+     */
+    public PlayersNamesScreen(StateManager stateManager, 
+        int playersAmount, int  moneyPerPlayer) {
         setLayout(new GridBagLayout());
         setBackground(Color.BLACK);
-        setBorder(new EmptyBorder(0,50,0,50));
+        setBorder(new EmptyBorder(0, 50, 0, 50));
         String[] storeNames = new String[playersAmount];
         JLabel[] labels = new JLabel[playersAmount];
         JTextArea[] nameTextAreas = new JTextArea[playersAmount];
@@ -53,31 +64,35 @@ public class PlayersNamesScreen extends JPanel{
             labels[i].setForeground(Color.WHITE);
             //Create a text area for that player
             nameTextAreas[i] = new JTextArea(1, 5);
-            nameTextAreas[i].setText("Player " + (i+1));
-            storeNames[i] = "Player " + (i+1);
+            nameTextAreas[i].setText("Player " + (i + 1));
+            storeNames[i] = "Player " + (i + 1);
 
 
             // Create a DocumentFilter to limit the text length
-            ((javax.swing.text.AbstractDocument) nameTextAreas[i].getDocument()).setDocumentFilter(new DocumentFilter() {
-                @Override
-                public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr)
+            ((javax.swing.text.AbstractDocument) nameTextAreas[i].getDocument())
+                .setDocumentFilter(new DocumentFilter() {
+                    @Override
+                public void insertString(FilterBypass fb, int offset, 
+                        String string, AttributeSet attr)
                         throws BadLocationException {
-                    if ((fb.getDocument().getLength() + string.length()) <= 20) {
-                        super.insertString(fb, offset, string, attr);
-                    } else {
+                        if ((fb.getDocument().getLength() + string.length()) <= 20) {
+                            super.insertString(fb, offset, string, attr);
+                        } else {
                         //Do nothing
+                        }
                     }
-                }
-                @Override
-                public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs)
+
+                    @Override
+                public void replace(FilterBypass fb, int offset, 
+                        int length, String text, AttributeSet attrs)
                         throws BadLocationException {
-                    if ((fb.getDocument().getLength() + text.length() - length) <= 20) {
-                        super.replace(fb, offset, length, text, attrs);
-                    } else {
+                        if ((fb.getDocument().getLength() + text.length() - length) <= 20) {
+                            super.replace(fb, offset, length, text, attrs);
+                        } else {
                         // Do nothing
+                        }
                     }
-                }
-            });
+                });
 
             //Storing the labels values on change inside the storeNames array
             final int currentPlayerIndex = i;
@@ -100,7 +115,7 @@ public class PlayersNamesScreen extends JPanel{
 
 
             // Set the gridy for the label
-            constraints.gridy = i+1;
+            constraints.gridy = i + 1;
             constraints.gridx = 1;
             // Add the label to the panel
             add(labels[i], constraints);
@@ -115,7 +130,7 @@ public class PlayersNamesScreen extends JPanel{
         JPanel buttonPanel = new JPanel(); // Change to JPanel for better button alignment
         constraints.gridy = 10;
         constraints.gridx = 0;
-        constraints.gridwidth=10;
+        constraints.gridwidth = 10;
         add(buttonPanel, constraints);
         buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPanel.setOpaque(false);
@@ -133,14 +148,15 @@ public class PlayersNamesScreen extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 isEmptyName = false;
-                for(int i = 0; i < playersAmount; i++) {
-                    if(storeNames[i].equals("")){
+                for (int i = 0; i < playersAmount; i++) {
+                    if (storeNames[i].equals("")) {
                         isEmptyName = true;
                         break;
                     }
                 }
-                if(isEmptyName){
-                    JOptionPane.showMessageDialog(PlayersNamesScreen.this, "All names have to be filled!", "WARNING", JOptionPane.WARNING_MESSAGE);
+                if (isEmptyName) {
+                    JOptionPane.showMessageDialog(PlayersNamesScreen.this,
+                         "All names have to be filled!", "WARNING", JOptionPane.WARNING_MESSAGE);
                 } else {
                     new Game(playersAmount, moneyPerPlayer, storeNames, stateManager);
                 }

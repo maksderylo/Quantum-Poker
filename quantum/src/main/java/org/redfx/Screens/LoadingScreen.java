@@ -27,13 +27,16 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import org.redfx.Objects.*;
+import org.redfx.Objects.CenterPanel;
+import org.redfx.Objects.CoolButton;
+import org.redfx.Objects.Slider;
+import org.redfx.Objects.Text;
+import org.redfx.Objects.Title;
 import org.redfx.StateManager;
 
 

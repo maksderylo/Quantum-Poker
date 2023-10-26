@@ -4,10 +4,12 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.*;
-import javax.swing.text.*;
-import org.redfx.*;
-import org.redfx.Objects.*;
+import org.redfx.Objects.CenterPanel;
+import org.redfx.Objects.CoolButton;
+import org.redfx.Objects.Player;
+import org.redfx.Objects.Title;
+import org.redfx.StateManager;
+
 
 /**A class for the screen when a player has won.*/
 public class GameEndScreen extends JPanel {
