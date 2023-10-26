@@ -1,21 +1,22 @@
-C:\Users\20231857\OneDrive - TU Eindhoven\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Game.java
-C:\Users\20231857\OneDrive - TU Eindhoven\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Objects\Deck.java
-C:\Users\20231857\OneDrive - TU Eindhoven\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Screens\RoundStartScreen.java
-C:\Users\20231857\OneDrive - TU Eindhoven\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Screens\ChangeToPlayerScreen.java
-C:\Users\20231857\OneDrive - TU Eindhoven\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Main.java
-C:\Users\20231857\OneDrive - TU Eindhoven\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Screens\StartScreen.java
-C:\Users\20231857\OneDrive - TU Eindhoven\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Objects\Title.java
-C:\Users\20231857\OneDrive - TU Eindhoven\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Screens\LoadingScreen.java
-C:\Users\20231857\OneDrive - TU Eindhoven\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\StateManager.java
-C:\Users\20231857\OneDrive - TU Eindhoven\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Objects\Card.java
-C:\Users\20231857\OneDrive - TU Eindhoven\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Objects\CenterPanel.java
-C:\Users\20231857\OneDrive - TU Eindhoven\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Objects\CoolButton.java
-C:\Users\20231857\OneDrive - TU Eindhoven\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Objects\Suits.java
-C:\Users\20231857\OneDrive - TU Eindhoven\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Screens\PlayersNamesScreen.java
-C:\Users\20231857\OneDrive - TU Eindhoven\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Objects\Player.java
-C:\Users\20231857\OneDrive - TU Eindhoven\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Round.java
-C:\Users\20231857\OneDrive - TU Eindhoven\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Screens\RoundEndScreen.java
-C:\Users\20231857\OneDrive - TU Eindhoven\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Objects\Slider.java
-C:\Users\20231857\OneDrive - TU Eindhoven\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Objects\Text.java
-C:\Users\20231857\OneDrive - TU Eindhoven\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Screens\BettingScreen.java
-C:\Users\20231857\OneDrive - TU Eindhoven\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Screens\GameEndScreen.java
+C:\Users\20231479\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Objects\Text.java
+C:\Users\20231479\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\StateManager.java
+C:\Users\20231479\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Screens\ChangeToPlayerScreen.java
+C:\Users\20231479\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Screens\RoundEndScreen.java
+C:\Users\20231479\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Objects\Card.java
+C:\Users\20231479\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Objects\CenterPanel.java
+C:\Users\20231479\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Objects\Suits.java
+C:\Users\20231479\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Screens\GameEndScreen.java
+C:\Users\20231479\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Screens\RoundStartScreen.java
+C:\Users\20231479\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Objects\Player.java
+C:\Users\20231479\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Screens\StartScreen.java
+C:\Users\20231479\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Main.java
+C:\Users\20231479\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Objects\Title.java
+C:\Users\20231479\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Round.java
+C:\Users\20231479\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Screens\BettingScreen.java
+C:\Users\20231479\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Objects\Slider.java
+C:\Users\20231479\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Screens\PlayersNamesScreen.java
+C:\Users\20231479\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Objects\CoolButton.java
+C:\Users\20231479\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Objects\Deck.java
+C:\Users\20231479\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Game.java
+C:\Users\20231479\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Objects\PlayerTest.java
+C:\Users\20231479\Documents\GitHub\Quantum-Poker\quantum\src\main\java\org\redfx\Screens\LoadingScreen.java

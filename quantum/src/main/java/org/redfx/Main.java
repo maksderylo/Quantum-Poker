@@ -1,10 +1,10 @@
 package org.redfx;
 
-
-import javax.swing.*;
 import java.awt.Image;
+import javax.swing.*;
 
 
+/**Creates a frame for the game and switches to startScreen. */
 public class Main {
 
 

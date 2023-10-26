@@ -2,14 +2,11 @@ package org.redfx.Screens;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.concurrent.CountDownLatch;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.*;
-import javax.swing.text.*;
-import org.redfx.*;
 import org.redfx.Objects.CoolButton;
 import org.redfx.Objects.Title;
+import org.redfx.Round;
 
 /**A class for the screen inbetween players. This way they cant see each others cards
  * but still play on one screen.
@@ -36,7 +33,7 @@ public class ChangeToPlayerScreen extends JPanel {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         
 
-        title.setText(round.Players[round.nowBettingPlayerIndex].name + "'s turn to bet!");
+        title.setText(round.players[round.nowBettingPlayerIndex].name + "'s turn to bet!");
 
         //title.setText(" turn to bet!" );
         //adding the title
