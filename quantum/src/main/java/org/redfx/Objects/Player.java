@@ -3,6 +3,7 @@ package org.redfx.Objects;
 import java.lang.Math;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**Claas of the player containing their name, balance, if they have folded, gone all in, 
  * and other player-specific variables. Also contains a constructor, method to convert
@@ -45,24 +46,20 @@ public class Player {
      * @return returns the rank as a number
      */
     public int rankToNumber(String s) {
-        char suit = s.charAt(0);
-        if (s.substring(0, 2).equals("10")) { 
+        char rank = s.charAt(0);
+        if (rank == '1') { 
             return 10; //cant check for 10 by only 1 since it would return 1.
-        }
-        if (suit == 'J') {
+        } else if (rank == 'J') {
             return 11;
-        }
-        if (suit == 'Q') {
+        } else if (rank == 'Q') {
             return 12;
-        }
-        if (suit == 'K') {
+        } else if (rank == 'K') {
             return 13;
-        }
-        if (suit == 'A') {
+        } else if (rank == 'A') {
             return 14;
         }
 
-        return Integer.parseInt(s);
+        return Integer.parseInt(s.substring(0, 1));
     }
 
     /**Method to pick the highest value card given an arraylist of cards in order to compare 
@@ -106,7 +103,7 @@ public class Player {
     Any two numerically matching cards
     10. High card (2-14) DONE
  */
-    public int bestHand(ArrayList<String> river){
+    public int bestHand(ArrayList<String> river) {
     
         System.out.println(river);
         System.out.println(this.hand);
@@ -120,6 +117,7 @@ public class Player {
         int numberCardTwo = rankToNumber(cardTwoRank);
         String cardTwoSuit = this.hand.get(1).substring(this.hand.get(1).indexOf(" "));
 
+        System.out.print("half way assigning");
         boolean[] sameSuit = new boolean[5];
 
         ArrayList<String> suits = new ArrayList<>();
@@ -129,7 +127,7 @@ public class Player {
         currentHand = new ArrayList<String>(); 
 
 
-
+        System.out.println("After assigning");
         //Separating them into suits and ranks
         //the indexes will match for each card
         for (String card : river) {
@@ -138,7 +136,7 @@ public class Player {
             numberedRanks.add(rankToNumber(card.substring(0, spaceIndex)));
             suits.add(card.substring(spaceIndex + 1));
         }
-
+        System.out.println("Before checking if equal");
         //starting by checking for the best case and side cases with this
         if (cardOneSuit.equals(cardTwoSuit)) {
             //this.currentHand.add(this.hand.get(0));
@@ -278,9 +276,9 @@ public class Player {
 
             }
         }
-
-        temporaryHand.removeAll(temporaryHand);
-        
+        if (!temporaryHand.isEmpty()) {
+            temporaryHand.removeAll(temporaryHand);
+        }
                
         /*sameRank and same are set to 1 since it is the card that is being tested against,
         thus its always the same rank as the card were testing against.*/
@@ -291,7 +289,65 @@ public class Player {
         boolean pair = false;
         boolean threeOfAKind = false;
         boolean equal = false;
-        
+        ArrayList<String> ofAKindOne = new ArrayList<String>();
+        ArrayList<String> ofAKindTwo = new ArrayList<String>();
+        ArrayList<String> better = new ArrayList<String>();
+        ArrayList<String> worse = new ArrayList<String>();
+
+        System.out.println(numberedRanks);
+        //checking for two or three of a kind in river
+        for (int i = 2; i < 15; i++) {
+            System.out.println(Collections.frequency(numberedRanks, i));
+            if (Collections.frequency(numberedRanks, i) > 1) {
+
+                for (int n = 0; n < numberedRanks.size(); n++) {
+                    System.out.println(n);
+                    //to prevent double counting etc.
+                    List<Integer> temp = new ArrayList<>(
+                        numberedRanks.subList(n, numberedRanks.size()));
+                    if (ofAKindOne.isEmpty() || rankToNumber(ofAKindOne.get(0)) == i) {
+                        ofAKindOne.add(river.get(temp.indexOf(i)));
+                    } else {
+                        ofAKindTwo.add(river
+                            .get(temp.indexOf(i)));
+                    }
+                    n = temp.indexOf(i);
+                    System.out.println(n);
+                    List<Integer> temp2 = new ArrayList<>(
+                        numberedRanks.subList(n + 1, numberedRanks.size()));
+                    if (temp2.indexOf(i) <= 0) {
+                        break;
+                    }
+                }
+
+
+            }           
+        }
+        //TODO: if only a pair in river it should still be counted.
+        if (ofAKindOne.size() != 0) {
+            if (ofAKindTwo.size() != 0) {
+                if (ofAKindOne.size() > ofAKindTwo.size()) {
+                    better = ofAKindOne;
+                    worse = ofAKindTwo;
+                } else if (ofAKindOne.size() == ofAKindTwo.size()) {
+                    if (rankToNumber(ofAKindOne.get(0)) > rankToNumber(ofAKindTwo.get(0))) {
+                        better = ofAKindOne;
+                        worse = ofAKindTwo;
+                    } else {
+                        better = ofAKindTwo;
+                        worse = ofAKindOne;
+                    }
+                } else {
+                    better = ofAKindTwo;
+                    worse = ofAKindOne;
+                }
+
+            } else {
+                better = ofAKindOne;
+                worse = ofAKindTwo;
+            }
+        }
+        System.out.println("assinged better/worse");
         for (int n = 0; n < numberedRanks.size(); n++) {
             if (numberCardOne == numberedRanks.get(n)) {
                 sameRank++;
@@ -312,79 +368,70 @@ public class Player {
             this.currentHand.addAll(temporaryHand);
         }
         if (sameRank == 3) {
+            threeOfAKind = true;
             if (equal) { //checking for another pair
-                /*size - 1 to avoid out of bounds and 
-                not necessary to check only the last one since were looking for pairs */
-                for (int v = 0; v < numberedRanks.size() - 1; v++) {
-                    for (int u = v + 1; u < numberedRanks.size(); u++) {
-                        if (numberedRanks.get(v) == numberedRanks.get(u)) {
-                            same++;
-                            temporaryHand.add(river.get(v));
-                            temporaryHand.add(river.get(u));
-
-                        }
+                if (better.size() > 1) {
+                    for (int i = 0; i < 2; i++) {
+                        temporaryHand.add(river.get(river.indexOf(better.get(i))));
                     }
-                    if (same == 2) {
-                        temporaryBest = 20;
-                        this.currentHand.removeAll(currentHand);
-                        this.currentHand.addAll(temporaryHand);
-                        break; //there is nothing better to find
-                        
+                    temporaryBest = 20;
+                    this.currentHand.removeAll(currentHand);
+                    this.currentHand.addAll(temporaryHand);
+                    //there is nothing better to find
+                } else if (worse.size() > 1) {
+                    for (int i = 0; i < 2; i++) {
+                        temporaryHand.add(river.get(river.indexOf(worse.get(i))));
                     }
-                    
-                    same = 1;
-
-                }
+                    temporaryBest = 20;
+                    this.currentHand.removeAll(currentHand);
+                    this.currentHand.addAll(temporaryHand);
+                }                 
             } else {
-                temporaryBest = 17;
-                threeOfAKind = true;
-                this.currentHand.removeAll(currentHand);
-                this.currentHand.addAll(temporaryHand);
+                if (better.size() != 0) { 
+                    for (int i = 0; i < 2; i++) {
+                        temporaryHand.add(river.get(river.indexOf(better.get(i))));
+                    }
+                    temporaryBest = 20;
+                    this.currentHand.removeAll(currentHand);
+                    this.currentHand.addAll(temporaryHand);
+                } else {
+                    //below is for three of a kind
+                    temporaryBest = 17;
+
+                    this.currentHand.removeAll(currentHand);
+                    this.currentHand.addAll(temporaryHand);
+                }
             }
         }
         if (sameRank == 2) {
+            pair = true;
             /*if the cards in hand make a pair we still have to check for 
             a separate pair or three of a kind in the river. */
             if (equal) { 
-                /*size - 1 to avoid out of bounds and not 
-                necessary to check only the last one since were looking for pairs */
-                for (int v = 0; v < numberedRanks.size() - 1; v++) {
-                    for (int u = v + 1; u < numberedRanks.size(); u++) {
-                        if (numberedRanks.get(v) == numberedRanks.get(u)) {
-                            same++;
-                            temporaryHand.add(river.get(v));
-                            temporaryHand.add(river.get(u));
-
-                        }
+                if (better.size() == 3) {
+                    for (int i = 0; i < 3; i++) {
+                        temporaryHand.add(river.get(river.indexOf(better.get(i))));
                     }
-                    if (same == 3) {
-                        temporaryBest = 20;
-                        this.currentHand.removeAll(currentHand);
-                        this.currentHand.addAll(temporaryHand);
-                        break; //there is nothing better to find
-                    } else if (same == 2) { 
-                        /*There could be a three of a kind, but storing the pair just to make sure*/
-                        pairInRiver = true;
+                    temporaryBest = 20;
+                    this.currentHand.removeAll(currentHand);
+                    this.currentHand.addAll(temporaryHand);
+                } else if (better.size() == 2) {
+                    for (int i = 0; i < 2; i++) {
+                        temporaryHand.add(river.get(river.indexOf(better.get(i))));
                     }
-                    same = 1;
-
-                }
-                if (pairInRiver) {
                     temporaryBest = 16;
                     this.currentHand.removeAll(currentHand);
                     this.currentHand.addAll(temporaryHand);
                 }
-            
-
             } else {
                 temporaryBest = 15;
                 this.currentHand.removeAll(currentHand);
                 this.currentHand.addAll(temporaryHand);
-                pair = true;
             }
         }
         /*it only has to check the second card whenever the hand cards are not equal 
         since it already exhausted all those possibilities */
+        System.out.println("before checking second one");
         if (!equal) { 
             sameRank = 1;
             for (int n = 0; n < numberedRanks.size(); n++) {
@@ -404,7 +451,7 @@ public class Player {
                 this.currentHand.addAll(temporaryHand);
             }
             if (sameRank == 3) {
-                if (pair) {
+                if (pair || threeOfAKind) {
                     temporaryBest = 20;
                 } else {
                     temporaryBest = 17;
@@ -414,10 +461,26 @@ public class Player {
                 //System.out.println("pair from second card");
                 if (threeOfAKind) {
                     temporaryBest = 20;
-                } else if (pair) { //TODO: PAIR IS ONLY RAN WHEN THEYRE EQUAL
+                } else if (pair) { 
                     temporaryBest = 16;
                 } else { 
-                    temporaryBest = 15;
+                    if (better.size() == 3) { 
+                        for (int i = 0; i < 3; i++) {
+                            temporaryHand.add(river.get(river.indexOf(better.get(i))));
+                        }
+                        temporaryBest = 20;
+                        this.currentHand.removeAll(currentHand);
+                        this.currentHand.addAll(temporaryHand);
+                    } else if (better.size() == 2) {
+                        for (int i = 0; i < 2; i++) {
+                            temporaryHand.add(river.get(river.indexOf(better.get(i))));
+                        }
+                        temporaryBest = 16;
+                        this.currentHand.removeAll(currentHand);
+                        this.currentHand.addAll(temporaryHand);
+                    } else {
+                        temporaryBest = 15;
+                    }
                 }
 
 
@@ -430,6 +493,14 @@ public class Player {
             this.currentHand.removeAll(currentHand);
             this.currentHand.addAll(temporaryHand);
         }
+        System.out.println("After assigning it");
+        System.out.println(currentBestHand);
+
+
+
+
+
+
         temporaryHand.removeAll(temporaryHand);
         temporaryHand.add(hand.get(0));
         temporaryHand.add(hand.get(1));
@@ -441,8 +512,9 @@ public class Player {
         int bigger;
         //ArrayList<Integer> indexes = new ArrayList<>();
         boolean possible = true;
-        /*distance cant be -1 because you cant have a straight if the cards have the same rank */
-        if (distance < 4 && distance != -1) { 
+        /*distance cant be -1 because you cant have a straight if the cards have 
+        the same rank */
+        if (distance < 4 && distance > -1) { 
             //two cases since they cant be equal if they are same suit
             if (numberCardOne < numberCardTwo) {
                 smaller = numberCardOne;
@@ -451,13 +523,13 @@ public class Player {
                 smaller = numberCardTwo;
                 bigger = numberCardOne;
             }
-
+            System.out.println("before middle");
             //checking if the cards in between them are in the river
             for (int i = smaller + 1; i < bigger; i++) { 
 
                 if (numberedRanks.contains(i)) {
                     tillFive--;
-                    temporaryHand.add(river.get(i));
+                    temporaryHand.add(river.get(numberedRanks.indexOf(i)));
 
                 } else {
                     //If it doesnt contain it we can break and move on to things other than a flush
@@ -465,41 +537,49 @@ public class Player {
                     break;
                 }
             }
+            System.out.println("Before smaller");
             if (possible) { //possible (if the middle was filled up)
                 int temp = smaller - 1;
-                while (temp > 1 && !(tillFive == 0)) { //tillfive to check if we have the straight
+                //while (temp > 1 && !(tillFive == 0)) { //tillfive to check if we have the straight
 
-                    for (int i = 0; i < numberedRanks.size(); i++) {
-                        if (numberedRanks.get(i) == temp) {
-                            temp--;
-                            tillFive--;
-                            temporaryHand.add(river.get(i));
+                for (int i = 0; i < numberedRanks.size(); i++) {
+                    if (numberedRanks.get(i) == temp) {
+                        temp--;
+                        tillFive--;
+                        temporaryHand.add(river.get(i));
+                        if (temp > 1 && !(tillFive == 0)) {
                             /* We're checking agian with a new temp so i is set to -1 so that it
                             will be equal to 0 again for the next loop*/
                             i = -1; 
+                        } else {
+                            break;
                         }
 
-                    } 
-                    
-                }
-                temp = bigger + 1;
-                while (temp < 15 && !(tillFive == 0)) {
-
-
-
-                    /*in order to avoid the error of returning only the first index 
-                    when there are more than one (need a two of Spades,
-                    first card is two of Diamonds so returns false but second two is of spades)*/
-                    for (int i = 0; i < numberedRanks.size(); i++) {
-                        if (numberedRanks.get(i) == temp) {
-                            temp++;
-                            tillFive--;
-                            temporaryHand.add(river.get(i));
-                            i = -1;
-                        }
-
+                        
                     }
+
+                }   
+                //}
+                System.out.println("before bigger");
+                temp = bigger + 1;
+                //while (temp < 15 && !(tillFive == 0)) {
+                for (int i = 0; i < numberedRanks.size(); i++) {
+                    if (numberedRanks.get(i) == temp) {
+                        temp++;
+                        tillFive--;
+                        temporaryHand.add(river.get(i));
+                        if (temp < 15 && !(tillFive == 0)) {
+                            /* We're checking agian with a new temp so i is set to -1 so that it
+                            will be equal to 0 again for the next loop*/
+                            i = -1; 
+                        } else {
+                            break;
+                        }
+                        i = -1;
+                    }
+
                 }
+                //}
             }
             if (tillFive == 0 && currentBestHand < 18) {
                 currentBestHand = 18;
@@ -507,7 +587,7 @@ public class Player {
                 this.currentHand.addAll(temporaryHand);
             }
         }
-        
+        System.out.println("Before high card");
         if (currentBestHand < 15) { //if no special hand can be made we take the highest value card.
         
             for (int i = 0; i < numberedRanks.size(); i++) {
