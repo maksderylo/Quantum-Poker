@@ -17,12 +17,15 @@ import org.redfx.StateManager;
 /**A class for the screen at which the players are able to enter their names. */
 public class PlayersNamesScreen extends JPanel {
     //Creating variables most of them are self explanatory
-    CoolButton backBtn = new CoolButton("Back");
-    CoolButton playBtn = new CoolButton("Next");
+    CoolButton backBtn;
+    CoolButton playBtn;
     Title title = new Title("Set up players names");
+    Color backColor;
+    Color foreColor;
+    Color quantumColor = new Color(165, 165, 165);
     GridBagConstraints constraints = new GridBagConstraints();
     Boolean isEmptyName;
-
+    boolean quantum;
 
     /**A constructor for the screen, letting the players enter their names, and even displaying
      * an error message if a name is empty. It also stores the names and their index for future use.
@@ -33,9 +36,27 @@ public class PlayersNamesScreen extends JPanel {
      * @param moneyPerPlayer the starting balance of the players.
      */
     public PlayersNamesScreen(StateManager stateManager, 
-        int playersAmount, int  moneyPerPlayer) {
+        int playersAmount, int  moneyPerPlayer, boolean quantum) {
+        this.quantum = quantum;
+
+        if (!quantum) {
+            backColor = Color.BLACK;
+            foreColor = Color.WHITE;
+            backBtn = new CoolButton("Back");
+            playBtn = new CoolButton("Next");
+            
+        } else {
+            backColor = Color.LIGHT_GRAY;
+            foreColor = Color.BLACK;
+            title.setForeground(foreColor);
+            backBtn = new CoolButton("Back", quantumColor);
+            playBtn = new CoolButton("Next", quantumColor);
+        }
+
+        
+
         setLayout(new GridBagLayout());
-        setBackground(Color.BLACK);
+        setBackground(backColor);
         setBorder(new EmptyBorder(0, 50, 0, 50));
         String[] storeNames = new String[playersAmount];
         JLabel[] labels = new JLabel[playersAmount];
@@ -61,7 +82,7 @@ public class PlayersNamesScreen extends JPanel {
         for (int i = 0; i < playersAmount; i++) {
             // Create a label with the player's number
             labels[i] = new JLabel("Players " + (i + 1) + " name: ");
-            labels[i].setForeground(Color.WHITE);
+            labels[i].setForeground(foreColor);
             //Create a text area for that player
             nameTextAreas[i] = new JTextArea(1, 5);
             nameTextAreas[i].setText("Player " + (i + 1));
@@ -140,7 +161,7 @@ public class PlayersNamesScreen extends JPanel {
         backBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                stateManager.switchToLoadScreen();
+                stateManager.switchToLoadScreen(quantum);
             }
         });
         
@@ -158,7 +179,7 @@ public class PlayersNamesScreen extends JPanel {
                     JOptionPane.showMessageDialog(PlayersNamesScreen.this,
                          "All names have to be filled!", "WARNING", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    new Game(playersAmount, moneyPerPlayer, storeNames, stateManager);
+                    new Game(playersAmount, moneyPerPlayer, storeNames, stateManager, quantum);
                 }
             }
         });

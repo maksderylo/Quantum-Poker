@@ -3,6 +3,7 @@ package org.redfx;
 import java.util.ArrayList;
 import javax.swing.SwingWorker;
 import org.redfx.Objects.Deck;
+import org.redfx.Objects.GatesDeck;
 import org.redfx.Objects.Player;
 
 class CustomPair {
@@ -28,6 +29,7 @@ public class Round {
     int smallBlindAmount;
     int bigBlindAmount;
     Deck deck;
+    GatesDeck gatesDeck;
     public int roundNumber;
     public StateManager stateManager;
     public int nowBettingPlayerIndex;
@@ -39,9 +41,11 @@ public class Round {
     private CustomPair helpPool;
     Game game;
     ArrayList<Integer> thisPotPlayers = new ArrayList<>();
+    public boolean quantum;
+	public ArrayList<Character> table;
 
-
-    public Round(Game game, StateManager manager) {
+    public Round(Game game, StateManager manager, boolean quantum) {
+        this.quantum = quantum;
         /*so what I changed here is to rather ask for just the game class and use the game.Players 
         to be able to overwrite players and other info there, when the round is going to finish 
         rather than having to create and call a method inside game that does that */
@@ -50,7 +54,10 @@ public class Round {
 
         //assigning all the start variables for this round
         players = game.players;
-        deck = new Deck(); //this rounds deck
+        deck = new Deck(quantum); //this rounds deck
+        if (quantum) {
+            gatesDeck = new GatesDeck(); 
+        }
         roundNumber = game.roundNumber;
         amountOfPlayers = game.amountOfPlayers;
         smallBlindIndex = game.smallBlindIndex;
@@ -63,6 +70,7 @@ public class Round {
 
         for (Player player : players) {
             player.roundStartBalance = player.balance;
+            player.hand.clear();
         }
         
         
@@ -80,7 +88,7 @@ public class Round {
         }
 
         //calling to display the start screen
-        stateManager.switchToRoundStartScreen(round, "Preflop");
+        stateManager.switchToRoundStartScreen(round, "Preflop", quantum);
     }
 
     /**A method called from roundStartScreen to give each player two cards, 
@@ -93,8 +101,15 @@ public class Round {
                 /* only if player hasn't folded - we can make it that at the end of the round if 
                 the player has enough money the player gets unfolded
                 and when creating the players they are initially unfolded meaning folded = false;*/
-                player.updateHand(deck.deal());
-                player.updateHand(deck.deal());
+                if (!quantum) {
+                    player.updateHand(deck.deal());
+                    player.updateHand(deck.deal());
+                } else {
+                    player.updateHand(gatesDeck.deal());
+                    player.updateHand(gatesDeck.deal());
+                    player.updateHand(gatesDeck.deal());
+                    player.updateHand(gatesDeck.deal());
+                }
                 player.madeDecision = false;
             }
         }
@@ -137,7 +152,7 @@ public class Round {
                     for (int i = 0; i < 3; i++) {
                         tableCards.add(deck.deal());
                     }
-                    stateManager.switchToRoundStartScreen(round, "The flop");
+                    stateManager.switchToRoundStartScreen(round, "The flop", quantum);
                 } else {
                     prematureWinner();
                 }
@@ -183,7 +198,7 @@ public class Round {
                         stateManager.switchToChangeToPlayerScreen(Round.this);
                         synchronized (this) {
                             wait(); // wait here until notified
-                    }
+                        }
 
                     }
 
@@ -206,7 +221,7 @@ public class Round {
                 if (checkForEnoughPlayers()) {
                     //deal another card
                     tableCards.add(deck.deal());
-                    stateManager.switchToRoundStartScreen(round, "The turn");
+                    stateManager.switchToRoundStartScreen(round, "The turn", quantum);
                 } else { //determine the winner 
                     prematureWinner();
                 }
@@ -271,7 +286,7 @@ public class Round {
                 if (checkForEnoughPlayers()) {
                     //deal another card
                     tableCards.add(deck.deal());
-                    stateManager.switchToRoundStartScreen(round, "The river");
+                    stateManager.switchToRoundStartScreen(round, "The river", quantum);
                 } else { //determine the winner 
                     prematureWinner();
                 }
@@ -346,7 +361,7 @@ public class Round {
         updatePools();
     }
 
-    private void prematureWinner(){
+    private void prematureWinner() {
         System.out.println("premature winner");
         //find premature winner
         int winnerIndex  = 0;
@@ -375,6 +390,23 @@ public class Round {
     /** */
     private void distributePots() {
         System.out.println("distributing pots");
+
+        if (quantum) {
+            for (int i = 0; i < amountOfPlayers; i++) {
+                if (!players[i].folded || players[i].allIn) {
+                    worker = new SwingWorker<Void, Void>() {
+                        @Override
+                        protected Void doInBackground() throws Exception {
+                            
+                            return null;
+                        }
+
+                        
+                    };
+                    worker.execute();
+                }
+            }
+        }
 
         //create the last pool
         thisPotPlayers = new ArrayList<Integer>();
@@ -413,8 +445,11 @@ public class Round {
             for (int j = 0; j < playersEligible.size(); j++) {
                 currentPlayer = players[playersEligible.get(j)];
                 System.out.println(currentPlayer.name + ":");
-                    
-                currentScore = currentPlayer.bestHand(tableCards);
+                if (!quantum) {
+                    currentScore = currentPlayer.bestHand(tableCards);
+                } else {
+                    currentScore = currentPlayer.score;
+                }
                 System.out.println(currentPlayer.name + " has a score of: " + currentScore);
         
                 if (currentScore > currentHighestScore) {
@@ -504,6 +539,8 @@ public class Round {
             for (Player player : players) {
                 player.role = 0;
             }
+
+
 
             //setting the new roles
             players[game.smallBlindIndex].role = 1;
@@ -622,4 +659,3 @@ public class Round {
         System.out.println("PotAmount: " + potAmount);
     }
 }
-

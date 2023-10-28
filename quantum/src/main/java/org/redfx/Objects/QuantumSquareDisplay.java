@@ -7,40 +7,14 @@ import javax.swing.*;
 import javax.swing.JPanel;
 import org.redfx.Screens.QuantumScreen;
  
-public class QuantumSquareApplied extends JPanel{
+public class QuantumSquareDisplay extends JPanel{
     char letter;
 
-    public QuantumSquareApplied(QuantumScreen quantumScreen, char letter) {
+    public QuantumSquareDisplay(char letter) {
         this.letter = letter;
         setMaximumSize(getPreferredSize());
         setMinimumSize(getPreferredSize());
         setOpaque(false);
-
-        addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                // Handle the mouse click event here
-                // You can add your code to respond to the click event
-                
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
-        });
-
     }
 
     @Override
@@ -58,7 +32,7 @@ public class QuantumSquareApplied extends JPanel{
         if (letter == 'H') { //Hardamand square
             g.setColor(Color.BLUE);
             g.drawRect(10, 10, 40, 40);
-            g.setColor(Color.WHITE);
+            g.setColor(Color.BLACK);
 
             // Create a font for the letter
             Font font = new Font("SansSerif", Font.BOLD, 16);
@@ -81,7 +55,7 @@ public class QuantumSquareApplied extends JPanel{
         } else if (letter == 'N') {
             g.setColor(Color.RED);
             g.drawRect(10, 10, 40, 40);
-            g.setColor(Color.WHITE);
+            g.setColor(Color.BLACK);
 
             // Create a font for the letter
             Font font = new Font("SansSerif", Font.BOLD, 16);
@@ -102,7 +76,7 @@ public class QuantumSquareApplied extends JPanel{
         } else if (letter == 'C') {
             g.setColor(Color.GREEN);
             g.drawRect(10, 10, 40, 40);
-            g.setColor(Color.WHITE);
+            g.setColor(Color.BLACK);
 
             // Create a font for the letter
             Font font = new Font("SansSerif", Font.BOLD, 16);
@@ -123,7 +97,7 @@ public class QuantumSquareApplied extends JPanel{
         } else if (letter == 'T') {
             g.setColor(Color.YELLOW);
             g.drawRect(10, 10, 40, 40);
-            g.setColor(Color.WHITE);
+            g.setColor(Color.BLACK);
 
             // Create a font for the letter
             Font font = new Font("SansSerif", Font.BOLD, 16);

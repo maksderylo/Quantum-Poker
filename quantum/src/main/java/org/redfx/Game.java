@@ -17,7 +17,7 @@ public class Game {
     StateManager stateManager;
     public int smallBlindAmount; 
     public int bigBlindAmount;
-
+    boolean quantum;
 
     /**Constructing the game and then calling the first round.
      * 
@@ -27,7 +27,8 @@ public class Game {
      * @param stateManager
      */
     public Game(int playerAmount, int startingBalance, String[] playerNames, 
-        StateManager stateManager) {
+        StateManager stateManager, boolean quantum) {
+        this.quantum = quantum;
         amountOfPlayers = playerAmount; 
         this.startingBalance = startingBalance;
         this.stateManager = stateManager;
@@ -63,7 +64,7 @@ public class Game {
     if there are enough players with money.*/
     public void newRound() { 
         roundNumber++;
-        new Round(this, stateManager);
+        new Round(this, stateManager, quantum);
     }
 
 

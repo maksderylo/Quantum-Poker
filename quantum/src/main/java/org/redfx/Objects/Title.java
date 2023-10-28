@@ -15,4 +15,9 @@ public class Title extends JLabel {
         setFont(new Font("Serif", Font.BOLD, 40));
         setForeground(Color.WHITE);
     }
+    
+    public Title(String text, Color color) {
+        super(text);
+        setForeground(color);
+    }
 }

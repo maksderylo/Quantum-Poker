@@ -20,6 +20,7 @@ public class Player {
     public boolean outOfTheGame = false;
     public boolean allIn = false;
     public int roundStartBalance;
+    public int score;
     public ArrayList<String> currentHand = new ArrayList<>();
 
     /**Constructs a player with their name and balance, giving it a new hand.

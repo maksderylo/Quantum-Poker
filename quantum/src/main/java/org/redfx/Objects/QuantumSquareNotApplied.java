@@ -1,10 +1,9 @@
-package org.redfx;
-
-
-import javax.swing.*;
+package org.redfx.Objects;
 
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
+import org.redfx.Screens.QuantumScreen;
 
 
 

@@ -47,26 +47,45 @@ import org.redfx.StateManager;
 public class LoadingScreen extends JPanel {
 
     final ImageIcon icon = new ImageIcon("src\\main\\resources\\background.png");
-    CoolButton backBtn = new CoolButton("Back");
-    CoolButton playBtn = new CoolButton("Next");
+    Color quantumColor = new Color(165, 165, 165);
+    CoolButton backBtn;
+    CoolButton playBtn;
     Title title = new Title("Set up your game");
     Text playersTitle = new Text("How many players are going to play?");
-    Slider playersSlider = new Slider(2, 6, 2);
+    Slider playersSlider;
     JPanel playersAmountPanel = new JPanel();
     Text moneyAmountTitle = new Text("Players money? ");
     Text moneyAmountAmount = new Text("MONEY");
-    Slider moneyAmountSlider = new Slider(100, 100000, 100);
+    Slider moneyAmountSlider;
     JPanel moneyAmountPanel = new JPanel();
     private int playersAmount = 2;
     private int moneyPerPlayer = 100;
-
+    boolean quantum;
 
     /**Constructing the loading-screen by adding two sliders for the amount of players
      * and the amount of money, in addition to buttons to show the rules, move on or exit.
      */
-    public LoadingScreen(StateManager stateManager) {
+    public LoadingScreen(StateManager stateManager, boolean quantum) {
+        this.quantum = quantum;
         setLayout(new GridBagLayout());
-        setBackground(Color.BLACK);
+        if (!quantum) {
+            setBackground(Color.BLACK);
+            backBtn = new CoolButton("Back");
+            playBtn = new CoolButton("Next");
+            playersSlider = new Slider(2, 6, 2);
+            moneyAmountSlider = new Slider(100, 100000, 100);
+        } else {
+            setBackground(Color.LIGHT_GRAY);
+            backBtn = new CoolButton("Back", quantumColor);
+            playBtn = new CoolButton("Next", quantumColor);
+            playersSlider = new Slider(2, 6, 2, Color.LIGHT_GRAY);
+            moneyAmountSlider = new Slider(100, 100000, 100, Color.LIGHT_GRAY);
+            title.setForeground(Color.BLACK);
+            moneyAmountTitle.setForeground(Color.BLACK);
+            moneyAmountAmount.setForeground(Color.BLACK);
+            playersTitle.setForeground(Color.BLACK);
+        }
+        
         setBorder(new EmptyBorder(0, 50, 0, 50));
         GridBagConstraints constraints = new GridBagConstraints();
 
@@ -91,12 +110,12 @@ public class LoadingScreen extends JPanel {
         playersAmountPanel.setOpaque(false);
         playersAmountPanel.add(playersTitle);
         playersAmountPanel.add(playersSlider);
+        
         playersSlider.setMajorTickSpacing(1);
         playersSlider.setMinorTickSpacing(1);
         playersSlider.setPaintTrack(true);
         playersSlider.setPaintTicks(true);
-        playersSlider.setForeground(Color.WHITE);
-
+        
 
         playersSlider.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
@@ -144,7 +163,7 @@ public class LoadingScreen extends JPanel {
         playBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                stateManager.switchToPlayersNamesScreen(playersAmount, moneyPerPlayer);
+                stateManager.switchToPlayersNamesScreen(playersAmount, moneyPerPlayer, quantum);
             }
         });
     }
