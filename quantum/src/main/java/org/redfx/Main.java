@@ -1,19 +1,28 @@
 package org.redfx;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 
 /**Creates a frame for the game and switches to startScreen. */
 public class Main {
-
+    static BufferedImage pokerChip;
 
     public static void main(String[] args) {
+
+        //for the icon of the frame
+        try {
+            pokerChip = ImageIO.read(Main.class.getResource(
+                "/org/redfx/resources/pokerChip.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         //initialise the frame with settings and let the StartScreen do its work
         JFrame frame = new JFrame("Poker 2.0");
-        //TODO: this works for my computer but probably not on other
-        Image image = new ImageIcon("C:\\Users\\20231479\\Documents\\GitHub\\Quantum-Poker\\quantum\\src\\main\\resources\\org\\redfx\\resources\\pokerChip.png").getImage();
-        frame.setIconImage(image);
+        frame.setIconImage(pokerChip);
         StateManager manager = new StateManager(frame);
         manager.switchToStartScreen();
     }
