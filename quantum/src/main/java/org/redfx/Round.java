@@ -14,7 +14,6 @@ class CustomPair {
 
 public class Round {
 
-    //TODO are we using infinite bets or a set one? we should change currentBets starting value accordingly
     int currentBet;
     int checkIndex;
     Player[] nextPlayers;
@@ -42,7 +41,7 @@ public class Round {
     Game game;
     ArrayList<Integer> thisPotPlayers = new ArrayList<>();
     public boolean quantum;
-	public ArrayList<Character> table;
+    public ArrayList<Character> table;
 
     public Round(Game game, StateManager manager, boolean quantum) {
         this.quantum = quantum;
@@ -192,9 +191,7 @@ public class Round {
                     if (!checkForEnoughPlayers()) {
                         break;
                     }
-                    if (players[nowBettingPlayerIndex].allIn) {
-                        //TODO: ADD SOMETHING HERE
-                    } else {
+                    if (!players[nowBettingPlayerIndex].allIn) {
                         stateManager.switchToChangeToPlayerScreen(Round.this);
                         synchronized (this) {
                             wait(); // wait here until notified
@@ -266,7 +263,7 @@ public class Round {
                         stateManager.switchToChangeToPlayerScreen(Round.this);
                         synchronized (this) {
                             wait(); // wait here until notified
-                    }
+                        }
                     }
 
                     ableToProceed = true;
@@ -346,7 +343,11 @@ public class Round {
                 }
 
                 if (checkForEnoughPlayers()) {
-                    distributePots();
+                    if (quantum) {
+                        quantumGatesDistribution();
+                    } else {
+                        distributePots();
+                    }
                 } else { //determine the winner by last one standing
                     prematureWinner();
                 }
@@ -387,27 +388,36 @@ public class Round {
 
     }
 
+    private void quantumGatesDistribution() {
+        System.out.println("quantumDistribution");
+        worker = new SwingWorker<Void, Void>() {
+                @Override
+                protected Void doInBackground() throws Exception {
+                    for (int i = 0; i < amountOfPlayers; i++) {
+                        if (!players[i].folded || players[i].allIn) {
+                            System.out.println("wazi" + i);
+                            stateManager.switchToQuantumScreen(round, players[i]);
+                            synchronized (this) {
+                                wait(); // wait here until notified
+                            }
+        
+                        }
+                    }
+                    return null;
+                }
+
+                
+        };
+        worker.execute();
+        System.out.println("Distribute pots");
+        distributePots();
+
+
+    }
+
     /** */
     private void distributePots() {
-        System.out.println("distributing pots");
-
-        if (quantum) {
-            for (int i = 0; i < amountOfPlayers; i++) {
-                if (!players[i].folded || players[i].allIn) {
-                    worker = new SwingWorker<Void, Void>() {
-                        @Override
-                        protected Void doInBackground() throws Exception {
-                            
-                            return null;
-                        }
-
-                        
-                    };
-                    worker.execute();
-                }
-            }
-        }
-
+        
         //create the last pool
         thisPotPlayers = new ArrayList<Integer>();
         for (int i = 0; i < amountOfPlayers; i++) {

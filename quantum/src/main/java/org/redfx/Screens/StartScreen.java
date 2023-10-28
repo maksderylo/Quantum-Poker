@@ -9,16 +9,14 @@ import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-
 import org.redfx.Objects.CenterPanel;
 import org.redfx.Objects.CoolButton;
 import org.redfx.StateManager;
 
 
-public class StartScreen extends JLabel{
+public class StartScreen extends JLabel {
     final ImageIcon icon = new ImageIcon(getClass().getResource(
         "/org/redfx/resources/background.png"));
     CoolButton playBtn = new CoolButton("Poker");
@@ -31,11 +29,11 @@ public class StartScreen extends JLabel{
     private JFrame rulesFrame = null;
 
     
-    public StartScreen(StateManager stateManager, JFrame frame){
+    public StartScreen(StateManager stateManager, JFrame frame) {
         // Background
         
-
-        CenterPanel buttonPanel = new CenterPanel(); // Change to JPanel for better button alignment
+        // Change to JPanel for better button alignment
+        final CenterPanel buttonPanel = new CenterPanel(); 
         setIcon(icon);
         setLayout(new GridBagLayout());
         

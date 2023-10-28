@@ -10,9 +10,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import org.redfx.Round;
 import org.redfx.Objects.CenterPanel;
 import org.redfx.Objects.EmptySquare;
-import org.redfx.Objects.Player;import org.redfx.Objects.QuantumSquareApplied;
+import org.redfx.Objects.Player;
+import org.redfx.Objects.QuantumSquareApplied;
 import org.redfx.Objects.QuantumSquareNotApplied;
 import org.redfx.Objects.Title;
 import org.redfx.strange.Program;
@@ -23,18 +26,22 @@ import org.redfx.strange.gate.Hadamard;
 import org.redfx.strange.gate.X;
 import org.redfx.strange.local.SimpleQuantumExecutionEnvironment;
 import org.redfx.strangefx.render.Renderer;
+import org.redfx.strange.*;
+import org.redfx.strange.gate.*;
+import org.redfx.strange.local.*;
+import org.redfx.strangefx.render.*;
 
 
 public class QuantumScreen extends JPanel {
     Title title = new Title("Apply your gates");
     String[][] appliedGates = new String[5][4];
-    ArrayList<Character> table;
+    ArrayList<String> table;
     GridBagConstraints constraints = new GridBagConstraints();
     public int lastNotFilledColumn = 0;
     EmptySquare[][] emptySquareArray = new EmptySquare[5][4];
     Player player;
 
-    public QuantumScreen(ArrayList<Character> table, Player player) {
+    public QuantumScreen(ArrayList<String> table, Player player, Round round) {
         this.player = player;
         this.table = table;
         System.out.println("wasup");
@@ -102,15 +109,15 @@ public class QuantumScreen extends JPanel {
                     Step step = new Step();
 
                     for (int i = 0; i < 5; i++) {
-                        if (table.get(i) == '1') {
+                        if (table.get(i).equals("1")) {
                             step = new Step();
                             step.addGate(new X(i));
                             program.addStep(step);
-                        } else if (table.get(i) == '+') {
+                        } else if (table.get(i).equals("+")) {
                             step = new Step();
                             step.addGate(new Hadamard(i));
                             program.addStep(step);
-                        } else if (table.get(i) == '-'){
+                        } else if (table.get(i).equals("-")){
                             step = new Step();
                             step.addGate(new X(i));
                             program.addStep(step);
@@ -165,15 +172,15 @@ public class QuantumScreen extends JPanel {
                     Step step = new Step();
 
                     for (int i = 0; i < 5; i++) {
-                        if (table.get(i) == '1') {
+                        if (table.get(i).equals("1")) {
                             step = new Step();
                             step.addGate(new X(i));
                             program.addStep(step);
-                        } else if (table.get(i) == '+') {
+                        } else if (table.get(i).equals("+")) {
                             step = new Step();
                             step.addGate(new Hadamard(i));
                             program.addStep(step);
-                        } else if (table.get(i) == '-'){
+                        } else if (table.get(i).equals("-")){
                             step = new Step();
                             step.addGate(new X(i));
                             program.addStep(step);
@@ -211,8 +218,20 @@ public class QuantumScreen extends JPanel {
                         } 
                     }
 
-                    simulator.runProgram(program);
-                    
+                    Result result = simulator.runProgram(program);
+
+                    Qubit[] qubits = result.getQubits();
+                    int score = 0;
+                    int two = 1;
+                    for (int i = 4; i >= 0; i--) {
+                        score += qubits[i].measure() * two;
+                        two *= 2;
+                    }
+                    System.out.println(score);
+                    player.score = score;
+                    synchronized (round.worker) {
+                        round.worker.notify(); // notify the worker when the button is pressed
+                    }   
                 }
 
         });

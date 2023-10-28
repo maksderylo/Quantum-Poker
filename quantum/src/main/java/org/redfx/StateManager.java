@@ -1,8 +1,6 @@
 package org.redfx;
 
 import java.awt.CardLayout;
-import java.util.ArrayList;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.redfx.Objects.Player;
@@ -127,9 +125,10 @@ public class StateManager {
         cardLayout.show(container, "GameEndScreen");
     }
 
-    public void switchToQuantumScreen(Round round, Player player) {
-
-        quantumScreen = new QuantumScreen(round.tableCards, player);
+    public void switchToQuantumScreen(Round round, Player player) { 
+        quantumScreen = new QuantumScreen(round.tableCards, player, round);
+        container.add(quantumScreen, "QuantumScreen");
+        cardLayout.show(container, "QuantumScreen");
     }
     
 }

@@ -33,7 +33,7 @@ public class BettingScreen extends JPanel {
     CoolButton foldBtn = new CoolButton("Fold");
     CoolButton raiseBtn = new CoolButton("Raise");
     CoolButton allInBtn = new CoolButton("ALL IN"); //done
-    Text raiseLabel;
+    Text raiseLabel = new Text("");
     Slider raiseSlider;
     int raiseAmount;
     CenterPanel buttonPanel = new CenterPanel(); // Change to JPanel for better button alignment
@@ -86,6 +86,7 @@ public class BettingScreen extends JPanel {
             titlePotTable.setForeground(foreColor);
             titleMaxbet.setForeground(foreColor);
             titleMaxbetHere.setForeground(foreColor);
+            playerCardsText = new Text("These are your Gates:");
             playerCardsText.setForeground(foreColor);
             tableCardsText.setForeground(foreColor);
             raiseLabel.setForeground(foreColor);
@@ -244,6 +245,7 @@ public class BettingScreen extends JPanel {
             raiseSlider.setSnapToTicks(false);
             raiseAmount = 1; // starting slider position
             raiseLabel = new Text("How much would you like to raise? (" + raiseAmount + ")");
+            raiseLabel.setForeground(foreColor);
 
 
             raisePanelLabel.add(raiseLabel);
