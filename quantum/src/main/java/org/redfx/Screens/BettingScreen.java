@@ -11,6 +11,8 @@ import org.redfx.Objects.Card;
 import org.redfx.Objects.CenterPanel;
 import org.redfx.Objects.CoolButton;
 import org.redfx.Objects.Player;
+import org.redfx.Objects.QuantumSquareDisplay;
+import org.redfx.Objects.QubitSquareDisplay;
 import org.redfx.Objects.Slider;
 import org.redfx.Objects.Text;
 import org.redfx.Objects.Title;
@@ -24,14 +26,14 @@ import org.redfx.Round;
 public class BettingScreen extends JPanel {
     public Thread thread;
 
-    Title title = new Title("");
+    Title title = new Title(""); //done
     GridBagConstraints constraints = new GridBagConstraints();
     CoolButton checkBtn = new CoolButton("Check");
     CoolButton callBtn = new CoolButton("Call");
     CoolButton foldBtn = new CoolButton("Fold");
     CoolButton raiseBtn = new CoolButton("Raise");
-    CoolButton allInBtn = new CoolButton("ALL IN");
-    Text raiseLabel;
+    CoolButton allInBtn = new CoolButton("ALL IN"); //done
+    Text raiseLabel = new Text("");
     Slider raiseSlider;
     int raiseAmount;
     CenterPanel buttonPanel = new CenterPanel(); // Change to JPanel for better button alignment
@@ -51,13 +53,47 @@ public class BettingScreen extends JPanel {
     CenterPanel tableCardsPanel = new CenterPanel();
     Player bettingPlayer;
 
+    boolean quantum;
+    Color backColor;
+    Color foreColor;
+    Color quantumColor = new Color(165, 165, 165);
+
     /**Constructing the screen with all the buttons and actions the player can preform.
      * 
      * @param round is the current round
      */
     public BettingScreen(Round round) {
+
+        this.quantum = round.quantum;
+        if (!quantum) {
+            backColor = Color.BLACK;
+            foreColor = Color.WHITE;
+            
+
+        } else {
+            backColor = Color.LIGHT_GRAY;
+            foreColor = Color.BLACK;
+            checkBtn = new CoolButton("Check", quantumColor);
+            callBtn = new CoolButton("Call", quantumColor);
+            foldBtn = new CoolButton("Fold", quantumColor);
+            raiseBtn = new CoolButton("Raise", quantumColor);
+            allInBtn = new CoolButton("ALL IN", quantumColor);
+            titleBalance.setForeground(foreColor);
+            titleCurrentBet.setForeground(foreColor);
+            titlePot.setForeground(foreColor);
+            titleBalancePlayer.setForeground(foreColor);
+            titleCurrentBetPlayer.setForeground(foreColor);
+            titlePotTable.setForeground(foreColor);
+            titleMaxbet.setForeground(foreColor);
+            titleMaxbetHere.setForeground(foreColor);
+            playerCardsText = new Text("These are your Gates:");
+            playerCardsText.setForeground(foreColor);
+            tableCardsText.setForeground(foreColor);
+            raiseLabel.setForeground(foreColor);
+        }
         setLayout(new GridBagLayout());
-        setBackground(Color.BLACK);
+        setBackground(backColor);
+        title.setForeground(foreColor);
         setBorder(new EmptyBorder(0, 50, 0, 50));
 
         bettingPlayer = round.players[round.nowBettingPlayerIndex];
@@ -129,7 +165,34 @@ public class BettingScreen extends JPanel {
 
             //showing the table cards
             for (int i = 0; i < round.tableCards.size(); i++) {
-                card = round.tableCards.get(i);
+                if (!round.quantum) {
+                    card = round.tableCards.get(i);
+                    suit = "";
+                    rank = "";
+                    //finding the space
+                    spaceIndex = 0;
+                    while (true) {
+                        if (card.charAt(spaceIndex) == ' ') {
+                            break;
+                        }
+                        spaceIndex++;
+                    }
+
+                    rank = card.substring(0, spaceIndex);
+                    suit = card.substring(spaceIndex + 1, card.length());
+
+                    tableCardsPanel.add(new Card(rank, suit));
+                } else {
+                    tableCardsPanel.add(new QubitSquareDisplay(round.tableCards.get(i).charAt(0)));
+                }
+
+
+            }
+        }
+
+        for (int i = 0; i < bettingPlayer.hand.size(); i++) {
+            if (!round.quantum) {
+                card = bettingPlayer.hand.get(i);
                 suit = "";
                 rank = "";
                 //finding the space
@@ -144,31 +207,10 @@ public class BettingScreen extends JPanel {
                 rank = card.substring(0, spaceIndex);
                 suit = card.substring(spaceIndex + 1, card.length());
 
-                tableCardsPanel.add(new Card(rank, suit));
-
-
-
+                playerCardsPanel.add(new Card(rank, suit));
+            } else {
+                playerCardsPanel.add(new QuantumSquareDisplay(bettingPlayer.hand.get(i).charAt(0)));
             }
-        }
-
-        for (int i = 0; i < 2; i++) {
-            card = bettingPlayer.hand.get(i);
-            suit = "";
-            rank = "";
-            //finding the space
-            spaceIndex = 0;
-            while (true) {
-                if (card.charAt(spaceIndex) == ' ') {
-                    break;
-                }
-                spaceIndex++;
-            }
-
-            rank = card.substring(0, spaceIndex);
-            suit = card.substring(spaceIndex + 1, card.length());
-
-            playerCardsPanel.add(new Card(rank, suit));
-
 
 
         }
@@ -188,8 +230,14 @@ public class BettingScreen extends JPanel {
             CenterPanel raisePanelLabel = new CenterPanel();
             CenterPanel raisePanelSlider = new CenterPanel();
 
-            raiseSlider = new Slider(1, bettingPlayer.balance - round.largestbet 
+            if (!quantum) {
+                raiseSlider = new Slider(1, bettingPlayer.balance - round.largestbet 
                 + bettingPlayer.currentBet - 1, 1);
+            } else {
+                raiseSlider = new Slider(1, bettingPlayer.balance - round.largestbet 
+                + bettingPlayer.currentBet - 1, 1, backColor);
+            }
+
             raiseSlider.setMajorTickSpacing(bettingPlayer.balance - round.largestbet 
                 + bettingPlayer.currentBet - 2);
             raiseSlider.setMinorTickSpacing((bettingPlayer.balance - round.largestbet 
@@ -197,6 +245,7 @@ public class BettingScreen extends JPanel {
             raiseSlider.setSnapToTicks(false);
             raiseAmount = 1; // starting slider position
             raiseLabel = new Text("How much would you like to raise? (" + raiseAmount + ")");
+            raiseLabel.setForeground(foreColor);
 
 
             raisePanelLabel.add(raiseLabel);

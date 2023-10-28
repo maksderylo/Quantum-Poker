@@ -15,15 +15,33 @@ public class ChangeToPlayerScreen extends JPanel {
     CoolButton nextBtn = new CoolButton("Next");
     Title title = new Title("");
     GridBagConstraints constraints = new GridBagConstraints();
+    boolean quantum;
+    Color backColor;
+    Color foreColor;
+    Color quantumColor = new Color(165, 165, 165);
 
     /**Constructing the screen with the current round.
      * 
      * @param round used to get the players information such as name.
      */
     public ChangeToPlayerScreen(Round round) {
+        this.quantum = round.quantum;
+
+        if (!quantum) {
+            backColor = Color.BLACK;
+            foreColor = Color.WHITE;
+            nextBtn = new CoolButton("Next");
+
+        } else {
+            backColor = Color.LIGHT_GRAY;
+            foreColor = Color.BLACK;
+            nextBtn = new CoolButton("Next", quantumColor);
+        }
+        
         setLayout(new GridBagLayout());
-        setBackground(Color.BLACK);
+        setBackground(backColor);
         setBorder(new EmptyBorder(0, 50, 0, 50));
+        title.setForeground(foreColor);
 
         System.out.println("hey");
         constraints.weightx = 1;

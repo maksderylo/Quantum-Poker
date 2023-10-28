@@ -1,17 +1,23 @@
-package org.redfx;
-import java.awt.event.*;
+package org.redfx.Screens;
+
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.*;
 import java.util.ArrayList;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.redfx.Round;
+import org.redfx.Objects.CenterPanel;
+import org.redfx.Objects.EmptySquare;
+import org.redfx.Objects.Player;
+import org.redfx.Objects.QuantumSquareApplied;
+import org.redfx.Objects.QuantumSquareNotApplied;
+import org.redfx.Objects.Title;
 import org.redfx.strange.Program;
 import org.redfx.strange.QuantumExecutionEnvironment;
 import org.redfx.strange.Step;
@@ -20,19 +26,23 @@ import org.redfx.strange.gate.Hadamard;
 import org.redfx.strange.gate.X;
 import org.redfx.strange.local.SimpleQuantumExecutionEnvironment;
 import org.redfx.strangefx.render.Renderer;
-
+import org.redfx.strange.*;
+import org.redfx.strange.gate.*;
+import org.redfx.strange.local.*;
+import org.redfx.strangefx.render.*;
 
 
 public class QuantumScreen extends JPanel {
     Title title = new Title("Apply your gates");
     String[][] appliedGates = new String[5][4];
-    ArrayList<Character> table;
+    ArrayList<String> table;
     GridBagConstraints constraints = new GridBagConstraints();
-    int lastNotFilledColumn = 0;
+    public int lastNotFilledColumn = 0;
     EmptySquare[][] emptySquareArray = new EmptySquare[5][4];
+    Player player;
 
-
-    public QuantumScreen(ArrayList<Character> table, ArrayList<String> hand) {
+    public QuantumScreen(ArrayList<String> table, Player player, Round round) {
+        this.player = player;
         this.table = table;
         System.out.println("wasup");
         setLayout(new GridBagLayout());
@@ -73,7 +83,7 @@ public class QuantumScreen extends JPanel {
 
         QuantumSquareNotApplied[] playerGates = new QuantumSquareNotApplied[4];
         for (int i = 0; i < 4; i++) {
-            playerGates[i] = new QuantumSquareNotApplied(this, hand.get(i).charAt(0));
+            playerGates[i] = new QuantumSquareNotApplied(this, player.hand.get(i).charAt(0));
             centerPanel.add(playerGates[i]);
         }
 
@@ -99,15 +109,15 @@ public class QuantumScreen extends JPanel {
                     Step step = new Step();
 
                     for (int i = 0; i < 5; i++) {
-                        if (table.get(i) == '1') {
+                        if (table.get(i).equals("1")) {
                             step = new Step();
                             step.addGate(new X(i));
                             program.addStep(step);
-                        } else if (table.get(i) == '+') {
+                        } else if (table.get(i).equals("+")) {
                             step = new Step();
                             step.addGate(new Hadamard(i));
                             program.addStep(step);
-                        } else if (table.get(i) == '-'){
+                        } else if (table.get(i).equals("-")){
                             step = new Step();
                             step.addGate(new X(i));
                             program.addStep(step);
@@ -162,15 +172,15 @@ public class QuantumScreen extends JPanel {
                     Step step = new Step();
 
                     for (int i = 0; i < 5; i++) {
-                        if (table.get(i) == '1') {
+                        if (table.get(i).equals("1")) {
                             step = new Step();
                             step.addGate(new X(i));
                             program.addStep(step);
-                        } else if (table.get(i) == '+') {
+                        } else if (table.get(i).equals("+")) {
                             step = new Step();
                             step.addGate(new Hadamard(i));
                             program.addStep(step);
-                        } else if (table.get(i) == '-'){
+                        } else if (table.get(i).equals("-")){
                             step = new Step();
                             step.addGate(new X(i));
                             program.addStep(step);
@@ -208,8 +218,20 @@ public class QuantumScreen extends JPanel {
                         } 
                     }
 
-                    simulator.runProgram(program);
-                    
+                    Result result = simulator.runProgram(program);
+
+                    Qubit[] qubits = result.getQubits();
+                    int score = 0;
+                    int two = 1;
+                    for (int i = 4; i >= 0; i--) {
+                        score += qubits[i].measure() * two;
+                        two *= 2;
+                    }
+                    System.out.println(score);
+                    player.score = score;
+                    synchronized (round.worker) {
+                        round.worker.notify(); // notify the worker when the button is pressed
+                    }   
                 }
 
         });

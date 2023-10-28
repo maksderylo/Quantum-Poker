@@ -23,4 +23,17 @@ public class Slider extends JSlider {
         setPaintTrack(true);
         setPaintTicks(true);
     } 
+
+    public Slider(int min, int max, int value, Color color) {
+        setMinimum(min);
+        setMaximum(max);
+        setValue(value);
+        setBackground(color);
+        setSnapToTicks(true);
+        setPaintLabels(true);
+        setForeground(Color.BLACK);
+        
+        setPaintTrack(true);
+        setPaintTicks(true);
+    }
 }

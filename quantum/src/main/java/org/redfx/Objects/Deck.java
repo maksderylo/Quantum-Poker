@@ -25,11 +25,20 @@ public class Deck extends ArrayList<String> {
                                     "4 Hearts", "5 Hearts", "6 Hearts", "7 Hearts", "8 Hearts", 
                                     "9 Hearts", "10 Hearts", "Jack Hearts", "Queen Hearts", 
                                     "King Hearts"));
+    ArrayList<String> quantumDeck = new ArrayList<>(Arrays.asList(
+                                    "0", "0", "0", "0", "0", 
+                                    "1", "1", "1", "+", "+", 
+                                    "+", "+", "+",
+                                    "+", "+", "-", "-",
+                                    "-", "-", "-"));
         
     /**Constructing a new deck which is a shuffled copy of the full sorted deck. */
-    public Deck() {
-        
-        this.addAll(defaultDeck);
+    public Deck(boolean quantum) {
+        if (!quantum) {
+            this.addAll(defaultDeck);
+        } else {
+            this.addAll(quantumDeck);
+        }
         long seed = System.nanoTime();
         java.util.Collections.shuffle(this, new java.util.Random(seed));
     }

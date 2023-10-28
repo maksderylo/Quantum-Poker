@@ -1,11 +1,12 @@
-package org.redfx;
+package org.redfx.Objects;
 
-import javax.swing.JPanel;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
+import javax.swing.*;
+import javax.swing.JPanel;
+import org.redfx.Screens.QuantumScreen;
+ 
 public class QuantumSquareApplied extends JPanel{
     char letter;
 
