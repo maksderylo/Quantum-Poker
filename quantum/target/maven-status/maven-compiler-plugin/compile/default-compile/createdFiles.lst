@@ -1,6 +1,5 @@
 org\redfx\Screens\StartScreen.class
 org\redfx\Objects\Text.class
-org\redfx\Screens\StartScreen$4.class
 org\redfx\CustomPair.class
 org\redfx\Objects\Suits.class
 org\redfx\Screens\BettingScreen$2.class
@@ -25,7 +24,6 @@ org\redfx\Screens\RoundStartScreen.class
 org\redfx\Screens\StartScreen$2.class
 org\redfx\Screens\LoadingScreen$2.class
 org\redfx\Objects\Title.class
-org\redfx\Screens\StartScreen$4$1.class
 org\redfx\Objects\Card.class
 org\redfx\Objects\CenterPanel.class
 org\redfx\Screens\BettingScreen.class
