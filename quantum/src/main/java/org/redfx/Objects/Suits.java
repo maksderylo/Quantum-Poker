@@ -1,13 +1,16 @@
 package org.redfx.Objects;
  
+import java.awt.Image;
 import javax.swing.ImageIcon;
+
+
 
 /**A class to compactly store the images for each suit. */
 public class Suits {
-    public static final ImageIcon HEARTS = new ImageIcon("src\\main\\resources\\heart.png");
-    public static final ImageIcon DIAMONDS = new ImageIcon("src\\main\\resources\\diamond.png");
-    public static final ImageIcon CLUBS = new ImageIcon("src\\main\\resources\\clubs.png");
-    public static final ImageIcon SPADES = new ImageIcon("src\\main\\resources\\spades.png");
+    public static final ImageIcon HEARTS = new ImageIcon("C:\\Users\\20231479\\Documents\\GitHub\\Quantum-Poker\\quantum\\src\\main\\resources\\org\\redfx\\resources\\hearts.png");
+    public static final ImageIcon DIAMONDS = new ImageIcon("C:\\Users\\20231479\\Documents\\GitHub\\Quantum-Poker\\quantum\\src\\main\\resources\\org\\redfx\\resources\\diamonds.png");
+    public static final ImageIcon CLUBS = new ImageIcon("C:\\Users\\20231479\\Documents\\GitHub\\Quantum-Poker\\quantum\\src\\main\\resources\\org\\redfx\\resources\\clubs.png");
+    public static final ImageIcon SPADES = new ImageIcon("C:\\Users\\20231479\\Documents\\GitHub\\Quantum-Poker\\quantum\\src\\main\\resources\\org\\redfx\\resources\\spades.png");
 
     /**A method to return the correct image according to the input.
      * 
