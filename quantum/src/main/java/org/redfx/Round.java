@@ -63,6 +63,7 @@ public class Round {
 
         for (Player player : players) {
             player.roundStartBalance = player.balance;
+            player.hand.clear();
         }
         
         
@@ -504,6 +505,8 @@ public class Round {
             for (Player player : players) {
                 player.role = 0;
             }
+
+
 
             //setting the new roles
             players[game.smallBlindIndex].role = 1;
