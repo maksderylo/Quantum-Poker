@@ -114,18 +114,20 @@ public class StartScreen extends JLabel {
         buttonPanel.add(playBtn);
         buttonPanel.add(rulesBtn);
         
-        //standard Poker button
-        CenterPanel buttonPanel2 = new CenterPanel(); 
-        constraints.gridy = 10; 
-        add(buttonPanel2, constraints);
-        buttonPanel2.add(quantumBtn);
-        buttonPanel2.add(quantumRulesBtn);
+        if (!System.getProperty("os.name").toLowerCase().contains("mac")) {
+            //standard Poker button
+            CenterPanel buttonPanel2 = new CenterPanel(); 
+            constraints.gridy = 10; 
+            add(buttonPanel2, constraints);
+            buttonPanel2.add(quantumBtn);
+            buttonPanel2.add(quantumRulesBtn);
+        }
 
         CenterPanel buttonPanel3 = new CenterPanel();
         constraints.gridy = 11;
         add(buttonPanel3, constraints);
         buttonPanel3.add(quitBtn);
-        
+    
 
         //Button actions names are self explanatory
         playBtn.addActionListener(new ActionListener() {

@@ -8,7 +8,7 @@ import org.redfx.Objects.CoolButton;
 import org.redfx.Objects.Title;
 import org.redfx.Round;
 
-/**A class for the screen after a round including how much money each player won/lost. TODO: check if this is right */
+/**A class for the screen after a round including how much money each player won/lost.*/
 public class RoundEndScreen extends JPanel {
     Title title = new Title("");
     Title poolTitle = new Title("");

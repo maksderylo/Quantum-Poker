@@ -30,7 +30,7 @@ public class PlayersNamesScreen extends JPanel {
     /**A constructor for the screen, letting the players enter their names, and even displaying
      * an error message if a name is empty. It also stores the names and their index for future use.
      * 
-     * @param stateManager
+     * @param stateManager used to change to other screens. 
      * @param playersAmount the amount of players participating, 
      *      so it knows for how many names it should ask
      * @param moneyPerPlayer the starting balance of the players.

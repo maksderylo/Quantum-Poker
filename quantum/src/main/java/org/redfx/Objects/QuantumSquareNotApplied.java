@@ -6,8 +6,8 @@ import javax.swing.*;
 import org.redfx.Screens.QuantumScreen;
 
 
-
-public class QuantumSquareNotApplied extends JPanel{
+/**JPanel in a form of a square that displays a gate and lets it be applied. */
+public class QuantumSquareNotApplied extends JPanel {
     public Boolean active = false;
     public Boolean used = false;
     private JSpinner spinner;
@@ -18,6 +18,11 @@ public class QuantumSquareNotApplied extends JPanel{
     private JButton button;
     public char letter;
 
+    /**
+     * 
+     * @param quantumScreen the screen this gate is opened on
+     * @param qubitLetter what gate should this square display0
+     */
     public QuantumSquareNotApplied(QuantumScreen quantumScreen, char qubitLetter) {
         this.letter = qubitLetter;
         setMaximumSize(getPreferredSize());
@@ -165,7 +170,7 @@ public class QuantumSquareNotApplied extends JPanel{
             g.setColor(Color.GRAY);
             
         } else {
-            if (letter == 'H'){
+            if (letter == 'H') {
                 g.setColor(Color.BLUE);
             } else if (letter == 'N') {
                 g.setColor(Color.RED);

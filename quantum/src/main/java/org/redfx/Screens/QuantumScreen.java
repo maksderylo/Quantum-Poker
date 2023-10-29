@@ -8,6 +8,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;  
 import org.redfx.Objects.CenterPanel;
@@ -27,9 +28,10 @@ import org.redfx.strange.gate.Cnot;
 import org.redfx.strange.gate.Hadamard;
 import org.redfx.strange.gate.X;
 import org.redfx.strange.local.SimpleQuantumExecutionEnvironment;
-import org.redfx.strangefx.render.Renderer;
 
-
+/**
+ * Screen that lets the players apply their gates.
+ */
 public class QuantumScreen extends JPanel {
     Title title = new Title("");
     String[][] appliedGates = new String[5][4];
@@ -40,8 +42,17 @@ public class QuantumScreen extends JPanel {
     Player player;
     QuantumExecutionEnvironment simulator = new SimpleQuantumExecutionEnvironment();
     Text[] probablity = new Text[5];
+    Boolean computedScore = false;
 
+    /**
+     * Taking an input, creating the displayed screen and the initial variables.
+     * 
+     * @param table qubits shared by all the players
+     * @param player player currently applying their gates
+     * @param round round that the score is acted on
+     */
     public QuantumScreen(ArrayList<String> table, Player player, Round round) {
+        System.out.println(player.name);
         this.player = player;
         this.table = table;
         setLayout(new GridBagLayout());
@@ -70,7 +81,7 @@ public class QuantumScreen extends JPanel {
                 emptySquareArray[i][j] = new EmptySquare();
                 appliedGates[i][j] = "EmptySquare";
             }
-            //probablity[i] = new Text("hey baby");
+            probablity[i] = new Text("");
         }
 
         paintAppliedGates();
@@ -93,76 +104,15 @@ public class QuantumScreen extends JPanel {
         CenterPanel buttonPanel = new CenterPanel();
         constraints.gridy = 9;
         add(buttonPanel, constraints);
-        JButton probabilities = new JButton("What are the odds?");
-        //TODO change to cool button
-        buttonPanel.add(probabilities);
-        JButton proceed = new JButton("Proceed!");
+        
+        JButton proceed = new JButton("Check qubits");
         //TODO change to cool button
         buttonPanel.add(proceed);
 
-        probabilities.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    
-                    Program program = new Program(5);
-                    Step step = new Step();
-                    for (int i = 0; i < 5; i++) {
-                        if (table.get(i).equals("1")) {
-                            step = new Step();
-                            step.addGate(new X(i));
-                            program.addStep(step);
-                        } else if (table.get(i).equals("+")) {
-                            step = new Step();
-                            step.addGate(new Hadamard(i));
-                            program.addStep(step);
-                        } else if (table.get(i).equals("-")) {
-                            step = new Step();
-                            step.addGate(new X(i));
-                            program.addStep(step);
-                            step = new Step();
-                            step.addGate(new Hadamard(i));
-                            program.addStep(step);
-                        }
-
-                        
-
-
-                    }
-                    for (int i = 0; i < 5; i++) {
-                        for (int j = 0; j < 4; j++) {
-                            if (appliedGates[i][j].equals("Hardamand")) {
-                                step = new Step();
-                                step.addGate(new Hadamard(i));
-                                program.addStep(step);
-                            } else if (appliedGates[i][j].equals("Not")) {
-                                step = new Step();
-                                step.addGate(new X(i));
-                                program.addStep(step);
-                            } else if (appliedGates[i][j].equals("Control")) {
-                                int target = 0;
-                                while (true) {
-                                    if (appliedGates[target][j].equals("Target")) {
-                                        break;
-                                    }
-                                    target++;
-                                }
-                                step = new Step();
-                                step.addGate(new Cnot(i, target));
-                                program.addStep(step);
-                            }
-                        } 
-                    }
-
-                    simulator.runProgram(program);
-                    Renderer.renderProgram(program);
-
-                }
-
-        });
-        
         proceed.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    if (!computedScore) {
                     QuantumExecutionEnvironment simulator = new SimpleQuantumExecutionEnvironment();
                     Program program = new Program(5);
                     Step step = new Step();
@@ -184,10 +134,6 @@ public class QuantumScreen extends JPanel {
                             step.addGate(new Hadamard(i));
                             program.addStep(step);
                         }
-
-                        
-
-
                     }
                     for (int i = 0; i < 5; i++) {
                         for (int j = 0; j < 4; j++) {
@@ -209,6 +155,7 @@ public class QuantumScreen extends JPanel {
                                 }
                                 step = new Step();
                                 step.addGate(new Cnot(i, target));
+                                
                                 program.addStep(step);
                             }
                         } 
@@ -223,10 +170,17 @@ public class QuantumScreen extends JPanel {
                         score += qubits[i].measure() * two;
                         two *= 2;
                     }
+                    computedScore = true;
                     player.score = score;
+                    JOptionPane.showMessageDialog(null,
+                            "Your score is: " + score,
+                             "Good job!", JOptionPane.PLAIN_MESSAGE);
+                    proceed.setText("Next Player");
+                } else {
                     synchronized (round.worker) {
                         round.worker.notify(); // notify the worker when the button is pressed
-                    }   
+                    }
+                }
                 }
 
         });

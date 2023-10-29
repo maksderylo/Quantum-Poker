@@ -3,7 +3,6 @@ package org.redfx.Objects;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.awt.geom.Dimension2D;
 import java.io.IOException;
 import javax.swing.JLabel;
 
@@ -24,9 +23,18 @@ public class Title extends JLabel {
         try {
             customFont = Font.createFont(Font.TRUETYPE_FONT, getClass()
                 .getResourceAsStream("/org/redfx/resources/fontOne.otf"));
-            resizedFont = customFont.deriveFont((float) 30);
+            if (!System.getProperty("os.name").toLowerCase().contains("mac")) {
+                resizedFont = customFont.deriveFont((float) 16);
+            } else {
+                resizedFont = customFont.deriveFont((float) 30);
+            }
+
         } catch (IOException | FontFormatException e) {
-            customFont = new Font("Impact", Font.PLAIN, 30);
+            if (!System.getProperty("os.name").toLowerCase().contains("mac")) {
+                customFont = new Font("Arial", Font.PLAIN, 16);
+            } else {
+                customFont = new Font("Arial", Font.PLAIN, 30);
+            }
         }
         setFont(resizedFont);
         setForeground(Color.WHITE);
