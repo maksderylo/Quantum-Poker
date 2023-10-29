@@ -79,13 +79,6 @@ public class Round {
         players[smallBlindIndex].currentBet = smallBlindAmount;
         players[smallBlindIndex].balance -= smallBlindAmount;
 
-        System.out.println("Pool " + pool + "smallBlind: " 
-            + smallBlindIndex + " bigBlind" + bigBlindIndex);
-        for (Player player : players) {
-            System.out.println(player.name + " money: " 
-                + player.balance + " folded: " + player.folded);
-        }
-
         //calling to display the start screen
         stateManager.switchToRoundStartScreen(round, "Preflop", quantum);
     }
@@ -363,7 +356,6 @@ public class Round {
     }
 
     private void prematureWinner() {
-        System.out.println("premature winner");
         //find premature winner
         int winnerIndex  = 0;
 
@@ -389,13 +381,11 @@ public class Round {
     }
 
     private void quantumGatesDistribution() {
-        System.out.println("quantumDistribution");
         worker = new SwingWorker<Void, Void>() {
                 @Override
                 protected Void doInBackground() throws Exception {
                     for (int i = 0; i < amountOfPlayers; i++) {
                         if (!players[i].folded || players[i].allIn) {
-                            System.out.println("wazi" + i);
                             stateManager.switchToQuantumScreen(round, players[i]);
                             synchronized (this) {
                                 wait(); // wait here until notified
@@ -467,7 +457,6 @@ public class Round {
                         players[highestScoreIndex].currentHand)) {
 
                         winners = new ArrayList<Integer>();
-                        System.out.println("equal scores");
                         winners.add(playersEligible.get(j));
                     } else if (players[highestScoreIndex].highestCard(players
                         [highestScoreIndex].currentHand) == currentPlayer
@@ -475,8 +464,6 @@ public class Round {
                         winners.add(playersEligible.get(j));
                     } 
                 }
-                System.out.println("?");
-
             }
             for (int j = 0; j < winners.size(); j++) {
                 players[winners.get(j)].balance += helpPool.potsize / winners.size();
@@ -484,15 +471,11 @@ public class Round {
             }
         }
 
-
-
-        System.out.println("call next round");
         stateManager.switchToRoundEndScreen(this);
     }
 
     /** */
     public void endRound() { // winner index is the one that has won the main pot
-        System.out.println("ending round");
 
         int enoughPlayers = 0;
         for (Player player : players) {
@@ -661,6 +644,5 @@ public class Round {
                 }
             }
         }
-        System.out.println("PotAmount: " + potAmount);
     }
 }

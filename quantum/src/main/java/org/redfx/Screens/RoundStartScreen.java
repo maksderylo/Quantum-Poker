@@ -66,12 +66,12 @@ public class RoundStartScreen extends JPanel {
         constraints.gridwidth = 10;
         constraints.gridx = 0;
         title.setText("Round " + round.roundNumber + " - " + phase);
-        title.setFont(new Font("Ebrima", Font.BOLD, 30));
+        //title.setFont(new Font("Ebrima", Font.BOLD, 30));
         add(title, constraints);
         constraints.gridwidth = 1;
 
         poolTitle.setText("Pool - " + round.pool + "$");
-        poolTitle.setFont(new Font("Ebrima", Font.BOLD, 35));
+        //poolTitle.setFont(new Font("Ebrima", Font.BOLD, 35));
         constraints.gridy = 1;
         constraints.gridwidth = 10;
         add(poolPanel, constraints);

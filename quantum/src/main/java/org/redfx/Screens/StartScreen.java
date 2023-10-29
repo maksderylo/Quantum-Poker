@@ -131,14 +131,12 @@ public class StartScreen extends JLabel {
         playBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("To Load from start");
                 stateManager.switchToLoadScreen(false);
             }
         });
         rulesBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(rulesFrame);
                 if (rulesFrame == null) {
                     rulesFrame = new JFrame("Rules", null);
                     JTextArea rulesTextArea = new JTextArea();
@@ -177,7 +175,6 @@ public class StartScreen extends JLabel {
         quantumBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Loading quantum");
                 stateManager.switchToLoadScreen(true);
             }
         });

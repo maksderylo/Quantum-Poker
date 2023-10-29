@@ -70,8 +70,6 @@ public class QuantumSquareNotApplied extends JPanel{
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //haha
-                    System.out.println("clicked");
                     int value = (Integer) spinner.getValue();
                     used = true;
                     active = false;
@@ -96,8 +94,6 @@ public class QuantumSquareNotApplied extends JPanel{
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //haha
-                    System.out.println("clicked");
                     int value = (Integer) spinner.getValue();
                     used = true;
                     active = false;
@@ -128,8 +124,6 @@ public class QuantumSquareNotApplied extends JPanel{
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //haha
-                    System.out.println("clicked");
                     int value = (Integer) spinner.getValue();
                     int valueTwo = (Integer) spinnerControlled.getValue();
                     if (value == valueTwo) {
