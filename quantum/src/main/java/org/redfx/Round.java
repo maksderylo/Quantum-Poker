@@ -402,15 +402,14 @@ public class Round {
                             }
         
                         }
+                        
                     }
+                    distributePots();
                     return null;
                 }
-
-                
         };
         worker.execute();
-        System.out.println("Distribute pots");
-        distributePots();
+        
 
 
     }
@@ -432,7 +431,6 @@ public class Round {
             pools.add(helpPool);
             potAmount = 0;
         }
-        System.out.println("Pools amount: " + pools.size());
 
         //rate the cards of all players   player.bestHand(tableCards);
 
@@ -442,25 +440,19 @@ public class Round {
         ArrayList<Integer> playersEligible = new ArrayList<Integer>();
         ArrayList<Integer> winners = new ArrayList<Integer>();
         Player currentPlayer;
-        for (int i = 0; i < pools.size(); i++) { //distributing for all created pools
-            System.out.println("Inside pool  " + pools.get(i).potsize + " ");
-
-            
+        for (int i = 0; i < pools.size(); i++) { //distributing for all created pools          
             helpPool = pools.get(i); /*variable that stores the pool
             (money and players eligible to win it) that is currently distributed*/
             currentHighestScore = 0;
             playersEligible = helpPool.playersEligible;
-            System.out.println("players eligible size  " + playersEligible.size());
 
             for (int j = 0; j < playersEligible.size(); j++) {
                 currentPlayer = players[playersEligible.get(j)];
-                System.out.println(currentPlayer.name + ":");
                 if (!quantum) {
                     currentScore = currentPlayer.bestHand(tableCards);
                 } else {
                     currentScore = currentPlayer.score;
                 }
-                System.out.println(currentPlayer.name + " has a score of: " + currentScore);
         
                 if (currentScore > currentHighestScore) {
                     currentHighestScore = currentScore;
@@ -468,7 +460,9 @@ public class Round {
                     winners.add(playersEligible.get(j));
                     highestScoreIndex = playersEligible.get(j);
                 } else if (currentScore == currentHighestScore) {
-                    if (currentPlayer.highestCard(currentPlayer.currentHand) 
+                    if (quantum) {
+                        winners.add(playersEligible.get(j));
+                    } else if (currentPlayer.highestCard(currentPlayer.currentHand) 
                         > players[highestScoreIndex].highestCard(
                         players[highestScoreIndex].currentHand)) {
 
@@ -486,6 +480,7 @@ public class Round {
             }
             for (int j = 0; j < winners.size(); j++) {
                 players[winners.get(j)].balance += helpPool.potsize / winners.size();
+                
             }
         }
 
@@ -565,7 +560,7 @@ public class Round {
                     break;
                 }
             }
-            stateManager.switchToGameEndScreen(winner, stateManager);
+            stateManager.switchToGameEndScreen(winner, stateManager, quantum);
         }
 
 
