@@ -1,0 +1,23 @@
+Quantum Poker is a game relative to Texas holdem, but instead of cards there are, you guessed it, QUBITS! (and quantum gates).
+
+1. Game Logic
+
+All the game logic is the same as the texas holdem so in order to undersand them go there, here you can focus on the computing the score using quantum computing.
+
+2. QUBITS
+
+Instead of cards, the table all the players share has qubits. In order to undersand them you can think of them as bits (either 0 or a 1),
+but qubits have a probability to be 0 or a 1 upon measuring. The qubits in the beginning can have 4 states:
+
+|0> - 100% to be a 0.
+|+> - 50% to be a 0, 50% to be a 1.
+|-> - 50% to be a 0, 50% to be a 1.
+|1> - 100% to be a 1.
+(the difference between |+> and |-> qubit is thet they are achieved after applying Hadamard gate to different starting qubits)
+
+The table just like in standard poker is dealt eventually 5 times. 3 qubits for the flop, and one for both the turn and the river.
+
+3. Gates
+
+Players instead of cards are dealt quantum gates. In our simple game player can only recieve 3 types of gates: Pauli-X Gate - letter N, Hadamard gate - letter H and Controlled Not-Gate - letter C.
+

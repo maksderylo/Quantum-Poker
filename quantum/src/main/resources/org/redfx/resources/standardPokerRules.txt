@@ -1,0 +1,64 @@
+
+Texas Hold'em is one of the most popular variants of poker, and it's important to understand its rules and mechanics,
+ including the roles of the small blind and big blind, betting, checking, raising, folding, going all in, and how pots are awarded. Let's break down the rules and concepts step by step.
+
+1. Small Blind and Big Blind:
+
+Texas Hold'em is typically played with two forced bets called the small blind and the big blind. These bets initiate the pot.
+The player to the left of the dealer posts the small blind, and the player to their left posts the big blind. The big blind is usually twice the value of the small blind.
+2. Betting Rounds:
+
+Texas Hold'em consists of four betting rounds: pre-flop, flop, turn, and river.
+Pre-flop: After the blinds are posted, each player is dealt two private cards (hole cards). Betting starts with the player to the left of the big blind.
+Flop: Three community cards are dealt face-up in the center. Betting begins with the player to the left of the dealer.
+Turn: A fourth community card is dealt face-up. Betting starts with the player to the left of the dealer.
+River: A fifth and final community card is dealt. Betting begins with the player to the left of the dealer.
+3. Betting Actions:
+
+Players can take various actions during betting rounds:
+Check: Pass the action to the next player without betting any additional chips.
+Bet: Place chips into the pot to make a wager.
+Raise: Increase the size of the current bet.
+Fold: Discard your hand and forfeit the current hand.
+Call: Match the current bet made by another player.
+4. Going All-In:
+
+A player can go "all in" during any betting round when they don't have enough chips to match a bet or raise. They bet all their remaining chips.
+Other players may continue betting, and a side pot is created for those who can still bet. The all-in player can win the main pot but not the side pots.
+Players with more chips can compete for the side pots.
+5. Winning the Pot:
+
+To win the pot, a player must have the best five-card hand, using a combination of their two hole cards and the five community cards.
+Hand rankings from highest to lowest: Royal Flush, Straight Flush, Four of a Kind, Full House, Flush, Straight, Three of a Kind, Two Pair, One Pair, and High Card.
+6. Pots and Side Pots:
+
+Pots can be divided into a main pot and one or more side pots when one or more players are all-in.
+The main pot is awarded to the player with the best hand among those who went all-in and could compete for the main pot.
+Side pots are won by players with better hands than the player who went all-in, and they have their own separate winners.
+7. Combinations of Cards:
+
+In Texas Hold'em, players create their best possible five-card hand using a combination of their two hole cards and the five community cards on the table. Here are the different hand variants from best to worst:
+
+Royal Flush: A, K, Q, J, 10, all of the same suit. This is the highest-ranking hand and unbeatable.
+
+Straight Flush: Five consecutive cards of the same suit. For example, 9♣ 8♣ 7♣ 6♣ 5♣.
+
+Four of a Kind: Four cards of the same rank. For example, 8♠ 8♦ 8♣ 8♥ 3♣.
+
+Full House: Three cards of one rank and two cards of another rank. For example, 7♠ 7♦ 7♣ 4♠ 4♥.
+
+Flush: Five cards of the same suit, not in sequence. For example, A♠ 9♠ 6♠ 3♠ 2♠.
+
+Straight: Five consecutive cards of mixed suits. For example, 10♠ 9♥ 8♦ 7♠ 6♣.
+
+Three of a Kind: Three cards of the same rank. For example, 5♠ 5♦ 5♣ 10♠ 2♥.
+
+Two Pair: Two cards of one rank and two cards of another rank. For example, K♠ K♦ 7♣ 7♠ 2♣.
+
+One Pair: Two cards of the same rank. For example, Q♠ Q♦ 10♣ 8♠ 4♣.
+
+High Card: If no player has any of the above hands, the highest single card in their hand is considered. For example, if you have A♠ 10♦ and the community cards are 9♣ 8♥ 6♠ 4♦ 2♥, your highest card is an Ace.
+
+When hands have the same rank (e.g., two players both have a pair), the player with the higher pair or the higher kicker (the unpaired card that isn't part of the pair) wins. If there's still a tie, the pot is split between the tied players.
+
+Understanding hand rankings is crucial in Texas Hold'em as it determines who wins the pot in showdowns and allows players to make strategic decisions during the game.

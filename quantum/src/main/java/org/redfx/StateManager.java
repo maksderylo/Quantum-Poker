@@ -119,8 +119,8 @@ public class StateManager {
      * @param winner is the player that has won the game
      * @param stateManager
      */
-    public void switchToGameEndScreen(Player winner, StateManager stateManager) {
-        gameEndScreen = new GameEndScreen(winner, stateManager);
+    public void switchToGameEndScreen(Player winner, StateManager stateManager, boolean quantum) {
+        gameEndScreen = new GameEndScreen(winner, stateManager, quantum);
         container.add(gameEndScreen, "GameEndScreen");
         cardLayout.show(container, "GameEndScreen");
     }
