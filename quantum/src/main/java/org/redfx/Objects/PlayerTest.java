@@ -13,14 +13,10 @@ public class PlayerTest {
     Player player1 = new Player(null, 0);
     Player player2 = new Player(null, 0);
 
-    void run(){
+    void run() {
         player1.hand = playerHand1;
         player2.hand = playerHand2;
 
-
-        System.out.println("Player one score: " + player1.bestHand(tableCards));
-        System.out.println("Player two score: " + player2.bestHand(tableCards));
-        System.out.println(player2.highestCard(player2.currentHand) + "");
     }
     
     public static void main(String[] args) {

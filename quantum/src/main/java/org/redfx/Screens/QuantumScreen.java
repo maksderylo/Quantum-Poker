@@ -10,7 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;  
-import org.redfx.Round;
 import org.redfx.Objects.CenterPanel;
 import org.redfx.Objects.EmptySquare;
 import org.redfx.Objects.Player;
@@ -18,18 +17,17 @@ import org.redfx.Objects.QuantumSquareApplied;
 import org.redfx.Objects.QuantumSquareNotApplied;
 import org.redfx.Objects.Text;
 import org.redfx.Objects.Title;
+import org.redfx.Round;
 import org.redfx.strange.Program;
 import org.redfx.strange.QuantumExecutionEnvironment;
+import org.redfx.strange.Qubit;
+import org.redfx.strange.Result;
 import org.redfx.strange.Step;
 import org.redfx.strange.gate.Cnot;
 import org.redfx.strange.gate.Hadamard;
 import org.redfx.strange.gate.X;
 import org.redfx.strange.local.SimpleQuantumExecutionEnvironment;
 import org.redfx.strangefx.render.Renderer;
-import org.redfx.strange.*;
-import org.redfx.strange.gate.*;
-import org.redfx.strange.local.*;
-import org.redfx.strangefx.render.*;
 
 
 public class QuantumScreen extends JPanel {
@@ -46,7 +44,6 @@ public class QuantumScreen extends JPanel {
     public QuantumScreen(ArrayList<String> table, Player player, Round round) {
         this.player = player;
         this.table = table;
-        System.out.println("wasup");
         setLayout(new GridBagLayout());
         setBackground(Color.LIGHT_GRAY);
         setBorder(new EmptyBorder(0, 50, 0, 50));
@@ -73,7 +70,7 @@ public class QuantumScreen extends JPanel {
                 emptySquareArray[i][j] = new EmptySquare();
                 appliedGates[i][j] = "EmptySquare";
             }
-            probablity[i] = new Text("hey baby");
+            //probablity[i] = new Text("hey baby");
         }
 
         paintAppliedGates();
@@ -106,8 +103,6 @@ public class QuantumScreen extends JPanel {
         probabilities.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //haha
-                    System.out.println("Probabilities");
                     
                     Program program = new Program(5);
                     Step step = new Step();
@@ -120,7 +115,7 @@ public class QuantumScreen extends JPanel {
                             step = new Step();
                             step.addGate(new Hadamard(i));
                             program.addStep(step);
-                        } else if (table.get(i).equals("-")){
+                        } else if (table.get(i).equals("-")) {
                             step = new Step();
                             step.addGate(new X(i));
                             program.addStep(step);
@@ -164,12 +159,10 @@ public class QuantumScreen extends JPanel {
                 }
 
         });
+        
         proceed.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //haha
-                    System.out.println("clicked");
-                    System.out.println("Proceed");
                     QuantumExecutionEnvironment simulator = new SimpleQuantumExecutionEnvironment();
                     Program program = new Program(5);
                     Step step = new Step();
@@ -183,7 +176,7 @@ public class QuantumScreen extends JPanel {
                             step = new Step();
                             step.addGate(new Hadamard(i));
                             program.addStep(step);
-                        } else if (table.get(i).equals("-")){
+                        } else if (table.get(i).equals("-")) {
                             step = new Step();
                             step.addGate(new X(i));
                             program.addStep(step);
@@ -230,7 +223,6 @@ public class QuantumScreen extends JPanel {
                         score += qubits[i].measure() * two;
                         two *= 2;
                     }
-                    System.out.println(score);
                     player.score = score;
                     synchronized (round.worker) {
                         round.worker.notify(); // notify the worker when the button is pressed
@@ -240,7 +232,8 @@ public class QuantumScreen extends JPanel {
         });
     }
 
-    private void newPorbabilities() {
+    /**Updates the probabilities of each of the qubits by using the Strange API. */
+    private void newProbabilities() {
         QuantumExecutionEnvironment simulator = new SimpleQuantumExecutionEnvironment();
         Program program = new Program(5);
         Step step = new Step();
@@ -253,7 +246,7 @@ public class QuantumScreen extends JPanel {
                 step = new Step();
                 step.addGate(new Hadamard(i));
                 program.addStep(step);
-            } else if (table.get(i).equals("-")){
+            } else if (table.get(i).equals("-")) {
                 step = new Step();
                 step.addGate(new X(i));
                 program.addStep(step);
@@ -295,10 +288,12 @@ public class QuantumScreen extends JPanel {
         }
     }
 
+    /**Paints the gate in the correct place and calls newProbabilities 
+     * to update the probabilities.*/
     private void paintAppliedGates() {
         constraints.gridwidth = 1;
         constraints.gridheight = 1;
-        newPorbabilities();
+        newProbabilities();
         for (int i = 0; i < 5; i++) {
             constraints.gridx = 0;
             JLabel qubit = new JLabel("|" + table.get(i) + ">");
@@ -323,8 +318,16 @@ public class QuantumScreen extends JPanel {
         }
 
     }
-
+    
+    /**The method applies the gate as chosen by the player. It checks which leftmost collumn
+     * has not yet been used and then calls the paintAppliedGates() method to visually show
+     * that the gates have been applied.
+     * 
+     * @param row is the row in which the qubit, to which the gate is applied, is located
+     * @param gate is the type of gate that is applied to the qubit.
+     */
     public void applyGate(int row, char gate) {
+
         String gateName = "";
         if (gate == 'H') {
             gateName = "Hardamand";
@@ -335,7 +338,6 @@ public class QuantumScreen extends JPanel {
         } else if (gate == 'T') {
             gateName = "Target";
         }
-
 
         appliedGates[row - 1][lastNotFilledColumn] = gateName;
         lastNotFilledColumn++;

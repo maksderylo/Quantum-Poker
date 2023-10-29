@@ -142,15 +142,11 @@ public class BettingScreen extends JPanel {
         titleMaxbetHere.setText("" + round.largestbet);
         add(titleMaxbetHere, constraints);
 
-
         //cards
         constraints.gridwidth = 10;
         constraints.gridy = 3;
         constraints.gridx = 0;
 
-        
-
-        //System.out.println(bettingPlayer.hand.get(0));
         String card;
         String suit;
         String rank;

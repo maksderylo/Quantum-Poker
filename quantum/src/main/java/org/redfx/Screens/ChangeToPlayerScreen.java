@@ -43,7 +43,6 @@ public class ChangeToPlayerScreen extends JPanel {
         setBorder(new EmptyBorder(0, 50, 0, 50));
         title.setForeground(foreColor);
 
-        System.out.println("hey");
         constraints.weightx = 1;
         constraints.weighty = 1;
         constraints.gridwidth = 1;

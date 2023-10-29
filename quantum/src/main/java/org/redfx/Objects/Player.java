@@ -105,9 +105,6 @@ public class Player {
     10. High card (2-14) DONE
  */
     public int bestHand(ArrayList<String> river) {
-    
-        System.out.println(river);
-        System.out.println(this.hand);
 
         int currentBestHand = 0;
         //yes i know this looks bad but its just one time and i wanted it on single lines
@@ -118,7 +115,6 @@ public class Player {
         int numberCardTwo = rankToNumber(cardTwoRank);
         String cardTwoSuit = this.hand.get(1).substring(this.hand.get(1).indexOf(" "));
 
-        System.out.print("half way assigning");
         boolean[] sameSuit = new boolean[5];
 
         ArrayList<String> suits = new ArrayList<>();
@@ -127,8 +123,6 @@ public class Player {
         ArrayList<String> temporaryHand = new ArrayList<>();
         currentHand = new ArrayList<String>(); 
 
-
-        System.out.println("After assigning");
         //Separating them into suits and ranks
         //the indexes will match for each card
         for (String card : river) {
@@ -137,7 +131,6 @@ public class Player {
             numberedRanks.add(rankToNumber(card.substring(0, spaceIndex)));
             suits.add(card.substring(spaceIndex + 1));
         }
-        System.out.println("Before checking if equal");
         //starting by checking for the best case and side cases with this
         if (cardOneSuit.equals(cardTwoSuit)) {
             //this.currentHand.add(this.hand.get(0));
@@ -159,7 +152,6 @@ public class Player {
                 }
                 currentHand.removeAll(currentHand);
                 currentHand.addAll(temporaryHand);
-                //System.out.println(currentHand);
 
                 /*Checking if a Straight Flush is possible by checking 
                 if the distance between them is max 4*/
@@ -295,14 +287,10 @@ public class Player {
         ArrayList<String> better = new ArrayList<String>();
         ArrayList<String> worse = new ArrayList<String>();
 
-        System.out.println(numberedRanks);
         //checking for two or three of a kind in river
         for (int i = 2; i < 15; i++) {
-            System.out.println(Collections.frequency(numberedRanks, i));
             if (Collections.frequency(numberedRanks, i) > 1) {
-
                 for (int n = 0; n < numberedRanks.size(); n++) {
-                    System.out.println(n);
                     //to prevent double counting etc.
                     List<Integer> temp = new ArrayList<>(
                         numberedRanks.subList(n, numberedRanks.size()));
@@ -313,7 +301,6 @@ public class Player {
                             .get(temp.indexOf(i)));
                     }
                     n = temp.indexOf(i);
-                    System.out.println(n);
                     List<Integer> temp2 = new ArrayList<>(
                         numberedRanks.subList(n + 1, numberedRanks.size()));
                     if (temp2.indexOf(i) <= 0) {
@@ -348,7 +335,6 @@ public class Player {
                 worse = ofAKindTwo;
             }
         }
-        System.out.println("assinged better/worse");
         for (int n = 0; n < numberedRanks.size(); n++) {
             if (numberCardOne == numberedRanks.get(n)) {
                 sameRank++;
@@ -432,7 +418,6 @@ public class Player {
         }
         /*it only has to check the second card whenever the hand cards are not equal 
         since it already exhausted all those possibilities */
-        System.out.println("before checking second one");
         if (!equal) { 
             sameRank = 1;
             for (int n = 0; n < numberedRanks.size(); n++) {
@@ -459,7 +444,6 @@ public class Player {
                 }
             } 
             if (sameRank == 2) {
-                //System.out.println("pair from second card");
                 if (threeOfAKind) {
                     temporaryBest = 20;
                 } else if (pair) { 
@@ -488,19 +472,11 @@ public class Player {
             }
         }
         //actually assinging it
-        //System.out.println("right before assinging check");
         if (temporaryBest > currentBestHand) {
             currentBestHand = temporaryBest;
             this.currentHand.removeAll(currentHand);
             this.currentHand.addAll(temporaryHand);
         }
-        System.out.println("After assigning it");
-        System.out.println(currentBestHand);
-
-
-
-
-
 
         temporaryHand.removeAll(temporaryHand);
         temporaryHand.add(hand.get(0));
@@ -524,7 +500,6 @@ public class Player {
                 smaller = numberCardTwo;
                 bigger = numberCardOne;
             }
-            System.out.println("before middle");
             //checking if the cards in between them are in the river
             for (int i = smaller + 1; i < bigger; i++) { 
 
@@ -538,7 +513,6 @@ public class Player {
                     break;
                 }
             }
-            System.out.println("Before smaller");
             if (possible) { //possible (if the middle was filled up)
                 int temp = smaller - 1;
                 //while (temp > 1 && !(tillFive == 0)) { //tillfive to check if we have the straight
@@ -560,10 +534,8 @@ public class Player {
                     }
 
                 }   
-                //}
-                System.out.println("before bigger");
+                
                 temp = bigger + 1;
-                //while (temp < 15 && !(tillFive == 0)) {
                 for (int i = 0; i < numberedRanks.size(); i++) {
                     if (numberedRanks.get(i) == temp) {
                         temp++;
@@ -580,7 +552,6 @@ public class Player {
                     }
 
                 }
-                //}
             }
             if (tillFive == 0 && currentBestHand < 18) {
                 currentBestHand = 18;
@@ -588,7 +559,7 @@ public class Player {
                 this.currentHand.addAll(temporaryHand);
             }
         }
-        System.out.println("Before high card");
+
         if (currentBestHand < 15) { //if no special hand can be made we take the highest value card.
         
             for (int i = 0; i < numberedRanks.size(); i++) {
@@ -607,7 +578,6 @@ public class Player {
             }
         }
         temporaryHand.removeAll(temporaryHand);
-        System.out.println(currentHand);
         return currentBestHand;
     }
 }
