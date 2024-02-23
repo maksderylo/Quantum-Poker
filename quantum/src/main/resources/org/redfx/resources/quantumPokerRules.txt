@@ -16,8 +16,35 @@ but qubits have a probability to be 0 or a 1 upon measuring. The qubits in the b
 (the difference between |+> and |-> qubit is thet they are achieved after applying Hadamard gate to different starting qubits)
 
 The table just like in standard poker is dealt eventually 5 times. 3 qubits for the flop, and one for both the turn and the river.
+It is important that the first qubits are the most important, because the scoring is dependent on a binary number they create.
 
 3. Gates
 
-Players instead of cards are dealt quantum gates. In our simple game player can only recieve 3 types of gates: Pauli-X Gate - letter N, Hadamard gate - letter H and Controlled Not-Gate - letter C.
+Players instead of cards are dealt quantum gates. In our simple game player can only recieve 3 types of gates: Pauli-X Gate - letter N,
+Hadamard gate - letter H and Controlled Not-Gate - letter C. There are many good resources to find out in depth what those gates do,
+but below you can find what each gate does to a qubit.
 
+Pauli-X Gate - letter N
+|0> -> |1>
+|+> -> |->
+|-> -> |+>
+|1> -> |0>
+
+
+Hadamard gate - letter H
+|0> -> |+>
+|+> -> |0>
+|-> -> |1>
+|1> -> |->
+
+Controlled Not-Gate - letter C
+This gate is more complicated, because it entangles two qubits!
+To simply put it, it is acted on two qubits - control and target qubit. The rule is:
+If control qubit is measured as 0 nothing happens.
+If control qubit is measured as 1 the target qubit is flipped.
+
+4. The score
+
+Each players score is computed after the players apply their gates to the sets of qubits and clicks proceed.
+At that time the qubits are measured and reveal a binary number! So for example if the measured qubits give 00110 the score is 6.
+The higher the score the better, and the players with the same score if they win they split the money.

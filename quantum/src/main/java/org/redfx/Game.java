@@ -24,7 +24,7 @@ public class Game {
      * @param playerAmount is the amount of players.
      * @param startingBalance is the amount of money the players will have
      * @param playerNames is an array with the names of the players
-     * @param stateManager
+     * @param stateManager screen manager passed
      */
     public Game(int playerAmount, int startingBalance, String[] playerNames, 
         StateManager stateManager, boolean quantum) {

@@ -11,7 +11,7 @@ class CustomPair {
     ArrayList<Integer> playersEligible;
 } 
 
-
+/** Initiated round class from game.*/
 public class Round {
 
     int currentBet;
@@ -43,6 +43,12 @@ public class Round {
     public boolean quantum;
     public ArrayList<Character> table;
 
+    /**Constructing the game and then calling the first round.
+     * 
+     * @param game object to update parameters inside the game
+     * @param manager screen manager passed
+     * @param quantum is the game quantum
+     */
     public Round(Game game, StateManager manager, boolean quantum) {
         this.quantum = quantum;
         /*so what I changed here is to rather ask for just the game class and use the game.Players 
@@ -158,7 +164,7 @@ public class Round {
 
     }
 
-    /** */
+    /** The flop betting round. */
     public void secondBettingRound() {
             
         //new table and dealing cards there!
@@ -224,7 +230,7 @@ public class Round {
         worker.execute();
     }
 
-    /** */
+    /** The turn betting round. */
     public void thirdBettingRound() {
         largestbet = 0;
 
@@ -250,9 +256,7 @@ public class Round {
                             break;
                         }
                     
-                    if (players[nowBettingPlayerIndex].allIn) {
-                        //TODO: ADD SOMETHING HERE
-                    } else {
+                    if (!players[nowBettingPlayerIndex].allIn) {
                         stateManager.switchToChangeToPlayerScreen(Round.this);
                         synchronized (this) {
                             wait(); // wait here until notified
@@ -289,7 +293,7 @@ public class Round {
         worker.execute();
     }
 
-    /** */
+    /** The river betting round. */
     public void fourthBettingRound() {
         largestbet = 0;
 
@@ -315,9 +319,7 @@ public class Round {
                             break;
                         }
 
-                    if (players[nowBettingPlayerIndex].allIn) {
-                        //TODO: ADD SOMETHING HERE
-                    } else {
+                    if (!players[nowBettingPlayerIndex].allIn) {
                         stateManager.switchToChangeToPlayerScreen(Round.this);
                         synchronized (this) {
                             wait(); // wait here until notified
@@ -404,7 +406,7 @@ public class Round {
 
     }
 
-    /** */
+    /** Creating last pool and distributing all the created pots to the winners. */
     private void distributePots() {
         
         //create the last pool
@@ -474,7 +476,7 @@ public class Round {
         stateManager.switchToRoundEndScreen(this);
     }
 
-    /** */
+    /** Ending the round, reseting variables and checking if the game should procees.*/
     public void endRound() { // winner index is the one that has won the main pot
 
         int enoughPlayers = 0;

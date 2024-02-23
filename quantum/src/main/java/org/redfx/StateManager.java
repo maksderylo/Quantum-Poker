@@ -14,7 +14,8 @@ import org.redfx.Screens.RoundEndScreen;
 import org.redfx.Screens.RoundStartScreen;
 import org.redfx.Screens.StartScreen;
 
-
+/** Manager for the display. With the StateManager its easy to call methods that create'
+ *  and change to other screens.*/  
 public class StateManager {
     
     private JPanel container; // A panel to hold different screens
@@ -29,7 +30,10 @@ public class StateManager {
     ChangeToPlayerScreen changeToPlayerScreen;
     QuantumScreen quantumScreen;
 
-
+    /**
+     * Setting the variables and swithcing to start screen.
+     * @param frame frame that the screens are displayed on.
+     */
     public StateManager(JFrame frame) {
         frame.setSize(540, 800);
         cardLayout = new CardLayout();
@@ -55,13 +59,17 @@ public class StateManager {
         cardLayout.show(container, "StartScreen");
     }
 
+    /**Creates a new LoadingScreen with the given input and displays it.
+     * 
+     * @param quantum is the game quantum version or not. 
+     */
     public void switchToLoadScreen(boolean quantum) {
         loadingScreen = new LoadingScreen(this, quantum);
         container.add(loadingScreen, "LoadingScreen");
         cardLayout.show(container, "LoadingScreen");
     }
 
-    /**Creates a new PlayersNamesScreen with the given input.
+    /**Creates a new PlayersNamesScreen with the given input and displays it.
      * 
      * @param playersAmount is the amount of players
      * @param moneyPerPlayer is the money each player starts with
@@ -73,7 +81,6 @@ public class StateManager {
     }
 
     /**Creates a new RoundStartScreen with the given parameters.
-     * 
      * @param round is the current round
      * @param phase is the current phase
      */
@@ -84,7 +91,6 @@ public class StateManager {
     }
 
     /**Creates a new BettingScreen with the given round.
-     * 
      * @param round is the current round
      */
     public void switchToBettingScreen(Round round) {
@@ -94,7 +100,6 @@ public class StateManager {
     }
 
     /**Creates a ChangeToPlayerScreen with the given round.
-     * 
      * @param round is the current round
      */
     public void switchToChangeToPlayerScreen(Round round) {
@@ -117,7 +122,7 @@ public class StateManager {
     /**Creates a GameEndScreen with the given parameters.
      * 
      * @param winner is the player that has won the game
-     * @param stateManager
+     * @param stateManager passing itself to change between the screens
      */
     public void switchToGameEndScreen(Player winner, StateManager stateManager, boolean quantum) {
         gameEndScreen = new GameEndScreen(winner, stateManager, quantum);
@@ -125,6 +130,11 @@ public class StateManager {
         cardLayout.show(container, "GameEndScreen");
     }
 
+    /**Creates a GameEndScreen with the given parameters.
+     * 
+     * @param round the round that holds the qubits
+     * @param player the player that will apply their gates
+     */
     public void switchToQuantumScreen(Round round, Player player) { 
         quantumScreen = new QuantumScreen(round.tableCards, player, round);
         container.add(quantumScreen, "QuantumScreen");

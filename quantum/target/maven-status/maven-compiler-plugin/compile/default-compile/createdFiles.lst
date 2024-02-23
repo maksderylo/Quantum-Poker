@@ -30,7 +30,6 @@ org\redfx\Objects\QuantumSquareNotApplied$2.class
 org\redfx\Round$1.class
 org\redfx\Screens\ChangeToPlayerScreen.class
 org\redfx\StateManager.class
-org\redfx\Screens\QuantumScreen$2.class
 org\redfx\Screens\RoundStartScreen.class
 org\redfx\Screens\StartScreen$2.class
 org\redfx\Screens\LoadingScreen$2.class

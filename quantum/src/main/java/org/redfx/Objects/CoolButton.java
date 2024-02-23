@@ -11,9 +11,9 @@ public class CoolButton extends JButton {
     */
     public CoolButton(String text) {
         setText(text);
-        setFont(new Font("Lucida Console", Font.PLAIN, 20));
-        setBackground(new Color(0, 17, 51)); //import java.awt.Color;
-        setForeground(Color.WHITE);
+        setFont(new Font("Arial", Font.PLAIN, 20));
+        setBackground(Color.LIGHT_GRAY); //import java.awt.Color;
+        //setForeground(Color.WHITE);
         setFocusPainted(false);
         setBorderPainted(true);
     }
