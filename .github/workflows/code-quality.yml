@@ -6,29 +6,40 @@ on:
   workflow_dispatch:
 
 jobs:
+  login:
+    runs-on: ubuntu-latest
+    outputs:
+      ghcr_login_token: ${{ steps.login_token.outputs.token }}
+    steps:
+    - name: Login to GitHub Container Registry
+      id: login_token
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
   understand_analysis:
+    needs: login
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/makslo/understand-cli:latest
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
     steps:
     - name: Checkout source code
       uses: actions/checkout@v4
-    
+
     - name: Create Understand project database
       run: |
         und create your_project.udb
         und analyze -db your_project.udb -languages java -files $(git ls-files)
         und analyze -db your_project.udb
-    
+
     - name: Export metrics report
       run: und metrics -db your_project.udb -export metrics.csv
-    
+
     - name: Parse metrics and enforce SEP thresholds
       run: python scripts/check_understand_metrics.py metrics.csv
-    
+
     - name: Upload metrics report artifact
       uses: actions/upload-artifact@v4
       with:
