@@ -23,7 +23,7 @@ jobs:
     needs: login
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/makslo/understand-cli:latest
+      image: ghcr.io/maksderylo/understand-cli:latest
     steps:
     - name: Checkout source code
       uses: actions/checkout@v4
