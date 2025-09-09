@@ -9,7 +9,7 @@ jobs:
   understand_analysis:
     runs-on: ubuntu-latest
     container:
-      image: maksderylo/understand-cli:latest
+      image: ghcr.io/makslo/understand-cli:latest
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
