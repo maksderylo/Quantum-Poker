@@ -1,0 +1,32 @@
+name: SEP Code Quality - Understand Analysis
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  understand_analysis:
+    runs-on: ubuntu-latest
+    container:
+      image: maksderylo/understand-cli:latest
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v4
+    
+    - name: Create Understand project database
+      run: |
+        und create your_project.udb
+        und analyze -db your_project.udb -languages java -files $(git ls-files)
+        und analyze -db your_project.udb
+    
+    - name: Export metrics report
+      run: und metrics -db your_project.udb -export metrics.csv
+    
+    - name: Parse metrics and enforce SEP thresholds
+      run: python scripts/check_understand_metrics.py metrics.csv
+    
+    - name: Upload metrics report artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: understand-metrics
+        path: metrics.csv
